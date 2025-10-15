@@ -1,0 +1,84 @@
+# Python Bytecode & Caches
+__pycache__/
+*.py[cod]
+.cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.pyre/
+.dmypy.json
+dmypy.json
+
+# C Extensions
+*.so
+
+# Distribution & Packaging
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+wheels/
+.wheelhouse/
+pip-wheel-metadata/
+__pypackages__/
+
+# Uv & Hatch specifics
+.uv/
+.hatch/
+uv.lock
+uv.lock.backup
+
+# Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# Tests and Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+pytestdebug.log
+
+# Development
+dev/
+scratch/
+tmp/
+*.log
+*.out
+
+# Jupyter & IPython
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+
+# Documentation
+docs/_build/
+_site/
+site/
+target/
+
+# IDEs & Editors
+.idea/
+.vscode/
+*.code-workspace
+**/.vscode
+.cursorignore
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# Secrets
+.env
+
+# Miscellaneous
+*.DS_Store
