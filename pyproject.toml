@@ -1,7 +1,26 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
 [project]
 name = "linax"
 version = "0.1.0"
 description = "State Space Models in Jax"
 readme = "README.md"
+authors = [
+  { name = "Benedict Armstrong" },
+  { name = "Francesco Maria Ruscio" },
+  { name = "Philipp Nazari" },
+  { name = "Shlomo Libo Feigin" },
+  { name = "T. Konstantin Rusch" },
+]
+# maintainers = []
+license = "MIT"
+license-files = ["LICEN[CS]E.*"]
+# keywords = []
+# classifiers = []
+
 requires-python = ">=3.12"
 dependencies = []
+
+# [project.urls]
