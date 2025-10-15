@@ -1,3 +1,54 @@
 # Linax - State Space Models in Jax
 
+<div align="center">
+
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white&style=flat-square)](https://discord.gg/VazrGCxeT7)
+
+</div>
+
 Linax is a collection of State space models in Jax.
+
+## Package Installation
+**Not yet available**
+```
+pip install linax
+```
+
+## Full Library Installation
+```bash
+uv sync
+```
+
+To include development tooling (pre-commit, Ruff), install with the `--dev` flag:
+
+```bash
+uv sync --dev
+```
+
+After installing the development dependencies (activate your environment if needed), enable the git hooks:
+
+```bash
+pre-commit install
+```
+
+### On device with CUDA
+
+```bash
+uv sync --extra cu12
+```
+
+To combine the CUDA extras with development dependencies:
+
+```bash
+uv sync --extra cu12 --dev
+```
+
+## Code Contributions
+
+This repository has been created and is maintained by:
+
+- [Benedict Armstrong](https://github.com/benedict-armstrong)
+- [Philipp Nazari](https://github.com/phnazari)
+- [Francesco Maria Ruscio](https://github.com/francescoshox)
+- [Shlomo Libo Feigin](https://github.com/ShlomoLibo)
+- [T. Konstantin Rusch](https://github.com/tk-rusch)
