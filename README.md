@@ -6,7 +6,7 @@
 
 </div>
 
-Linax is a collection of State space models in Jax.
+`linax` is a collection of State space models in `JAX`.
 
 ## Package Installation
 **Not yet available**
@@ -43,12 +43,14 @@ To combine the CUDA extras with development dependencies:
 uv sync --extra cu12 --dev
 ```
 
-## Code Contributions
+## Code Contributors
 
 This repository has been created and is maintained by:
 
 - [Benedict Armstrong](https://github.com/benedict-armstrong)
-- [Philipp Nazari](https://github.com/phnazari)
+- [Philipp Nazari](https://phnazari.github.io)
 - [Francesco Maria Ruscio](https://github.com/francescoshox)
 - [Shlomo Libo Feigin](https://github.com/ShlomoLibo)
-- [T. Konstantin Rusch](https://github.com/tk-rusch)
+
+This work has been carried out withing the [Computational Applied Mathematics & AI Lab](https://camail.org),
+led by [T. Konstantin Rusch](https://github.com/tk-rusch).

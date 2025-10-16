@@ -11,10 +11,14 @@ authors = [
   { name = "Benedict Armstrong" },
   { name = "Francesco Maria Ruscio" },
   { name = "Philipp Nazari" },
-  { name = "Shlomo Libo Feigin" },
-  { name = "T. Konstantin Rusch" },
+  { name = "Shlomo Libo Feigin" }
 ]
-# maintainers = []
+maintainers = [
+  { name = "Benedict Armstrong" },
+  { name = "Francesco Maria Ruscio" },
+  { name = "Philipp Nazari" },
+  { name = "Shlomo Libo Feigin" }
+]
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
 # keywords = []
