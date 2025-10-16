@@ -43,7 +43,7 @@ To combine the CUDA extras with development dependencies:
 uv sync --extra cu12 --dev
 ```
 
-## Code Contributors
+## Core Contributors
 
 This repository has been created and is maintained by:
 
@@ -52,5 +52,5 @@ This repository has been created and is maintained by:
 - [Francesco Maria Ruscio](https://github.com/francescoshox)
 - [Shlomo Libo Feigin](https://github.com/ShlomoLibo)
 
-This work has been carried out withing the [Computational Applied Mathematics & AI Lab](https://camail.org),
+This work has been carried out within the [Computational Applied Mathematics & AI Lab](https://camail.org),
 led by [T. Konstantin Rusch](https://github.com/tk-rusch).
