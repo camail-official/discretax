@@ -7,13 +7,13 @@ authors = [
   { name = "Benedict Armstrong" },
   { name = "Francesco Maria Ruscio" },
   { name = "Philipp Nazari" },
-  { name = "Shlomo Libo Feigin" }
+  { name = "Shlomo Libo Feigin" },
 ]
 maintainers = [
   { name = "Benedict Armstrong" },
   { name = "Francesco Maria Ruscio" },
   { name = "Philipp Nazari" },
-  { name = "Shlomo Libo Feigin" }
+  { name = "Shlomo Libo Feigin" },
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
@@ -21,28 +21,18 @@ license-files = ["LICEN[CS]E.*"]
 # classifiers = []
 
 requires-python = "==3.12.*"
-dependencies = [
-  "einops>=0.8.1",
-  "equinox>=0.13.1",
-  "h5py>=3.14.0",
-  "jaxtyping>=0.3.2",
-  "matplotlib>=3.10.3",
-  "numpy>=2.3.1",
-  "optax>=0.2.5",
-  "scikit-learn>=1.7.0",
-  "signax>=0.2.1",
-]
+dependencies = ["equinox>=0.13.2", "jax>=0.7.2", "jaxtyping>=0.3.3"]
 
 [project.optional-dependencies]
-cu12 = ["jax[cuda12]>=0.7.2", "jax-triton>=0.3.0", "triton>=3.4.0"]
+cu12 = []
 
 [dependency-groups]
 dev = [
-    "pre-commit>=4.3.0",
-    "ruff>=0.12.11",
-    "pandas>=2.3.2",
-    "ipykernel>=6.30.1",
-    "pytest>=8.3.3"
+  "pre-commit>=4.3.0",
+  "ruff>=0.12.11",
+  "pandas>=2.3.2",
+  "ipykernel>=6.30.1",
+  "pytest>=8.3.3",
 ]
 
 # [project.urls]
@@ -64,13 +54,7 @@ src = ["src"]
 
 [tool.ruff.lint]
 select = ["C", "E", "F", "I", "W", "D", "N"]
-ignore = [
-  "E741",
-  "W605",
-  "C408",
-  "E402",
-  "F722",
-]
+ignore = ["E741", "W605", "C408", "E402", "F722", "N806", "N803"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
