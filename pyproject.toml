@@ -1,10 +1,6 @@
-[build-system]
-requires = ["hatchling>=1.27.0"]
-build-backend = "hatchling.build"
-
 [project]
 name = "linax"
-version = "0.1.0"
+dynamic = [ "version" ]
 description = "State Space Models in Jax"
 readme = "README.md"
 authors = [
@@ -50,6 +46,13 @@ dev = [
 ]
 
 # [project.urls]
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/linax/version.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/linax"]
