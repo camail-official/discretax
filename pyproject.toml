@@ -1,6 +1,6 @@
 [project]
 name = "linax"
-dynamic = [ "version" ]
+dynamic = ["version"]
 description = "State Space Models in Jax"
 readme = "README.md"
 authors = [
