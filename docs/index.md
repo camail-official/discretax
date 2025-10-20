@@ -1,6 +1,7 @@
 # Getting Started
 
 [linax](https://github.com/camail-official/linax) is a collection of state space models implemented in JAX. It is
+
 - is easy to use
 - ⚡ lightning fast
 - highly accessible.
@@ -12,18 +13,27 @@ Our aim as core developers is to provide researchers and scientists with a tool 
 
 ## Join the Community
 
-To join our growing community of JAX and state space model enthusiasts, feel free to join our [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white&style=flat-square)](https://discord.gg/VazrGCxeT7) server. Feel free to just write us a message (either there or to our personal email, see the bottom of this page) if you have any questions, comments, or want to say hi! 👋
+To join our growing community of JAX and state space model enthusiasts, join our [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white&style=flat-square)](https://discord.gg/VazrGCxeT7) server and our [mailing list](ADD ME). Feel free to just write us a message (either there or to our personal email, see the bottom of this page) if you have any questions, comments, or want to say hi! 👋
 
+🤫 Psssst! Rumor has it we are also developing an end-to-end JAX training pipeline. Stay tuned for JAX Lightning. So join the discord server and our mailing list to be the first to hear about our newest project(s)! 🚀
 
 ## Installation
 [linax](https://github.com/camail-official/linax) is available as a PyPi package. To install it via uv, just run
 ```bash
 uv add linax
 ```
+or
+```bash
+uv add linax[cuda]
+```
 
 If pip is your package manager of choice, run
 ```bash
 pip install linax
+```
+or
+```bash
+pip install linax[cuda]
 ```
 
 ## Full Library Installation
