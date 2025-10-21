@@ -18,7 +18,20 @@ from linax.sequence_mixers.linoss import (
 
 
 class LinossEncoderBlock(eqx.Module):
-    """LinOSS encoder block."""
+    """A single block in the LinOSS Encoder.
+
+    This block implements a sequence mixer, normalization layers, and a GLU-based MLP.
+
+    Attributes:
+        norm:
+          RMSNorm layer applied before the sequence mixer.
+        sequence_mixer:
+          The sequence mixing mechanism for sequence processing.
+        glu:
+          GLU-based feed-forward network.
+        drop:
+          Dropout layer applied after the GLU.
+    """
 
     norm: eqx.nn.BatchNorm
     sequence_mixer: LinOSSSequenceMixer
@@ -31,7 +44,17 @@ class LinossEncoderBlock(eqx.Module):
         drop_rate: float,
         key: PRNGKeyArray,
     ):
-        """Initialize the LinOSS encoder block."""
+        """Initialize the LinOSS Encoder Block.
+
+        Args:
+            hidden_dim:
+              Dimensionality of the hidden representations.
+            drop_rate:
+              Dropout rate for the GLU.
+            key:
+              JAX random key for initialization of layers.
+        """
+
         sequence_mixer_key, glukey = jr.split(key, 2)
         self.norm = eqx.nn.BatchNorm(
             input_size=hidden_dim,
@@ -60,7 +83,20 @@ class LinossEncoderBlock(eqx.Module):
         state: eqx.nn.State,
         key: PRNGKeyArray,
     ) -> tuple[Array, eqx.nn.State]:
-        """Compute LinOSS block."""
+        """Apply the LinOSS Encoder Block to the input sequence.
+
+        Args:
+            x:
+              Input tensor of shape (timesteps, hidden_dim).
+            state:
+              Current state for stateful normalization layers.
+            key:
+              JAX random key for dropout operations.
+
+        Returns:
+            Tuple containing the output tensor and updated state.
+        """
+
         key, dropkey1, dropkey2 = jr.split(key, 3)
         skip = x
         x = self.sequence_mixer(x, key)
@@ -76,7 +112,25 @@ class LinossEncoderBlock(eqx.Module):
 
 @dataclass
 class LinossModelConfig(AbstractModelConfig):
-    """LinOSS model configuration."""
+    """Configuration for the LinOSS Model.
+
+    This configuration class defines the hyperparameters and settings for the LinOSS model.
+    It includes options for the model's architecture, training parameters, and behavior.
+
+    Attributes:
+        hidden_dim:
+          Dimensionality of the hidden representations.
+        num_blocks:
+          Number of encoder blocks in the model.
+        dropout_rate:
+          Dropout rate for the GLU.
+        name:
+          Name of the model.
+        classification:
+          Whether the model is a classification model.
+        sequence_mixer_config:
+          Configuration for the sequence mixer.
+    """
 
     hidden_dim: int = 64
     num_blocks: int = 4
@@ -87,13 +141,23 @@ class LinossModelConfig(AbstractModelConfig):
 
 
 class LinossModel(AbstractModel[LinossModelConfig]):
-    """LinOSS encoder."""
+    """LinOSS Model.
 
-    linear_encoder: eqx.nn.Linear
-    linear_decoder: eqx.nn.Linear
-    blocks: list[LinossEncoderBlock]
-    hidden_dim: int
-    classification: bool
+    This model implements a sequence of encoder blocks that process input sequences.
+    It includes linear encoders and decoders for dimensionality reduction and reconstruction.
+
+    Attributes:
+        linear_encoder:
+          Linear encoder for dimensionality reduction.
+        linear_decoder:
+          Linear decoder for reconstruction.
+        blocks:
+          List of encoder blocks for sequence processing.
+        hidden_dim:
+          Dimensionality of the hidden representations.
+        classification:
+          Whether the model is a classification model.
+    """
 
     def __init__(
         self,
@@ -102,7 +166,18 @@ class LinossModel(AbstractModel[LinossModelConfig]):
         out_features: int | None = None,
         cfg: LinossModelConfig = LinossModelConfig(),
     ):
-        """Initialize LinOSS model."""
+        """Initialize the LinOSS Model.
+
+        Args:
+            in_features:
+              Dimensionality of the input features.
+            key:
+              JAX random key for initialization of layers.
+            out_features:
+              Dimensionality of the output features.
+            cfg:
+              Configuration for the model.
+        """
         self.hidden_dim = cfg.hidden_dim
         self.classification = cfg.classification
         key, linear_encoder_key, linear_decoder_key, *block_keys = jr.split(
@@ -133,11 +208,24 @@ class LinossModel(AbstractModel[LinossModelConfig]):
 
     @property
     def out_features(self) -> int:
-        """Output features of the model."""
+        """Output dimensionality of the model."""
         return self.cfg.hidden_dim
 
     def __call__(self, x, state, key):
-        """Forward pass of LinOSS model."""
+        """Forward pass of the LinOSS Model.
+
+        The forward pass applies the linear encoder, a sequence of encoder blocks, and the linear decoder.
+        The output is either a classification logits or a regression output, depending on the model configuration.
+
+        Args:
+            x:
+              Input tensor of shape (timesteps, in_features).
+            state:
+              Current state for stateful normalization layers.
+            key:
+              JAX random key for dropout operations.
+        """
+
         dropout_keys = jr.split(key, len(self.blocks))
         y = jax.vmap(self.linear_encoder)(x)
         for i, (block, d_key) in enumerate(zip(self.blocks, dropout_keys)):
