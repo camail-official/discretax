@@ -5,6 +5,7 @@ from typing import Literal
 
 import equinox as eqx
 import jax
+import jax.numpy as jnp
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
@@ -41,8 +42,13 @@ class LinossEncoderBlock(eqx.Module):
         self.sequence_mixer = LinOSSSequenceMixer(
             cfg=LinOSSSequenceMixerConfig(
                 hidden_dim=hidden_dim,
-                dropout_rate=drop_rate,
+                dim=hidden_dim,
+                discretization="IMEX",
+                damping=True,
+                r_min=0.9,
+                theta_max=jnp.pi,
             ),
+            in_features=hidden_dim,
             key=sequence_mixer_key,
         )
         self.glu = GLU(hidden_dim, hidden_dim, key=glukey)
@@ -55,9 +61,9 @@ class LinossEncoderBlock(eqx.Module):
         key: PRNGKeyArray,
     ) -> tuple[Array, eqx.nn.State]:
         """Compute LinOSS block."""
-        dropkey1, dropkey2 = jr.split(key, 2)
+        key, dropkey1, dropkey2 = jr.split(key, 3)
         skip = x
-        x = self.sequence_mixer(x)
+        x = self.sequence_mixer(x, key)
         x, state = self.norm(x.T, state)
         x = x.T
         x = self.drop(jax.nn.gelu(x), key=dropkey1)
@@ -72,29 +78,47 @@ class LinossEncoderBlock(eqx.Module):
 class LinossModelConfig(AbstractModelConfig):
     """LinOSS model configuration."""
 
-    name: Literal["linoss"]
-    hidden_dim: int
+    hidden_dim: int = 64
+    num_blocks: int = 4
+    dropout_rate: float = 0.1
+    name: Literal["linoss"] = "linoss"
+    classification: bool = True
+    # TODO: Add the sequence mixer config here (there should be a sensible default)
 
 
 class LinossModel(AbstractModel[LinossModelConfig]):
     """LinOSS encoder."""
 
     linear_encoder: eqx.nn.Linear
+    linear_decoder: eqx.nn.Linear
     blocks: list[LinossEncoderBlock]
     hidden_dim: int
+    classification: bool
 
     def __init__(
         self,
-        cfg: LinossModelConfig,
         in_features: int,
         key: PRNGKeyArray,
+        out_features: int | None = None,
+        cfg: LinossModelConfig = LinossModelConfig(),
     ):
         """Initialize LinOSS model."""
-        key, linear_encoder_key, *block_keys = jr.split(key, cfg.num_blocks + 2)
+        self.hidden_dim = cfg.hidden_dim
+        self.classification = cfg.classification
+        key, linear_encoder_key, linear_decoder_key, *block_keys = jr.split(
+            key, cfg.num_blocks + 3
+        )
         self.linear_encoder = eqx.nn.Linear(
             in_features,
             cfg.hidden_dim,
             key=linear_encoder_key,
+            use_bias=False,
+        )
+        self.linear_decoder = eqx.nn.Linear(
+            cfg.hidden_dim,
+            in_features if out_features is None else out_features,
+            key=linear_decoder_key,
+            use_bias=False,
         )
 
         key, *block_keys = jr.split(key, cfg.num_blocks + 1)
@@ -115,8 +139,16 @@ class LinossModel(AbstractModel[LinossModelConfig]):
     def __call__(self, x, state, key):
         """Forward pass of LinOSS model."""
         dropout_keys = jr.split(key, len(self.blocks))
-        x = jax.vmap(self.linear_encoder)(x)
+        y = jax.vmap(self.linear_encoder)(x)
         for i, (block, d_key) in enumerate(zip(self.blocks, dropout_keys)):
-            y, state = block(x, state, key=d_key)
+            y, state = block(y, state, key=d_key)
 
-        return y, state
+        x = jax.vmap(self.linear_decoder)(y)
+
+        if self.classification:
+            x = jnp.mean(x, axis=0)
+            x = jax.nn.log_softmax(x, axis=-1)
+        else:
+            x = jnp.mean(x, axis=0)
+
+        return x, state

@@ -279,7 +279,6 @@ class LinOSSSequenceMixerConfig:
 class LinOSSSequenceMixer(eqx.Module):
     """LinOSS sequence mixer layer."""
 
-    cfg: LinOSSSequenceMixerConfig
     A_diag: jax.Array
     G_diag: jax.Array
     B: jax.Array

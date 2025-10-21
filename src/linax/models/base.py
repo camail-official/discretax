@@ -21,8 +21,6 @@ ConfigType = TypeVar("ConfigType", bound=AbstractModelConfig)
 class AbstractModel[ConfigType](eqx.Module):
     """Model base class."""
 
-    cfg: ConfigType
-
     @abstractmethod
     def __init__(
         self,
