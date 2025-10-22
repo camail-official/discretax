@@ -64,7 +64,7 @@ class LinOSSConfig(ModelConfig):
             self.out_features = self.in_features
 
         # Propagate shared hidden_dim to both configs
-        # self.sequence_mixer_config.hidden_dim = self.hidden_dim
+        self.sequence_mixer_config.hidden_dim = self.hidden_dim
         self.backbone_config.hidden_dim = self.hidden_dim
 
 
