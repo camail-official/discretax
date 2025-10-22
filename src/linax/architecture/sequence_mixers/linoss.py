@@ -355,7 +355,7 @@ class LinOSSSequenceMixerConfig(SequenceMixerConfig):
     discretization: Literal["IM", "IMEX"] = "IMEX"
     damping: bool = True
     r_min: float = 0.9
-    theta_max: float = 3.14159  # jnp.pi approximation
+    theta_max: float = jnp.pi  # use precise value of pi
 
 
 class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
