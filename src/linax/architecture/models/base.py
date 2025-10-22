@@ -2,30 +2,21 @@
 
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TypeVar
 
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
+from linax.base import AbstractConfig
+
 
 @dataclass
-class AbstractModelConfig:
-    """Abstract model configuration.
+class ModelConfig(AbstractConfig):
+    """Configuration for models with no additional attributes."""
 
-    This class defines the configuration for an abstract model in linax.
-
-    Attributes:
-        name:
-          Name of the model.
-    """
-
-    name: str
+    pass
 
 
-ConfigType = TypeVar("ConfigType", bound=AbstractModelConfig)
-
-
-class AbstractModel[ConfigType](eqx.Module):
+class AbstractModel[ConfigType: AbstractConfig](eqx.Module):
     """Model base class.
 
     This class defines the base class for all models in linax.
