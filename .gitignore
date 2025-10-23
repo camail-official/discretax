@@ -79,3 +79,5 @@ target/
 
 # Miscellaneous
 *.DS_Store
+MNIST/
+data

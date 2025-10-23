@@ -7,13 +7,11 @@ authors = [
   { name = "Benedict Armstrong" },
   { name = "Francesco Maria Ruscio" },
   { name = "Philipp Nazari" },
-  { name = "Shlomo Libo Feigin" },
 ]
 maintainers = [
   { name = "Benedict Armstrong" },
   { name = "Francesco Maria Ruscio" },
   { name = "Philipp Nazari" },
-  { name = "Shlomo Libo Feigin" },
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
@@ -29,6 +27,8 @@ examples = [
     "ipykernel>=7.0.1",
     "optax>=0.2.6",
     "torchvision>=0.24.0",
+    "torch>=2.6.0",
+    "matplotlib>=3.10.0",
 ]
 
 [dependency-groups]
@@ -38,7 +38,6 @@ dev = [
   "pandas>=2.3.2",
   "ipykernel>=6.30.1",
   "pytest>=8.3.3",
-  "optax"
 ]
 
 # [project.urls]
