@@ -18,7 +18,7 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.sequence_mixers.base import SequenceMixerConfig
 
 
-@dataclass
+@dataclass(frozen=True)
 class LinOSSSequenceMixerConfig(SequenceMixerConfig):
     """Configuration for the LinOSS sequence mixer.
 
@@ -26,8 +26,6 @@ class LinOSSSequenceMixerConfig(SequenceMixerConfig):
     It includes options for the model's architecture, training parameters, and behavior.
 
     Attributes:
-        name:
-          Name of the sequence mixer.
         state_dim:
           Dimensionality of the state space.
         discretization:
@@ -40,8 +38,6 @@ class LinOSSSequenceMixerConfig(SequenceMixerConfig):
           Maximum value for the theta parameter.
     """
 
-    name: str = "linoss_sequence_mixer"
-    in_features: int = 64
     state_dim: int = 64
 
     discretization: Literal["IM", "IMEX"] = "IMEX"

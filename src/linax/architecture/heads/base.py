@@ -8,32 +8,31 @@ import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
 
-@dataclass
+@dataclass(frozen=True)
 class HeadConfig(ABC):
     """Configuration for heads."""
 
-    name: str
-    in_features: int
     out_features: int
 
 
 class Head[ConfigType: HeadConfig](eqx.Module, ABC):
-    """Abstract base class for all heads."""
+    """Abstract base class for all heads.
+
+    Args:
+        cfg:
+          Configuration for the head.
+        key:
+          JAX random key for initialization.
+
+    """
 
     @abstractmethod
     def __init__(
         self,
+        in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
-        """Initialize the head.
-
-        Args:
-            cfg:
-              Configuration for the head.
-            key:
-              JAX random key for initialization.
-        """
         pass
 
     @abstractmethod

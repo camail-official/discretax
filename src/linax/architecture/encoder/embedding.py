@@ -9,14 +9,11 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.encoder.base import Encoder, EncoderConfig
 
 
-@dataclass
+@dataclass(frozen=True)
 class EmbeddingEncoderConfig(EncoderConfig):
     """Configuration for the embedding encoder."""
 
-    # TODO: decide where it makes sense to define defaults and where it does not.
-    num_classes: int = 10
-    name: str = "embedding_encoder"
-    hidden_dim: int = 32
+    num_classes: int
 
 
 class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):

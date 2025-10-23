@@ -9,12 +9,9 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.sequence_mixers.base import SequenceMixer
 
 
-@dataclass
+@dataclass(frozen=True)
 class BlockConfig(ABC):
     """Configuration for blocks."""
-
-    name: str
-    in_features: int
 
 
 class Block[ConfigType: BlockConfig](eqx.Module, ABC):

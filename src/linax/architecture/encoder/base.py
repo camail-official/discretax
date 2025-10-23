@@ -8,18 +8,15 @@ import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
 
-@dataclass
+@dataclass(frozen=True)
 class EncoderConfig(ABC):
     """Configuration for encoders.
 
     Attributes:
-        name:
-          Name of the encoder.
         hidden_dim:
           Dimensionality of the hidden representation.
     """
 
-    name: str
     hidden_dim: int
 
 
@@ -55,8 +52,6 @@ class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
               Input tensor.
             state:
               Current state for stateful layers.
-            key:
-              JAX random key for operations.
 
         Returns:
             Tuple containing the output tensor and updated state.

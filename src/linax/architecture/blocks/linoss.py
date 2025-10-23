@@ -12,22 +12,16 @@ from linax.architecture.channel_mixers.glu import GLU
 from linax.architecture.sequence_mixers.base import SequenceMixer
 
 
-@dataclass
+@dataclass(frozen=True)
 class LinOSSBlockConfig(BlockConfig):
     """Configuration for the LinOSS block.
 
     Attributes:
-        name:
-          Name of the block.
         in_features:
           Dimensionality of the input features.
         drop_rate:
           Dropout rate for the GLU.
-
     """
-
-    name: str = "linoss_block"
-    in_features: int = 64
 
     drop_rate: float = 0.1
 
@@ -42,7 +36,7 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
           LayerNorm layer applied after the sequence mixer.
         sequence_mixer:
           The sequence mixing mechanism for sequence processing.
-        glu:
+        mlp:
           GLU-based feed-forward network.
         drop:
           Dropout layer applied after the GLU.
@@ -50,7 +44,7 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
 
     norm: eqx.nn.LayerNorm
     sequence_mixer: SequenceMixer
-    glu: GLU
+    mlp: GLU
     drop: eqx.nn.Dropout
 
     def __init__(
@@ -78,7 +72,7 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
 
         self.sequence_mixer = sequence_mixer
 
-        self.glu = GLU(cfg.in_features, cfg.in_features, key=key)
+        self.mlp = GLU(input_dim=cfg.in_features, output_dim=cfg.in_features, key=key)
         self.drop = eqx.nn.Dropout(p=cfg.drop_rate)
 
     def __call__(
@@ -105,7 +99,7 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
         x = self.sequence_mixer(x, key)
         x, state = jax.vmap(self.norm)(x, state)
         x = self.drop(jax.nn.gelu(x), key=dropkey1)
-        x = jax.vmap(self.glu)(x)
+        x = jax.vmap(self.mlp)(x)
         x = self.drop(x, key=dropkey2)
         x = skip + x
 

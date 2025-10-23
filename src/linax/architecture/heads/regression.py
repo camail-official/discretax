@@ -10,13 +10,9 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.heads.base import Head, HeadConfig
 
 
-@dataclass
+@dataclass(frozen=True)
 class RegressionHeadConfig(HeadConfig):
     """Configuration for the regression head."""
-
-    name: str = "regression_head"
-    in_features: int = 64
-    out_features: int = 1
 
 
 class RegressionHead[ConfigType: RegressionHeadConfig](Head):
@@ -25,6 +21,14 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
     This regression head takes an input of shape (timesteps, in_features)
     and outputs a regression of shape (out_features).
 
+    Args:
+        in_features:
+          Input features.
+        cfg:
+          Configuration for the regression head.
+        key:
+          JAX random key for initialization.
+
     Attributes:
         linear:
           Linear layer.
@@ -32,19 +36,8 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
 
     linear: eqx.nn.Linear
 
-    def __init__(self, cfg: ConfigType, key: PRNGKeyArray):
-        """Initialize the regression head.
-
-        This method initializes the linear layer for the regression head.
-
-        Args:
-            cfg:
-              Configuration for the regression head.
-            key:
-              JAX random key for initialization.
-        """
-        # Initialize the linear layer
-        self.linear = eqx.nn.Linear(cfg.in_features, cfg.out_features, key=key)
+    def __init__(self, in_features: int, cfg: ConfigType, key: PRNGKeyArray):
+        self.linear = eqx.nn.Linear(in_features, cfg.out_features, key=key)
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the regression head.

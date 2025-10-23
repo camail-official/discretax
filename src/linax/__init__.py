@@ -1,1 +1,1 @@
-"""Linax: Linear Operator State Space Models."""
+"""State Space Models in JAX."""

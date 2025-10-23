@@ -9,13 +9,11 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.encoder.base import Encoder, EncoderConfig
 
 
-@dataclass
+@dataclass(frozen=True)
 class LinearEncoderConfig(EncoderConfig):
     """Configuration for the linear encoder."""
 
-    in_features: int = 64
-    name: str = "linear_encoder"
-    hidden_dim: int = 32
+    hidden_dim: int
     use_bias: bool = False
 
 

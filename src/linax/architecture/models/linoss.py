@@ -42,9 +42,7 @@ class LinOSSConfig(ModelConfig):
 
     # All parameters must have defaults due to inheritance from AbstractConfig
     # TODO: make a proper default structure
-    name: str = "linoss"
     hidden_dim: int = 64
-    in_features: int = 64
     num_blocks: int = 4
     out_features: int = 10
 
@@ -60,7 +58,7 @@ class LinOSSConfig(ModelConfig):
         """The LinOSS post init.
 
         This method is called after the object is initialized
-        and sets the default valuesfor the configuration.
+        and sets the default values for the configuration.
         It makes sure that the dimensions are consistent across the different components.
         """
         # Set default out_features

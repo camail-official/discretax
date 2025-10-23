@@ -10,13 +10,9 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.heads.base import Head, HeadConfig
 
 
-@dataclass
+@dataclass(frozen=True)
 class ClassificationHeadConfig(HeadConfig):
     """Configuration for the classification head."""
-
-    name: str = "classification_head"
-    in_features: int = 64
-    out_features: int = 10
 
 
 class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
@@ -24,6 +20,14 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
 
     This classification head takes an input of shape (timesteps, in_features)
     and outputs a logits of shape (out_features).
+
+    Args:
+        in_features:
+          Input features.
+        cfg:
+          Configuration for the classification head.
+        key:
+          JAX random key for initialization.
 
     Attributes:
         linear:
@@ -35,10 +39,11 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
 
     def __init__(
         self,
+        in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
-        self.linear = eqx.nn.Linear(cfg.in_features, cfg.out_features, key=key)
+        self.linear = eqx.nn.Linear(in_features, cfg.out_features, key=key)
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the classification head.

@@ -8,12 +8,15 @@ import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
 
-@dataclass
+@dataclass(frozen=True)
 class SequenceMixerConfig(ABC):
-    """Configuration for sequence mixers."""
+    """Configuration for sequence mixers.
 
-    name: str
-    in_features: int
+    Attributes:
+        state_dim:
+          Dimensionality of the state space.
+    """
+
     state_dim: int
 
 

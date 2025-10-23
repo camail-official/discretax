@@ -11,8 +11,6 @@ from jaxtyping import Array, PRNGKeyArray
 class ModelConfig(ABC):
     """Configuration for models."""
 
-    name: str
-
 
 class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
     """Model base class.
@@ -24,7 +22,6 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
     def __init__(
         self,
         cfg: ConfigType,
-        in_features: int,
         key: PRNGKeyArray,
         **kwargs,
     ):
@@ -33,8 +30,6 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
         Args:
             cfg:
               Configuration for the model.
-            in_features:
-              Dimensionality of the input features.
             key:
               JAX random key for initialization.
             **kwargs:
