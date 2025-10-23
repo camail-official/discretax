@@ -80,4 +80,5 @@ target/
 # Miscellaneous
 *.DS_Store
 MNIST/
+MNISTSeq/
 data

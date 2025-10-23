@@ -319,8 +319,6 @@ class MNISTSeq(VisionDataset):
         # Keep stroke markers unchanged
         stroke_end = sequence[:, 2]
         digit_end = sequence[:, 3]
-        # stroke_end = np.concatenate([[0], np.diff(sequence[:, 2])])
-        # digit_end = np.concatenate([[0], np.diff(sequence[:, 3])])
 
         return np.stack([x, y, stroke_end, digit_end], axis=1)
 
@@ -445,9 +443,12 @@ class MNISTSeq(VisionDataset):
 
 
 if __name__ == "__main__":
-    dataset = MNISTSeq(root="./data", train=True, download=True)
-    print(dataset.data.shape)
-    print(dataset.labels.shape)
-    print(dataset.data[0])
-    print(dataset.labels[0])
-    dataset.plot_batch(dataset.data, dataset.labels)
+    train_data = MNISTSeq(root="MNISTSeq", train=True, download=True)
+    print(train_data.data.shape)
+    print(train_data.labels.shape)
+    train_data.plot_batch(train_data.data, train_data.labels)
+
+    test_data = MNISTSeq(root="MNISTSeq", train=False, download=True)
+    print(test_data.data.shape)
+    print(test_data.labels.shape)
+    test_data.plot_batch(test_data.data, test_data.labels)
