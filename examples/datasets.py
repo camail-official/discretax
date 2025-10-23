@@ -439,12 +439,15 @@ if __name__ == "__main__":
 
     plt.ion()  # Interactive mode - non-blocking plots
 
-    train_data = MNISTSeq(root="MNISTSeq", train=True, download=True)
+    # Create dataset in examples/data/ directory
+    data_root = Path(__file__).parent / "data_dir"
+
+    train_data = MNISTSeq(root=data_root, train=True, download=True)
     print(train_data.data.shape)
     print(train_data.labels.shape)
     train_data.plot_batch(train_data.data, train_data.labels)
 
-    test_data = MNISTSeq(root="MNISTSeq", train=False, download=True)
+    test_data = MNISTSeq(root=data_root, train=False, download=True)
     print(test_data.data.shape)
     print(test_data.labels.shape)
     test_data.plot_batch(test_data.data, test_data.labels)
