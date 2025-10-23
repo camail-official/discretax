@@ -20,6 +20,7 @@ class Block[ConfigType: BlockConfig](eqx.Module, ABC):
     @abstractmethod
     def __init__(
         self,
+        in_features: int,
         cfg: ConfigType,
         sequence_mixer: SequenceMixer,
         key: PRNGKeyArray,
@@ -27,6 +28,8 @@ class Block[ConfigType: BlockConfig](eqx.Module, ABC):
         """Initialize the block.
 
         Args:
+            in_features:
+              Input features.
             cfg:
               Configuration for the block.
             sequence_mixer:

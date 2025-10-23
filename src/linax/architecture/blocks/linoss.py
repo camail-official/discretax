@@ -49,6 +49,7 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
 
     def __init__(
         self,
+        in_features: int,
         cfg: ConfigType,
         sequence_mixer: SequenceMixer,
         key: PRNGKeyArray,
@@ -56,23 +57,21 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
         """Initialize the LinOSS block.
 
         Args:
+            in_features:
+              Input features.
             cfg:
               Configuration for the LinOSS block.
-            in_features:
-              Dimensionality of the hidden representations.
             sequence_mixer:
               The sequence mixer instance for this block.
             key:
               JAX random key for initialization of layers.
         """
         # TODO: make this a BatchNorm (I think this is what the original implementation does)
-        self.norm = eqx.nn.LayerNorm(
-            shape=cfg.in_features,
-        )
+        self.norm = eqx.nn.LayerNorm(shape=in_features)
 
         self.sequence_mixer = sequence_mixer
 
-        self.mlp = GLU(input_dim=cfg.in_features, output_dim=cfg.in_features, key=key)
+        self.mlp = GLU(input_dim=in_features, output_dim=in_features, key=key)
         self.drop = eqx.nn.Dropout(p=cfg.drop_rate)
 
     def __call__(
