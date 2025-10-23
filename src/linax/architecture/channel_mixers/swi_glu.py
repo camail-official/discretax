@@ -4,8 +4,9 @@ SwiGLU is a variant of the Gated Linear Unit (GLU) that uses the Swish activatio
 function instead of sigmoid. It has been shown to improve transformer performance
 compared to standard feedforward layers.
 
-Reference:
+References:
     Shazeer, N. (2020). GLU Variants Improve Transformer. arXiv:2002.05202. https://arxiv.org/abs/2002.05202
+    Aziz et al. Paper Summary: https://azizbelaweid.substack.com/p/what-is-swiglu-how-to-implement-it
 """
 
 import equinox as eqx
@@ -15,6 +16,7 @@ import jax
 class SwiGLU(eqx.Module):
     """Swish Gated Linear Unit (SwiGLU) layer.
 
+    Taken from https://huggingface.co/blog/sachithgunasekara/nanojaxgpt .
     This layer implements the SwiGLU activation function, which uses a gating
     mechanism with the Swish activation to perform non-linear transformations.
     The architecture consists of three linear projections:
@@ -35,10 +37,6 @@ class SwiGLU(eqx.Module):
             `int(hidden_dim * hidden_ratio * 2/3)` rounded to nearest multiple of 256.
         key:
             JAX random key for weight initialization.
-
-    Reference:
-        Shazeer, N. (2020). GLU Variants Improve Transformer.
-        arXiv:2002.05202. https://arxiv.org/abs/2002.05202
     """
 
     gate_proj: eqx.nn.Linear
