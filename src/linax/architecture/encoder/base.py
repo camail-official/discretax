@@ -22,12 +22,15 @@ class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
     @abstractmethod
     def __init__(
         self,
+        out_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
         """Initialize the encoder.
 
         Args:
+            out_features:
+              Output dimensionality.
             cfg:
               Configuration for the encoder.
             key:
