@@ -44,7 +44,7 @@ class SwiGLU(eqx.Module):
         intermediate_dim: int | None,
         key: PRNGKeyArray,
     ) -> None:
-        k1, k2, k3, key = jax.random.split(key, 4)
+        k1, k2, k3 = jax.random.split(key, 3)
 
         if hidden_ratio is None:
             hidden_ratio = 4
