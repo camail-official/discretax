@@ -1,4 +1,4 @@
-"""SwiGLU (Swish Gated Linear Unit) activation layer.
+"""SwiGLU (Swish Gated Linear Unit) layer.
 
 SwiGLU is a variant of the Gated Linear Unit (GLU) that uses the Swish activation
 function instead of sigmoid.
