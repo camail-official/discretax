@@ -364,23 +364,15 @@ class MNISTSeq(VisionDataset):
             # Convert sequence to absolute coordinates
             abs_coords = MNISTSeq.convert_to_absolute_coordinates(sequences[i])
 
-            # Create empty canvas (28x28)
-            canvas = np.zeros((28, 28))
+            # Create empty canvas (29x29 to avoid index errors)
+            canvas = np.zeros((29, 29))
 
-            # Normalize coordinates to [0, 27] range
-            x_coords = abs_coords[:, 0]
-            y_coords = abs_coords[:, 1]
-
-            # Scale to fit in 28x28 canvas
-            if x_coords.max() > x_coords.min():
-                x_coords = (x_coords - x_coords.min()) / (x_coords.max() - x_coords.min()) * 27
-            if y_coords.max() > y_coords.min():
-                y_coords = (y_coords - y_coords.min()) / (y_coords.max() - y_coords.min()) * 27
-
-            # Draw strokes on canvas
-            for x, y in zip(x_coords, y_coords):
-                if 0 <= int(x) < 28 and 0 <= int(y) < 28:
-                    canvas[int(y), int(x)] = 1
+            # Draw strokes on canvas by iterating through coordinates
+            for x, y in zip(abs_coords[:, 0], abs_coords[:, 1]):
+                # Clip to canvas bounds
+                x_int = int(np.clip(x, 0, 28))
+                y_int = int(np.clip(y, 0, 28))
+                canvas[y_int, x_int] = 1
 
             # Display the canvas
             axs[i].imshow(canvas, cmap="gray")
