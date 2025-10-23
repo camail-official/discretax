@@ -25,12 +25,16 @@ class SwiGLU(eqx.Module):
     The computation is: down_proj(swish(gate_proj(x)) * up_proj(x))
 
     Args:
-        hidden_dim: Dimensionality of the input and output features.
-        hidden_ratio: Ratio to scale hidden dimension for intermediate size calculation.
-            If None, defaults to 4.
-        intermediate_dim: Dimensionality of the intermediate projection. If None, calculated as
-            `int(hidden_dim * hidden_ratio * 2/3)` rounded to nearest multiple of 256.
-        key: JAX random key for weight initialization.
+        hidden_dim:
+          Dimensionality of the input and output features.
+        hidden_ratio:
+          Ratio to scale hidden dimension for intermediate size calculation.
+          If None, defaults to 4.
+        intermediate_dim:
+          Dimensionality of the intermediate projection. If None, calculated as
+          `int(hidden_dim * hidden_ratio * 2/3)` rounded to nearest multiple of 256.
+        key:
+          JAX random key for weight initialization.
     """
 
     gate_proj: eqx.nn.Linear
@@ -61,11 +65,10 @@ class SwiGLU(eqx.Module):
 
         Args:
             x:
-                Input tensor of shape (..., hidden_dim).
+              Input tensor.
 
         Returns:
-            Output tensor of shape (..., hidden_dim) after applying the SwiGLU
-            transformation.
+            Output tensor of after applying the SwiGLU transformation.
         """
         gate, y = self.gate_proj(x), self.up_proj(x)
         return self.down_proj(jax.nn.swish(gate) * y)
