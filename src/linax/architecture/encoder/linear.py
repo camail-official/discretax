@@ -16,6 +16,10 @@ class LinearEncoderConfig(EncoderConfig):
     in_features: int
     use_bias: bool = False
 
+    def build(self, out_features: int, key: PRNGKeyArray) -> "LinearEncoder":
+        """Build encoder from config."""
+        return LinearEncoder(out_features=out_features, cfg=self, key=key)
+
 
 class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
     """Linear encoder.

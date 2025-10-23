@@ -14,6 +14,11 @@ class HeadConfig(ABC):
 
     out_features: int
 
+    @abstractmethod
+    def build(self, in_features: int, key: PRNGKeyArray) -> "Head":
+        """Build head from config."""
+        pass
+
 
 class Head[ConfigType: HeadConfig](eqx.Module, ABC):
     """Abstract base class for all heads.

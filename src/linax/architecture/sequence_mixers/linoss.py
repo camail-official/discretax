@@ -45,6 +45,10 @@ class LinOSSSequenceMixerConfig(SequenceMixerConfig):
     r_min: float = 0.9
     theta_max: float = jnp.pi
 
+    def build(self, in_features: int, key: PRNGKeyArray) -> "LinOSSSequenceMixer":
+        """Build sequence mixer from config."""
+        return LinOSSSequenceMixer(in_features=in_features, cfg=self, key=key)
+
 
 class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
     """LinOSS sequence mixer layer.

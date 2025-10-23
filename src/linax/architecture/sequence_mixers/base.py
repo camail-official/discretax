@@ -19,6 +19,11 @@ class SequenceMixerConfig(ABC):
 
     state_dim: int
 
+    @abstractmethod
+    def build(self, in_features: int, key: PRNGKeyArray) -> "SequenceMixer":
+        """Build sequence mixer from config."""
+        pass
+
 
 class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
     """Abstract base class for all sequence mixers.

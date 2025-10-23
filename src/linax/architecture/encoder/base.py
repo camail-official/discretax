@@ -12,6 +12,11 @@ from jaxtyping import Array, PRNGKeyArray
 class EncoderConfig(ABC):
     """Configuration for encoders."""
 
+    @abstractmethod
+    def build(self, out_features: int, key: PRNGKeyArray) -> "Encoder":
+        """Build encoder from config."""
+        pass
+
 
 class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
     """Abstract base class for all encoders.

@@ -13,6 +13,13 @@ from linax.architecture.sequence_mixers.base import SequenceMixer
 class BlockConfig(ABC):
     """Configuration for blocks."""
 
+    @abstractmethod
+    def build(
+        self, in_features: int, sequence_mixer: "SequenceMixer", key: PRNGKeyArray
+    ) -> "Block":
+        """Build block from config."""
+        pass
+
 
 class Block[ConfigType: BlockConfig](eqx.Module, ABC):
     """Abstract base class for all blocks."""

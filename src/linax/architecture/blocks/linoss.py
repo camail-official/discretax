@@ -23,6 +23,26 @@ class LinOSSBlockConfig(BlockConfig):
 
     drop_rate: float = 0.1
 
+    def build(
+        self, in_features: int, sequence_mixer: SequenceMixer, key: PRNGKeyArray
+    ) -> "LinOSSBlock":
+        """Build block from config.
+
+        Args:
+            in_features:
+              Input features.
+            sequence_mixer:
+              The sequence mixer instance for this block.
+            key:
+              JAX random key for initialization of layers.
+
+        Returns:
+            The LinOSS block instance.
+        """
+        return LinOSSBlock(
+            in_features=in_features, cfg=self, sequence_mixer=sequence_mixer, key=key
+        )
+
 
 class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
     """A single block in the LinOSS backbone.
