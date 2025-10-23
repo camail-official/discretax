@@ -29,6 +29,7 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
     @abstractmethod
     def __init__(
         self,
+        in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
         **kwargs,
@@ -36,11 +37,15 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
         """Initialize the sequence mixer.
 
         Args:
-            cfg: Configuration for the sequence mixer.
-            key: JAX random key for initialization.
-            **kwargs: Additional keyword arguments for specific sequence mixer implementations.
+            in_features:
+              Input dimensionality.
+            cfg:
+              Configuration for the sequence mixer.
+            key:
+              JAX random key for initialization.
+            **kwargs:
+              Additional keyword arguments for specific sequence mixer implementations.
         """
-        pass
 
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for sequence mixer parameters.
@@ -51,14 +56,15 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
         return lambda _: True
 
     @abstractmethod
-    def __call__(self, input_sequence: Array, key: PRNGKeyArray) -> Array:
+    def __call__(self, x: Array, key: PRNGKeyArray) -> Array:
         """Forward pass of the sequence mixer.
 
         Args:
-            input_sequence: The input sequence to the sequence mixer.
-            key: The random key for the sequence mixer.
+            x:
+              The input sequence to the sequence mixer.
+            key:
+              The random key for the sequence mixer.
 
         Returns:
             The output of the sequence mixer.
         """
-        pass

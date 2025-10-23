@@ -81,12 +81,15 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
 
     def __init__(
         self,
+        in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
         """Initialize the LinOSS sequence mixer layer.
 
         Args:
+            in_features:
+              Input dimensionality.
             cfg:
               Configuration for the LinOSS sequence mixer.
             key:
@@ -114,24 +117,24 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
 
         self.B = _simple_uniform_init(
             B_key,
-            shape=(cfg.state_dim, cfg.in_features, 2),
-            std=1.0 / math.sqrt(cfg.in_features),
+            shape=(cfg.state_dim, in_features, 2),
+            std=1.0 / math.sqrt(in_features),
         )
         self.C = _simple_uniform_init(
             C_key,
-            shape=(cfg.in_features, cfg.state_dim, 2),
+            shape=(in_features, cfg.state_dim, 2),
             std=1.0 / math.sqrt(cfg.state_dim),
         )
-        self.D = normal(stddev=1.0)(D_key, (cfg.in_features,))
+        self.D = normal(stddev=1.0)(D_key, (in_features,))
 
         self.discretization = cfg.discretization
         self.damping = cfg.damping
 
-    def __call__(self, input_sequence: Array, key: PRNGKeyArray) -> Array:
+    def __call__(self, x: Array, key: PRNGKeyArray) -> Array:
         """Forward pass of the LinOSS sequence mixer layer.
 
         Args:
-            input_sequence:
+            x:
               Input sequence of features.
             key:
               JAX random key for initialization.
@@ -153,7 +156,7 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
                 )
             else:
                 A_diag = nn.relu(self.A_diag)
-                ys = _apply_linoss_im(A_diag, B_complex, input_sequence, steps)
+                ys = _apply_linoss_im(A_diag, B_complex, x, steps)
         elif self.discretization == "IMEX":
             if self.damping:
                 G_diag = nn.relu(self.G_diag)
@@ -166,16 +169,16 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
                     + nn.relu(self.A_diag - A_boundary_low)
                     - nn.relu(self.A_diag - A_boundary_high)
                 )
-                ys = _apply_damped_linoss_imex(A_diag, G_diag, B_complex, input_sequence, steps)
+                ys = _apply_damped_linoss_imex(A_diag, G_diag, B_complex, x, steps)
             else:
                 A_diag = nn.relu(self.A_diag)
-                ys = _apply_linoss_imex(A_diag, B_complex, input_sequence, steps)
+                ys = _apply_linoss_imex(A_diag, B_complex, x, steps)
         else:
             raise NotImplementedError(f"Discretization {self.discretization} not implemented")
 
         # Apply SequenceMixer Output Operations Cx + Du
         Cy = jax.vmap(lambda x: (C_complex @ x).real)(ys)
-        Du = jax.vmap(lambda u: self.D * u)(input_sequence)
+        Du = jax.vmap(lambda u: self.D * u)(x)
         xs = Cy + Du
 
         return xs
@@ -371,7 +374,7 @@ def _make_damped_linoss_imex_recurrence(A_diag, G_diag, step):  # noqa: N802
     return M
 
 
-def _apply_linoss_im(A_diag, B, input_sequence, step):  # noqa: N802
+def _apply_linoss_im(A_diag, B, x, step):  # noqa: N802
     """Compute the LinOSS-IM sequence mixer output.
 
     This function computes the output of the LinOSS-IM sequence mixer.
@@ -381,7 +384,7 @@ def _apply_linoss_im(A_diag, B, input_sequence, step):  # noqa: N802
           Diagonal state matrix
         B:
           Input matrix
-        input_sequence:
+        x:
           Input sequence of features
         step:
           Discretization time-step
@@ -389,7 +392,7 @@ def _apply_linoss_im(A_diag, B, input_sequence, step):  # noqa: N802
     Returns:
         The output of the LinOSS-IM sequence mixer at a specific time step.
     """
-    Bu_elements = jax.vmap(lambda u: B @ u)(input_sequence)
+    Bu_elements = jax.vmap(lambda u: B @ u)(x)
 
     schur_comp = 1.0 / (1.0 + step**2.0 * A_diag)
     M_11 = 1.0 - step**2.0 * A_diag * schur_comp
@@ -399,7 +402,7 @@ def _apply_linoss_im(A_diag, B, input_sequence, step):  # noqa: N802
 
     M = jnp.concatenate([M_11, M_12, M_21, M_22])
 
-    M_elements = M * jnp.ones((input_sequence.shape[0], 4 * A_diag.shape[0]))
+    M_elements = M * jnp.ones((x.shape[0], 4 * A_diag.shape[0]))
 
     F1 = M_11 * Bu_elements * step
     F2 = M_21 * Bu_elements * step
@@ -411,7 +414,7 @@ def _apply_linoss_im(A_diag, B, input_sequence, step):  # noqa: N802
     return ys
 
 
-def _apply_linoss_imex(A_diag, B, input_sequence, step):  # noqa: N802
+def _apply_linoss_imex(A_diag, B, x, step):  # noqa: N802
     """Compute the LinOSS-IMEX sequence mixer output.
 
     This function computes the output of the LinOSS-IMEX sequence mixer.
@@ -421,7 +424,7 @@ def _apply_linoss_imex(A_diag, B, input_sequence, step):  # noqa: N802
           Diagonal state matrix
         B:
           Input matrix
-        input_sequence:
+        x:
           Input sequence of features
         step:
           Discretization time-step
@@ -429,7 +432,7 @@ def _apply_linoss_imex(A_diag, B, input_sequence, step):  # noqa: N802
     Returns:
         The output of the LinOSS-IMEX sequence mixer.
     """
-    Bu_elements = jax.vmap(lambda u: B @ u)(input_sequence)
+    Bu_elements = jax.vmap(lambda u: B @ u)(x)
 
     A_ = jnp.ones_like(A_diag)
     B_ = -1.0 * step * A_diag
@@ -438,7 +441,7 @@ def _apply_linoss_imex(A_diag, B, input_sequence, step):  # noqa: N802
 
     M = jnp.concatenate([A_, B_, C_, D_])
 
-    M_elements = M * jnp.ones((input_sequence.shape[0], 4 * A_diag.shape[0]))
+    M_elements = M * jnp.ones((x.shape[0], 4 * A_diag.shape[0]))
 
     F1 = Bu_elements * step
     F2 = Bu_elements * (step**2.0)
@@ -450,7 +453,7 @@ def _apply_linoss_imex(A_diag, B, input_sequence, step):  # noqa: N802
     return ys
 
 
-def _apply_damped_linoss_imex(A_diag, G_diag, B, input_sequence, step):  # noqa: N802
+def _apply_damped_linoss_imex(A_diag, G_diag, B, x, step):  # noqa: N802
     """Compute the Damped LinOSS-IMEX sequence mixer output.
 
     This function computes the output of the Damped LinOSS-IMEX sequence mixer.
@@ -462,7 +465,7 @@ def _apply_damped_linoss_imex(A_diag, G_diag, B, input_sequence, step):  # noqa:
           Diagonal damping matrix
         B:
           Input matrix
-        input_sequence:
+        x:
           Input sequence of features
         step:
           Discretization time-step
@@ -470,7 +473,7 @@ def _apply_damped_linoss_imex(A_diag, G_diag, B, input_sequence, step):  # noqa:
     Returns:
         The output of the Damped LinOSS-IMEX sequence mixer.
     """
-    Bu_elements = jax.vmap(lambda u: B @ u)(input_sequence)
+    Bu_elements = jax.vmap(lambda u: B @ u)(x)
 
     Identity = jnp.ones_like(A_diag)
     S = Identity + step * G_diag
@@ -480,7 +483,7 @@ def _apply_damped_linoss_imex(A_diag, G_diag, B, input_sequence, step):  # noqa:
     M_22 = Identity - step**2 / S * A_diag
 
     M = jnp.concatenate([M_11, M_12, M_21, M_22])
-    M_elements = M * jnp.ones((input_sequence.shape[0], 4 * A_diag.shape[0]))
+    M_elements = M * jnp.ones((x.shape[0], 4 * A_diag.shape[0]))
 
     F1 = step * (1.0 / S) * Bu_elements
     F2 = step**2 * (1.0 / S) * Bu_elements

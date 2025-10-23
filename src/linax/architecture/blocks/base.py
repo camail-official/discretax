@@ -37,7 +37,6 @@ class Block[ConfigType: BlockConfig](eqx.Module, ABC):
             key:
               JAX random key for initialization.
         """
-        pass
 
     @abstractmethod
     def __call__(
@@ -59,4 +58,3 @@ class Block[ConfigType: BlockConfig](eqx.Module, ABC):
         Returns:
             Tuple containing the output tensor and updated state.
         """
-        pass

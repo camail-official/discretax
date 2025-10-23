@@ -19,11 +19,12 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
     """Abstract base class for all heads.
 
     Args:
+        in_features:
+          Input dimensionality.
         cfg:
           Configuration for the head.
         key:
           JAX random key for initialization.
-
     """
 
     @abstractmethod
