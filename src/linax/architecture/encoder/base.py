@@ -10,14 +10,7 @@ from jaxtyping import Array, PRNGKeyArray
 
 @dataclass(frozen=True)
 class EncoderConfig(ABC):
-    """Configuration for encoders.
-
-    Attributes:
-        hidden_dim:
-          Dimensionality of the hidden representation.
-    """
-
-    hidden_dim: int
+    """Configuration for encoders."""
 
 
 class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):

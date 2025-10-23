@@ -13,7 +13,7 @@ from linax.architecture.encoder.base import Encoder, EncoderConfig
 class LinearEncoderConfig(EncoderConfig):
     """Configuration for the linear encoder."""
 
-    hidden_dim: int
+    in_features: int
     use_bias: bool = False
 
 
@@ -30,10 +30,12 @@ class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
 
     linear: eqx.nn.Linear
 
-    def __init__(self, cfg: ConfigType, key: PRNGKeyArray):
+    def __init__(self, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
         """Initialize the linear encoder.
 
         Args:
+            out_features:
+              Output dimensionality.
             cfg:
               Configuration for the linear encoder.
             key:
@@ -41,7 +43,7 @@ class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
         """
         self.linear = eqx.nn.Linear(
             in_features=cfg.in_features,
-            out_features=cfg.hidden_dim,
+            out_features=out_features,
             key=key,
             use_bias=cfg.use_bias,
         )

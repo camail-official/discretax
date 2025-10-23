@@ -27,17 +27,19 @@ class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):
           Embedding layer.
     """
 
-    def __init__(self, cfg: ConfigType, key: PRNGKeyArray):
+    def __init__(self, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
         """Initialize the embedding encoder.
 
         Args:
+            out_features:
+              Output dimensionality.
             cfg:
               Configuration for the embedding encoder.
             key:
               JAX random key for initialization.
         """
         self.embedding = eqx.nn.Embedding(
-            num_classes=cfg.num_classes, embedding_size=cfg.hidden_dim, key=key
+            num_classes=cfg.num_classes, embedding_size=out_features, key=key
         )
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
