@@ -1,4 +1,4 @@
-"""Model base class."""
+"""Block base class."""
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -6,39 +6,36 @@ from dataclasses import dataclass
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
+from linax.architecture.sequence_mixers.base import SequenceMixer
+
 
 @dataclass
-class ModelConfig(ABC):
-    """Configuration for models."""
+class BlockConfig(ABC):
+    """Configuration for blocks."""
 
     name: str
+    in_features: int
 
 
-class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
-    """Model base class.
-
-    This class defines the base class for all models in linax.
-    """
+class Block[ConfigType: BlockConfig](eqx.Module, ABC):
+    """Abstract base class for all blocks."""
 
     @abstractmethod
     def __init__(
         self,
         cfg: ConfigType,
-        in_features: int,
+        sequence_mixer: SequenceMixer,
         key: PRNGKeyArray,
-        **kwargs,
     ):
-        """Initialize the model.
+        """Initialize the block.
 
         Args:
             cfg:
-              Configuration for the model.
-            in_features:
-              Dimensionality of the input features.
+              Configuration for the block.
+            sequence_mixer:
+              The sequence mixer instance for this block.
             key:
               JAX random key for initialization.
-            **kwargs:
-              Additional keyword arguments.
         """
         pass
 
@@ -49,9 +46,7 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
         state: eqx.nn.State,
         key: PRNGKeyArray,
     ) -> tuple[Array, eqx.nn.State]:
-        """Forward pass of the model.
-
-        This method implements the forward pass of the model.
+        """Forward pass of the block.
 
         Args:
             x:
@@ -59,7 +54,7 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
             state:
               Current state for stateful layers.
             key:
-              JAX random key for initialization.
+              JAX random key for operations.
 
         Returns:
             Tuple containing the output tensor and updated state.

@@ -1,23 +1,23 @@
 """Sequence mixer base class."""
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
 
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-from linax.base import AbstractConfig
-
 
 @dataclass
-class SequenceMixerConfig(AbstractConfig):
-    """Configuration for sequence mixers with no additional attributes."""
+class SequenceMixerConfig(ABC):
+    """Configuration for sequence mixers."""
 
-    name: str = "sequence_mixer"
+    name: str
+    in_features: int
+    state_dim: int
 
 
-class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module):
+class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
     """Abstract base class for all sequence mixers.
 
     This class is used to define the interface for all sequence mixers.
@@ -27,10 +27,16 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module):
     def __init__(
         self,
         cfg: ConfigType,
-        in_features: int,
         key: PRNGKeyArray,
         **kwargs,
     ):
+        """Initialize the sequence mixer.
+
+        Args:
+            cfg: Configuration for the sequence mixer.
+            key: JAX random key for initialization.
+            **kwargs: Additional keyword arguments for specific sequence mixer implementations.
+        """
         pass
 
     def filter_spec_lambda(self) -> Callable[..., bool]:

@@ -18,7 +18,174 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.sequence_mixers.base import SequenceMixerConfig
 
 
-def simple_uniform_init(rng, shape, std=1.0):
+@dataclass
+class LinOSSSequenceMixerConfig(SequenceMixerConfig):
+    """Configuration for the LinOSS sequence mixer.
+
+    This configuration class defines the hyperparameters for the LinOSS sequence mixer.
+    It includes options for the model's architecture, training parameters, and behavior.
+
+    Attributes:
+        name:
+          Name of the sequence mixer.
+        state_dim:
+          Dimensionality of the state space.
+        discretization:
+          Discretization method to use.
+        damping:
+          Whether to use damping.
+        r_min:
+          Minimum value for the radius.
+        theta_max:
+          Maximum value for the theta parameter.
+    """
+
+    name: str = "linoss_sequence_mixer"
+    in_features: int = 64
+    state_dim: int = 64
+
+    discretization: Literal["IM", "IMEX"] = "IMEX"
+    damping: bool = True
+    r_min: float = 0.9
+    theta_max: float = jnp.pi
+
+
+class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
+    """LinOSS sequence mixer layer.
+
+    This layer implements the LinOSS sequence mixer.
+
+    Attributes:
+        A_diag:
+          Diagonal state matrix.
+        G_diag:
+          Diagonal damping matrix.
+        B:
+          Input matrix.
+        C:
+          Output matrix.
+        D:
+          Output matrix.
+        steps:
+          Step sizes for the sequence mixer.
+        discretization:
+          Discretization method to use.
+        damping:
+          Whether to use damping.
+    """
+
+    A_diag: jax.Array
+    G_diag: jax.Array
+    B: jax.Array
+    C: jax.Array
+    D: jax.Array
+    steps: jax.Array
+    discretization: Literal["IM", "IMEX"]
+    damping: bool
+
+    def __init__(
+        self,
+        cfg: ConfigType,
+        key: PRNGKeyArray,
+    ):
+        """Initialize the LinOSS sequence mixer layer.
+
+        Args:
+            cfg:
+              Configuration for the LinOSS sequence mixer.
+            key:
+              JAX random key for initialization.
+        """
+        A_key, G_key, B_key, C_key, D_key, step_key, key = jr.split(key, 7)
+
+        self.steps = normal(stddev=0.5)(step_key, (cfg.state_dim,))
+        steps = nn.sigmoid(self.steps)
+
+        if cfg.discretization == "IMEX" and cfg.damping:
+            r_max = 1.0
+            mags = jnp.sqrt(
+                random.uniform(G_key, shape=(cfg.state_dim,)) * (r_max**2 - cfg.r_min**2)
+                + cfg.r_min**2
+            )
+            self.G_diag = (1 - mags**2) / (steps * mags**2)
+            G_diag = nn.relu(self.G_diag)
+
+            theta = random.uniform(A_key, shape=(cfg.state_dim,)) * cfg.theta_max
+            self.A_diag = _map_theta_to_A(theta, G_diag, steps)
+        else:
+            self.G_diag = None
+            self.A_diag = random.uniform(A_key, shape=(cfg.state_dim,))
+
+        self.B = _simple_uniform_init(
+            B_key,
+            shape=(cfg.state_dim, cfg.in_features, 2),
+            std=1.0 / math.sqrt(cfg.in_features),
+        )
+        self.C = _simple_uniform_init(
+            C_key,
+            shape=(cfg.in_features, cfg.state_dim, 2),
+            std=1.0 / math.sqrt(cfg.state_dim),
+        )
+        self.D = normal(stddev=1.0)(D_key, (cfg.in_features,))
+
+        self.discretization = cfg.discretization
+        self.damping = cfg.damping
+
+    def __call__(self, input_sequence: Array, key: PRNGKeyArray) -> Array:
+        """Forward pass of the LinOSS sequence mixer layer.
+
+        Args:
+            input_sequence:
+              Input sequence of features.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The output of the LinOSS sequence mixer.
+        """
+        steps = nn.sigmoid(self.steps)
+
+        B_complex = self.B[..., 0] + 1j * self.B[..., 1]
+        C_complex = self.C[..., 0] + 1j * self.C[..., 1]
+
+        if self.discretization == "IM":
+            if self.damping:
+                raise NotImplementedError(
+                    "Discretization {} and damping = {} not implemented".format(
+                        self.discretization, self.damping
+                    )
+                )
+            else:
+                A_diag = nn.relu(self.A_diag)
+                ys = _apply_linoss_im(A_diag, B_complex, input_sequence, steps)
+        elif self.discretization == "IMEX":
+            if self.damping:
+                G_diag = nn.relu(self.G_diag)
+                A_boundary_low = (2 + steps * G_diag - 2 * jnp.sqrt(1 + steps * G_diag)) / steps**2
+                A_boundary_high = (
+                    2 + steps * G_diag + 2 * jnp.sqrt(1 + steps * G_diag)
+                ) / steps**2
+                A_diag = (
+                    A_boundary_low
+                    + nn.relu(self.A_diag - A_boundary_low)
+                    - nn.relu(self.A_diag - A_boundary_high)
+                )
+                ys = _apply_damped_linoss_imex(A_diag, G_diag, B_complex, input_sequence, steps)
+            else:
+                A_diag = nn.relu(self.A_diag)
+                ys = _apply_linoss_imex(A_diag, B_complex, input_sequence, steps)
+        else:
+            raise NotImplementedError(f"Discretization {self.discretization} not implemented")
+
+        # Apply SequenceMixer Output Operations Cx + Du
+        Cy = jax.vmap(lambda x: (C_complex @ x).real)(ys)
+        Du = jax.vmap(lambda u: self.D * u)(input_sequence)
+        xs = Cy + Du
+
+        return xs
+
+
+def _simple_uniform_init(rng, shape, std=1.0):
     """Simple uniform initialization.
 
     This function initializes the weights of a linear layer using a simple uniform distribution.
@@ -38,7 +205,7 @@ def simple_uniform_init(rng, shape, std=1.0):
     return weights
 
 
-def map_theta_to_A(thetas, G_diag, steps):  # noqa: N802
+def _map_theta_to_A(thetas, G_diag, steps):  # noqa: N802
     """Map theta parameter to diagonal state matrix A.
 
     This function computes the diagonal state matrix A for damped LinOSS-IMEX.
@@ -88,7 +255,7 @@ def map_theta_to_A(thetas, G_diag, steps):  # noqa: N802
 
 # Parallel scan operations
 @jax.vmap
-def binary_operator(q_i, q_j):
+def _binary_operator(q_i, q_j):  # noqa: N802
     """Binary operator for parallel scan of linear recurrence.
 
     This function implements the binary operator for the parallel scan of the linear recurrence.
@@ -130,7 +297,7 @@ def binary_operator(q_i, q_j):
     return Anew, new_b + b_j
 
 
-def make_linoss_im_recurrence(A_diag, step):
+def _make_linoss_im_recurrence(A_diag, step):  # noqa: N802
     """Compute the state transition for LinOSS-IM.
 
     This function computes the state transition matrix for LinOSS-IM.
@@ -155,7 +322,8 @@ def make_linoss_im_recurrence(A_diag, step):
     return M
 
 
-def make_linoss_imex_recurrence(A_diag, step):
+# TODO why is this never used?!?! And neither are a lot of the other functions in this file?!
+def _make_linoss_imex_recurrence(A_diag, step):  # noqa: N802
     """Compute the state transition for LinOSS-IMEX.
 
     This function computes the state transition matrix for LinOSS-IMEX.
@@ -179,7 +347,7 @@ def make_linoss_imex_recurrence(A_diag, step):
     return M
 
 
-def make_damped_linoss_imex_recurrence(A_diag, G_diag, step):
+def _make_damped_linoss_imex_recurrence(A_diag, G_diag, step):  # noqa: N802
     """Compute the state transition for Damped LinOSS-IMEX.
 
     This function computes the state transition matrix for Damped LinOSS-IMEX.
@@ -207,7 +375,7 @@ def make_damped_linoss_imex_recurrence(A_diag, G_diag, step):
     return M
 
 
-def apply_linoss_im(A_diag, B, input_sequence, step):
+def _apply_linoss_im(A_diag, B, input_sequence, step):  # noqa: N802
     """Compute the LinOSS-IM sequence mixer output.
 
     This function computes the output of the LinOSS-IM sequence mixer.
@@ -241,13 +409,13 @@ def apply_linoss_im(A_diag, B, input_sequence, step):
     F2 = M_21 * Bu_elements * step
     F = jnp.hstack((F1, F2))
 
-    _, xs = jax.lax.associative_scan(binary_operator, (M_elements, F))
+    _, xs = jax.lax.associative_scan(_binary_operator, (M_elements, F))
     ys = xs[:, A_diag.shape[0] :]
 
     return ys
 
 
-def apply_linoss_imex(A_diag, B, input_sequence, step):
+def _apply_linoss_imex(A_diag, B, input_sequence, step):  # noqa: N802
     """Compute the LinOSS-IMEX sequence mixer output.
 
     This function computes the output of the LinOSS-IMEX sequence mixer.
@@ -280,13 +448,13 @@ def apply_linoss_imex(A_diag, B, input_sequence, step):
     F2 = Bu_elements * (step**2.0)
     F = jnp.hstack((F1, F2))
 
-    _, xs = jax.lax.associative_scan(binary_operator, (M_elements, F))
+    _, xs = jax.lax.associative_scan(_binary_operator, (M_elements, F))
     ys = xs[:, A_diag.shape[0] :]
 
     return ys
 
 
-def apply_damped_linoss_imex(A_diag, G_diag, B, input_sequence, step):
+def _apply_damped_linoss_imex(A_diag, G_diag, B, input_sequence, step):  # noqa: N802
     """Compute the Damped LinOSS-IMEX sequence mixer output.
 
     This function computes the output of the Damped LinOSS-IMEX sequence mixer.
@@ -322,173 +490,7 @@ def apply_damped_linoss_imex(A_diag, G_diag, B, input_sequence, step):
     F2 = step**2 * (1.0 / S) * Bu_elements
     F = jnp.hstack((F1, F2))
 
-    _, xs = jax.lax.associative_scan(binary_operator, (M_elements, F))
+    _, xs = jax.lax.associative_scan(_binary_operator, (M_elements, F))
     ys = xs[:, A_diag.shape[0] :]
 
     return ys
-
-
-@dataclass
-class LinOSSSequenceMixerConfig(SequenceMixerConfig):
-    """Configuration for the LinOSS sequence mixer.
-
-    This configuration class defines the hyperparameters for the LinOSS sequence mixer.
-    It includes options for the model's architecture, training parameters, and behavior.
-
-    Attributes:
-        name:
-          Name of the sequence mixer.
-        state_dim:
-          Dimensionality of the state space.
-        discretization:
-          Discretization method to use.
-        damping:
-          Whether to use damping.
-        r_min:
-          Minimum value for the radius.
-        theta_max:
-          Maximum value for the theta parameter.
-    """
-
-    name: str = "linoss_sequence_mixer"
-    state_dim: int = 64
-    discretization: Literal["IM", "IMEX"] = "IMEX"
-    damping: bool = True
-    r_min: float = 0.9
-    theta_max: float = jnp.pi  # use precise value of pi
-
-
-class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
-    """LinOSS sequence mixer layer.
-
-    This layer implements the LinOSS sequence mixer.
-
-    Attributes:
-        A_diag:
-          Diagonal state matrix.
-        G_diag:
-          Diagonal damping matrix.
-        B:
-          Input matrix.
-        C:
-          Output matrix.
-        D:
-          Output matrix.
-        steps:
-          Step sizes for the sequence mixer.
-        discretization:
-          Discretization method to use.
-        damping:
-          Whether to use damping.
-    """
-
-    A_diag: jax.Array
-    G_diag: jax.Array
-    B: jax.Array
-    C: jax.Array
-    D: jax.Array
-    steps: jax.Array
-    discretization: Literal["IM", "IMEX"]
-    damping: bool
-
-    def __init__(
-        self,
-        cfg: ConfigType,
-        in_features: int,
-        key: PRNGKeyArray,
-    ):
-        """Initialize the LinOSS sequence mixer layer.
-
-        Args:
-            cfg:
-              Configuration for the LinOSS sequence mixer.
-            in_features:
-              Dimensionality of the input features.
-            key:
-              JAX random key for initialization.
-        """
-        A_key, G_key, B_key, C_key, D_key, step_key, key = jr.split(key, 7)
-
-        self.steps = normal(stddev=0.5)(step_key, (cfg.state_dim,))
-        steps = nn.sigmoid(self.steps)
-
-        if cfg.discretization == "IMEX" and cfg.damping:
-            r_max = 1.0
-            mags = jnp.sqrt(
-                random.uniform(G_key, shape=(cfg.state_dim,)) * (r_max**2 - cfg.r_min**2)
-                + cfg.r_min**2
-            )
-            self.G_diag = (1 - mags**2) / (steps * mags**2)
-            G_diag = nn.relu(self.G_diag)
-
-            theta = random.uniform(A_key, shape=(cfg.state_dim,)) * cfg.theta_max
-            self.A_diag = map_theta_to_A(theta, G_diag, steps)
-        else:
-            self.G_diag = None
-            self.A_diag = random.uniform(A_key, shape=(cfg.state_dim,))
-
-        self.B = simple_uniform_init(
-            B_key, shape=(cfg.state_dim, in_features, 2), std=1.0 / math.sqrt(in_features)
-        )
-        self.C = simple_uniform_init(
-            C_key,
-            shape=(in_features, cfg.state_dim, 2),
-            std=1.0 / math.sqrt(cfg.state_dim),
-        )
-        self.D = normal(stddev=1.0)(D_key, (in_features,))
-
-        self.discretization = cfg.discretization
-        self.damping = cfg.damping
-
-    def __call__(self, input_sequence: Array, key: PRNGKeyArray) -> Array:
-        """Forward pass of the LinOSS sequence mixer layer.
-
-        Args:
-            input_sequence:
-              Input sequence of features.
-            key:
-              JAX random key for initialization.
-
-        Returns:
-            The output of the LinOSS sequence mixer.
-        """
-        steps = nn.sigmoid(self.steps)
-
-        B_complex = self.B[..., 0] + 1j * self.B[..., 1]
-        C_complex = self.C[..., 0] + 1j * self.C[..., 1]
-
-        if self.discretization == "IM":
-            if self.damping:
-                raise NotImplementedError(
-                    "Discretization {} and damping = {} not implemented".format(
-                        self.discretization, self.damping
-                    )
-                )
-            else:
-                A_diag = nn.relu(self.A_diag)
-                ys = apply_linoss_im(A_diag, B_complex, input_sequence, steps)
-        elif self.discretization == "IMEX":
-            if self.damping:
-                G_diag = nn.relu(self.G_diag)
-                A_boundary_low = (2 + steps * G_diag - 2 * jnp.sqrt(1 + steps * G_diag)) / steps**2
-                A_boundary_high = (
-                    2 + steps * G_diag + 2 * jnp.sqrt(1 + steps * G_diag)
-                ) / steps**2
-                A_diag = (
-                    A_boundary_low
-                    + nn.relu(self.A_diag - A_boundary_low)
-                    - nn.relu(self.A_diag - A_boundary_high)
-                )
-                ys = apply_damped_linoss_imex(A_diag, G_diag, B_complex, input_sequence, steps)
-            else:
-                A_diag = nn.relu(self.A_diag)
-                ys = apply_linoss_imex(A_diag, B_complex, input_sequence, steps)
-        else:
-            raise NotImplementedError(f"Discretization {self.discretization} not implemented")
-
-        # Apply SequenceMixer Output Operations Cx + Du
-        Cy = jax.vmap(lambda x: (C_complex @ x).real)(ys)
-        Du = jax.vmap(lambda u: self.D * u)(input_sequence)
-        xs = Cy + Du
-
-        return xs

@@ -1,0 +1,66 @@
+"""Regression head."""
+
+from dataclasses import dataclass
+
+import equinox as eqx
+import jax
+import jax.numpy as jnp
+from jaxtyping import Array, PRNGKeyArray
+
+from linax.architecture.heads.base import Head, HeadConfig
+
+
+@dataclass
+class RegressionHeadConfig(HeadConfig):
+    """Configuration for the regression head."""
+
+    name: str = "regression_head"
+    in_features: int = 64
+    out_features: int = 1
+
+
+class RegressionHead[ConfigType: RegressionHeadConfig](Head):
+    """Regression head.
+
+    This regression head takes an input of shape (timesteps, in_features)
+    and outputs a regression of shape (out_features).
+
+    Attributes:
+        linear:
+          Linear layer.
+    """
+
+    linear: eqx.nn.Linear
+
+    def __init__(self, cfg: ConfigType, key: PRNGKeyArray):
+        """Initialize the regression head.
+
+        This method initializes the linear layer for the regression head.
+
+        Args:
+            cfg:
+              Configuration for the regression head.
+            key:
+              JAX random key for initialization.
+        """
+        # Initialize the linear layer
+        self.linear = eqx.nn.Linear(cfg.in_features, cfg.out_features, key=key)
+
+    def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
+        """Forward pass of the regression head.
+
+        This forward pass applies the linear layer to the input
+        and returns the mean of the output.
+
+        Args:
+            x:
+              Input tensor.
+            state:
+              Current state for stateful layers.
+
+        Returns:
+            Tuple containing the output tensor and updated state.
+        """
+        x = jax.vmap(self.linear)(x)
+        x = jnp.mean(x, axis=0)
+        return x, state

@@ -1,6 +1,7 @@
-"""Model base class."""
+"""Head base class."""
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass
 
 import equinox as eqx
@@ -8,37 +9,30 @@ from jaxtyping import Array, PRNGKeyArray
 
 
 @dataclass
-class ModelConfig(ABC):
-    """Configuration for models."""
+class HeadConfig(ABC):
+    """Configuration for heads."""
 
     name: str
+    in_features: int
+    out_features: int
 
 
-class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
-    """Model base class.
-
-    This class defines the base class for all models in linax.
-    """
+class Head[ConfigType: HeadConfig](eqx.Module, ABC):
+    """Abstract base class for all heads."""
 
     @abstractmethod
     def __init__(
         self,
         cfg: ConfigType,
-        in_features: int,
         key: PRNGKeyArray,
-        **kwargs,
     ):
-        """Initialize the model.
+        """Initialize the head.
 
         Args:
             cfg:
-              Configuration for the model.
-            in_features:
-              Dimensionality of the input features.
+              Configuration for the head.
             key:
               JAX random key for initialization.
-            **kwargs:
-              Additional keyword arguments.
         """
         pass
 
@@ -47,21 +41,20 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
         self,
         x: Array,
         state: eqx.nn.State,
-        key: PRNGKeyArray,
     ) -> tuple[Array, eqx.nn.State]:
-        """Forward pass of the model.
-
-        This method implements the forward pass of the model.
+        """Forward pass of the head.
 
         Args:
             x:
               Input tensor.
             state:
               Current state for stateful layers.
-            key:
-              JAX random key for initialization.
 
         Returns:
             Tuple containing the output tensor and updated state.
         """
         pass
+
+    def filter_spec_lambda(self) -> Callable[..., bool]:
+        """Filter specification for head parameters."""
+        return lambda _: True
