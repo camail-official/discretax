@@ -40,44 +40,24 @@ class LinOSSConfig(ModelConfig):
           Configuration for the backbone.
     """
 
-    # All parameters must have defaults due to inheritance from AbstractConfig
-    # TODO: make a proper default structure
-    hidden_dim: int = 64
-    num_blocks: int = 4
+    in_features: int = 784
+    hidden_dim: int = 20
     out_features: int = 10
+    num_blocks: int = 4
 
-    # Component configs (hidden_dim will be propagated in __post_init__)
-    sequence_mixer_config: LinOSSSequenceMixerConfig = field(
-        default_factory=LinOSSSequenceMixerConfig
-    )
-    encoder_config: LinearEncoderConfig = field(default_factory=LinearEncoderConfig)
-    head_config: ClassificationHeadConfig = field(default_factory=ClassificationHeadConfig)
-    block_config: LinOSSBlockConfig = field(default_factory=LinOSSBlockConfig)
+    # Component configs - created in __post_init__ to avoid circular dependencies
+    encoder_config: LinearEncoderConfig = field(default=None, init=False)
+    sequence_mixer_config: LinOSSSequenceMixerConfig = field(default=None, init=False)
+    block_config: LinOSSBlockConfig = field(default=None, init=False)
+    head_config: ClassificationHeadConfig = field(default=None, init=False)
 
     def __post_init__(self):
-        """The LinOSS post init.
-
-        This method is called after the object is initialized
-        and sets the default values for the configuration.
-        It makes sure that the dimensions are consistent across the different components.
-        """
-        # Set default out_features
-        if self.out_features is None:
-            self.out_features = self.in_features
-
-        # Propagate dimensions to encoder config
-        self.encoder_config.in_features = self.in_features
-        self.encoder_config.hidden_dim = self.hidden_dim
-
-        # Propagate dimensions to block config
-        self.block_config.in_features = self.hidden_dim
-
-        # Propagate dimensions to sequence mixer config
-        self.sequence_mixer_config.in_features = self.hidden_dim
-
-        # Propagate dimensions to head config
-        self.head_config.in_features = self.hidden_dim
-        self.head_config.out_features = self.out_features
+        """Create component configs with proper dimensions."""
+        # Create component configs with correct dimensions
+        self.encoder_config = LinearEncoderConfig(in_features=self.in_features)
+        self.sequence_mixer_config = LinOSSSequenceMixerConfig(state_dim=self.hidden_dim)
+        self.block_config = LinOSSBlockConfig()
+        self.head_config = ClassificationHeadConfig(out_features=self.out_features)
 
 
 class LinOSS[ConfigType: LinOSSConfig](AbstractModel):
@@ -118,6 +98,7 @@ class LinOSS[ConfigType: LinOSSConfig](AbstractModel):
         # Create independent sequence mixers for each block
         self.sequence_mixers = [
             LinOSSSequenceMixer(
+                in_features=cfg.hidden_dim,
                 cfg=cfg.sequence_mixer_config,
                 key=mixer_key,
             )
@@ -127,6 +108,7 @@ class LinOSS[ConfigType: LinOSSConfig](AbstractModel):
         # Create blocks with pre-instantiated sequence mixers
         self.blocks = [
             LinOSSBlock(
+                in_features=cfg.hidden_dim,
                 cfg=cfg.block_config,
                 sequence_mixer=mixer,
                 key=b_key,
@@ -135,11 +117,13 @@ class LinOSS[ConfigType: LinOSSConfig](AbstractModel):
         ]
 
         self.encoder = LinearEncoder(
+            out_features=cfg.hidden_dim,
             cfg=cfg.encoder_config,
             key=encoder_key,
         )
 
         self.head = ClassificationHead(
+            in_features=cfg.hidden_dim,
             cfg=cfg.head_config,
             key=head_key,
         )

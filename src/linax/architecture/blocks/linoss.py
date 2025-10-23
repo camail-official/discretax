@@ -17,8 +17,6 @@ class LinOSSBlockConfig(BlockConfig):
     """Configuration for the LinOSS block.
 
     Attributes:
-        in_features:
-          Dimensionality of the input features.
         drop_rate:
           Dropout rate for the GLU.
     """

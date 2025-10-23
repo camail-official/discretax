@@ -12,14 +12,10 @@ import jax
 import jax.numpy as jnp
 import jax.random as jr
 
-from linax.architecture.blocks.linoss import LinOSSBlockConfig
-from linax.architecture.encoder.linear import LinearEncoderConfig
-from linax.architecture.heads.classification import ClassificationHeadConfig
 from linax.architecture.models.linoss import (
     LinOSS,
     LinOSSConfig,
 )
-from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
 
 def example_1_default_config():
@@ -29,33 +25,23 @@ def example_1_default_config():
     print("=" * 80)
 
     # Create model with all defaults
-    in_features = 32
-    out_features = 10
-    config = LinOSSConfig(
-        hidden_dim=64,
-        in_features=in_features,
-        out_features=out_features,
-    )
+    config = LinOSSConfig()
     key = jr.PRNGKey(0)
 
     model = LinOSS(cfg=config, key=key)
 
     print("\nModel Configuration:")
-    print(f"  Name: {config.name}")
-    print(f"  Number of blocks: {config.num_blocks}")
+    print(f"  Input features: {config.in_features}")
     print(f"  Hidden dimension: {config.hidden_dim}")
-    print(f"  Sequence mixer: {config.sequence_mixer_config.discretization}")
-    print(f"  Damping: {config.sequence_mixer_config.damping}")
+    print(f"  Output features: {config.out_features}")
 
     print("\nModel Structure:")
-    print(f"  Input features: {in_features}")
-    print(f"  Output features: {out_features}")
     print(f"  Number of sequence mixers: {len(model.sequence_mixers)}")
     print(f"  Number of blocks: {len(model.blocks)}")
 
     # Create dummy input
     seq_len = 100
-    x = jnp.ones((seq_len, in_features))
+    x = jnp.ones((seq_len, config.in_features))
 
     # Initialize state
     state = eqx.nn.State(model)
@@ -78,73 +64,29 @@ def example_2_custom_config():
     print("Example 2: Custom Configuration")
     print("=" * 80)
 
-    # Define dimensions
-    in_features = 64
-    hidden_dim = 128
-    out_features = 20
-
-    # Create custom sequence mixer config
-    sequence_mixer_config = LinOSSSequenceMixerConfig(
-        name="my_custom_mixer",
-        state_dim=128,  # State space dimension
-        discretization="IM",  # Implicit midpoint (alternative to IMEX)
-        damping=False,  # Disable damping
-        r_min=0.8,  # Different eigenvalue radius
-        theta_max=jnp.pi,
-    )
-
-    # Create custom block config
-    block_config = LinOSSBlockConfig(
-        name="my_custom_block",
-        drop_rate=0.15,  # Higher dropout
-    )
-
-    # Create custom encoder config
-    encoder_config = LinearEncoderConfig(
-        name="my_custom_encoder",
-        use_bias=False,
-    )
-
-    # Create custom head config
-    head_config = ClassificationHeadConfig(
-        name="my_custom_head",
-    )
-
-    # Create model config
-    # hidden_dim set here once, auto-propagates to all components
+    # Create custom config with specific values
     config = LinOSSConfig(
-        name="my_custom_linoss",
-        hidden_dim=hidden_dim,  # Set once - propagated automatically!
-        in_features=in_features,
-        out_features=out_features,
-        num_blocks=8,  # More blocks for deeper model
-        sequence_mixer_config=sequence_mixer_config,
-        block_config=block_config,
-        encoder_config=encoder_config,
-        head_config=head_config,
+        in_features=64,
+        hidden_dim=128,
+        out_features=20,
     )
-
-    print("\nCustom Configuration:")
-    print(f"  Model name: {config.name}")
-    print(f"  Mixer discretization: {config.sequence_mixer_config.discretization}")
-    print(f"  Mixer damping: {config.sequence_mixer_config.damping}")
-    print(f"  Hidden dimension: {config.hidden_dim}")
-    print(f"  Number of blocks: {config.num_blocks}")
-    print(f"  Dropout rate: {config.block_config.drop_rate}")
 
     # Initialize model
     key = jr.PRNGKey(42)
     model = LinOSS(cfg=config, key=key)
 
+    print("\nCustom Configuration:")
+    print(f"  Input features: {config.in_features}")
+    print(f"  Hidden dimension: {config.hidden_dim}")
+    print(f"  Output features: {config.out_features}")
+
     print("\nModel Structure:")
-    print(f"  Input features: {in_features}")
-    print(f"  Output features: {out_features}")
     print(f"  Number of sequence mixers: {len(model.sequence_mixers)}")
     print(f"  Number of blocks: {len(model.blocks)}")
 
     # Forward pass
     seq_len = 50
-    x = jax.random.normal(jr.PRNGKey(2), (seq_len, in_features))
+    x = jax.random.normal(jr.PRNGKey(2), (seq_len, config.in_features))
     state = eqx.nn.State(model)
     output, new_state = model(x, state, jr.PRNGKey(3))
 
@@ -200,23 +142,20 @@ def example_4_accessing_components():
     print("\nAccessing sequence mixers:")
     print(f"  model.sequence_mixers: list of {len(model.sequence_mixers)} mixers")
     print(f"  First mixer type: {type(model.sequence_mixers[0]).__name__}")
-    print(f"  First mixer discretization: {model.sequence_mixers[0].discretization}")
 
     print("\nAccessing encoder:")
     print(f"  model.encoder: {type(model.encoder).__name__}")
-    print(f"  model.encoder.linear: {model.encoder.linear}")
 
     print("\nAccessing blocks:")
     print(f"  model.blocks: list of {len(model.blocks)} blocks")
 
     print("\nAccessing head:")
     print(f"  model.head: {type(model.head).__name__}")
-    print(f"  model.head.linear: {model.head.linear}")
 
     print("\nAccessing individual blocks:")
     first_block = model.blocks[0]
     print(f"  Block 0 sequence_mixer: {type(first_block.sequence_mixer).__name__}")
-    print(f"  Block 0 GLU: {first_block.glu}")
+    print(f"  Block 0 GLU: {first_block.mlp}")
     print(f"  Block 0 norm: {first_block.norm}")
     print(f"  Block 0 dropout: {first_block.drop}")
 
@@ -228,44 +167,28 @@ def example_4_accessing_components():
     print("\n✅ Example 4 complete!\n")
 
 
-def example_5_partial_customization():
-    """Example 5: Partial customization (mixing defaults with custom values)."""
+def example_5_custom_dimensions():
+    """Example 5: Custom dimensions for different use cases."""
     print("=" * 80)
-    print("Example 5: Partial Customization")
+    print("Example 5: Custom Dimensions")
     print("=" * 80)
 
-    # Only customize the sequence mixer, use defaults for other components
-    custom_mixer = LinOSSSequenceMixerConfig(
-        discretization="IMEX",
-        damping=True,
-        state_dim=96,  # Custom state space dimension
-    )
-
-    # Other components use all defaults
-    custom_block = LinOSSBlockConfig()
-    custom_encoder = LinearEncoderConfig()
-    custom_head = ClassificationHeadConfig()
-
-    # hidden_dim set at top level and propagated to all components
+    # Create config for a specific use case
     config = LinOSSConfig(
-        hidden_dim=96,  # Set once - propagated automatically!
-        in_features=24,
-        out_features=10,
-        sequence_mixer_config=custom_mixer,
-        block_config=custom_block,
-        encoder_config=custom_encoder,
-        head_config=custom_head,
+        in_features=28,  # MNIST-like input
+        hidden_dim=64,  # Hidden representation
+        out_features=10,  # 10 classes
     )
 
     model = LinOSS(cfg=config, key=jr.PRNGKey(7))
 
-    print("\nPartial Customization:")
-    print(f"  Mixer discretization (custom): {config.sequence_mixer_config.discretization}")
-    print(f"  Number of blocks (default): {config.num_blocks}")
-    print(f"  Block dropout_rate (default): {config.block_config.drop_rate}")
+    print("\nCustom Dimensions:")
+    print(f"  Input features: {config.in_features}")
+    print(f"  Hidden dimension: {config.hidden_dim}")
+    print(f"  Output features: {config.out_features}")
 
     # Test forward pass
-    x = jnp.ones((30, 24))
+    x = jnp.ones((30, config.in_features))
     state = eqx.nn.State(model)
     output, state = model(x, state, jr.PRNGKey(8))
 
@@ -284,22 +207,17 @@ def main():
     example_2_custom_config()
     example_3_state_management()
     example_4_accessing_components()
-    example_5_partial_customization()
+    example_5_custom_dimensions()
 
     print("=" * 80)
     print("All examples completed successfully! 🎉")
     print("=" * 80)
     print("\nKey Takeaways:")
-    print("  1. Use LinOSSConfig(in_features=N, out_features=M) for quick setup")
-    print("  2. Customize component configs for fine-grained control:")
-    print("     - sequence_mixer_config: LinOSSSequenceMixerConfig")
-    print("     - block_config: LinOSSBlockConfig")
-    print("     - encoder_config: LinearEncoderConfig")
-    print("     - head_config: ClassificationHeadConfig")
-    print("  3. Set hidden_dim once in LinOSSConfig - auto-propagates to all components")
-    print("  4. Always maintain state across forward passes")
-    print("  5. Model structure: encoder → blocks → head")
-    print("  6. Model owns sequence_mixers, which are passed to blocks")
+    print("  1. Use LinOSSConfig() for quick setup with defaults")
+    print("  2. Customize dimensions: in_features, hidden_dim, out_features")
+    print("  3. Always maintain state across forward passes")
+    print("  4. Model structure: encoder → blocks → head")
+    print("  5. Model owns sequence_mixers, which are passed to blocks")
     print("=" * 80 + "\n")
 
 
