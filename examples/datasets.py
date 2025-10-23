@@ -435,6 +435,10 @@ class MNISTSeq(VisionDataset):
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
+    plt.ion()  # Interactive mode - non-blocking plots
+
     train_data = MNISTSeq(root="MNISTSeq", train=True, download=True)
     print(train_data.data.shape)
     print(train_data.labels.shape)
@@ -444,3 +448,7 @@ if __name__ == "__main__":
     print(test_data.data.shape)
     print(test_data.labels.shape)
     test_data.plot_batch(test_data.data, test_data.labels)
+
+    # Keep windows open until user presses Enter
+    input("\nPress Enter to close all windows...")
+    plt.close("all")
