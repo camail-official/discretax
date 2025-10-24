@@ -124,3 +124,5 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
         x = skip + x
 
         return x, state
+
+    # TODO: add `__repr__` method

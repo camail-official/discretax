@@ -7,18 +7,53 @@ from jaxtyping import PRNGKeyArray
 
 from linax.architecture.blocks.linoss import LinOSSBlockConfig
 from linax.architecture.encoder import LinearEncoderConfig
-from linax.architecture.heads.classification import (
-    ClassificationHeadConfig,
-)
+from linax.architecture.heads.classification import ClassificationHeadConfig
+from linax.architecture.models.base import ModelConfig
 from linax.architecture.models.ssm import SSM, SSMConfig
-from linax.architecture.sequence_mixers.linoss import (
-    LinOSSSequenceMixerConfig,
-)
+from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
 
 @dataclass
-class LinOSSConfig:
-    """Configuration for LinOSS model."""
+class LinOSSConfig(ModelConfig):
+    """High-level configuration for LinOSS models.
+
+    This is a simplified, user-friendly configuration that only requires basic
+    hyperparameters. It automatically composes the appropriate low-level components
+    (encoder, sequence mixers, blocks, head) specific to the LinOSS architecture.
+
+    Use this when:
+    - You want to quickly build a LinOSS model
+    - You only need to tune key hyperparameters
+    - You want sensible defaults for LinOSS-specific components
+
+    Attributes:
+        in_features:
+          Dimensionality of the input features.
+        hidden_dim:
+          Dimensionality of the hidden state throughout the model.
+        out_features:
+          Dimensionality of the output (e.g., number of classes).
+        num_blocks:
+          Number of LinOSS blocks to stack.
+        drop_rate:
+          Dropout rate applied in the blocks.
+
+    Example:
+        ```python
+        # Simple high-level usage
+        config = LinOSSConfig(
+            in_features=784,
+            hidden_dim=64,
+            out_features=10,
+            num_blocks=4,
+            drop_rate=0.1,
+        )
+        model = LinOSS(cfg=config, key=key)
+        ```
+
+    Reference:
+        LinOSS: https://arxiv.org/abs/2410.03943
+    """
 
     in_features: int = 784
     hidden_dim: int = 20
@@ -26,8 +61,18 @@ class LinOSSConfig:
     num_blocks: int = 4
     drop_rate: float = 0.1
 
-    def build(self) -> SSMConfig:
-        """Build SSM config."""
+    def build_ssm_config(self) -> SSMConfig:
+        """Build the corresponding low-level SSMConfig.
+
+        Constructs an `SSMConfig` with LinOSS-specific components:
+        - Linear encoder for input projection
+        - LinOSS sequence mixers for temporal mixing
+        - LinOSS blocks with GLU channel mixing
+        - Classification head for output
+
+        Returns:
+            Low-level SSMConfig ready to instantiate an SSM model.
+        """
         return SSMConfig(
             hidden_dim=self.hidden_dim,
             encoder_config=LinearEncoderConfig(in_features=self.in_features),
@@ -43,10 +88,21 @@ class LinOSSConfig:
 
 
 class LinOSS(SSM):
-    """LinOSS model."""
+    """LinOSS model.
+
+    This is a convenience class that constructs an SSM with LinOSS-specific
+    components. It inherits all functionality from `SSM` but provides a
+    simpler configuration interface via `LinOSSConfig`.
+
+    Args:
+        cfg:
+          High-level LinOSSConfig specifying key hyperparameters.
+        key:
+          JAX random key for parameter initialization.
+    """
 
     def __init__(self, cfg: LinOSSConfig, key: PRNGKeyArray):
-        super().__init__(cfg.build(), key)
+        super().__init__(cfg.build_ssm_config(), key)
 
 
 if __name__ == "__main__":
