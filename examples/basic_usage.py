@@ -15,8 +15,12 @@ import jax
 import jax.numpy as jnp
 import jax.random as jr
 
+from linax.architecture.blocks.linoss import LinOSSBlockConfig
+from linax.architecture.encoder.linear import LinearEncoderConfig
+from linax.architecture.heads.classification import ClassificationHeadConfig
 from linax.architecture.models.linoss import LinOSSConfig
 from linax.architecture.models.ssm import SSMConfig
+from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
 
 def example_1_default_config():
@@ -27,20 +31,22 @@ def example_1_default_config():
 
     # Create model with standard MNIST-like settings
     config = LinOSSConfig(
-        in_features=784,
-        hidden_dim=20,
-        out_features=10,
+        num_blocks=4,
+        encoder_config=LinearEncoderConfig(in_features=784, out_features=20),
+        sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=20),
+        block_config=LinOSSBlockConfig(drop_rate=0.1),
+        head_config=ClassificationHeadConfig(out_features=10),
     )
     key = jr.PRNGKey(0)
 
     model = config.build(key=key)
 
     print("\nModel Configuration:")
-    print(f"  Input features: {config.in_features}")
-    print(f"  Hidden dimension: {config.hidden_dim}")
-    print(f"  Output features: {config.out_features}")
+    print(f"  Input features: {config.encoder_config.in_features}")
+    print(f"  Hidden dimension: {config.encoder_config.out_features}")
+    print(f"  Output features: {config.head_config.out_features}")
     print(f"  Number of blocks: {config.num_blocks}")
-    print(f"  Dropout rate: {config.drop_rate}")
+    print(f"  Dropout rate: {config.block_config.drop_rate}")
 
     print("\nModel Structure:")
     print(f"  Encoder: {type(model.encoder).__name__}")
@@ -49,7 +55,7 @@ def example_1_default_config():
 
     # Create dummy input
     seq_len = 100
-    x = jnp.ones((seq_len, config.in_features))
+    x = jnp.ones((seq_len, config.encoder_config.in_features))
 
     # Initialize state
     state = eqx.nn.State(model)
@@ -74,9 +80,11 @@ def example_2_custom_config():
 
     # Create custom config with specific values
     config = LinOSSConfig(
-        in_features=64,
-        hidden_dim=128,
-        out_features=20,
+        num_blocks=4,
+        encoder_config=LinearEncoderConfig(in_features=64, out_features=128),
+        sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=128),
+        block_config=LinOSSBlockConfig(drop_rate=0.1),
+        head_config=ClassificationHeadConfig(out_features=20),
     )
 
     # Initialize model
@@ -84,9 +92,9 @@ def example_2_custom_config():
     model = config.build(key=key)
 
     print("\nCustom Configuration:")
-    print(f"  Input features: {config.in_features}")
-    print(f"  Hidden dimension: {config.hidden_dim}")
-    print(f"  Output features: {config.out_features}")
+    print(f"  Input features: {config.encoder_config.in_features}")
+    print(f"  Hidden dimension: {config.encoder_config.out_features}")
+    print(f"  Output features: {config.head_config.out_features}")
 
     print("\nModel Structure:")
     print(f"  Encoder: {type(model.encoder).__name__}")
@@ -95,7 +103,7 @@ def example_2_custom_config():
 
     # Forward pass
     seq_len = 50
-    x = jax.random.normal(jr.PRNGKey(2), (seq_len, config.in_features))
+    x = jax.random.normal(jr.PRNGKey(2), (seq_len, config.encoder_config.in_features))
     state = eqx.nn.State(model)
     output, new_state = model(x, state, jr.PRNGKey(3))
 
@@ -114,7 +122,13 @@ def example_3_state_management():
     print("=" * 80)
 
     # Create model
-    config = LinOSSConfig(in_features=16, hidden_dim=32, out_features=5)
+    config = LinOSSConfig(
+        num_blocks=4,
+        encoder_config=LinearEncoderConfig(in_features=16, out_features=32),
+        sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=32),
+        block_config=LinOSSBlockConfig(),
+        head_config=ClassificationHeadConfig(out_features=5),
+    )
     model = config.build(key=jr.PRNGKey(0))
 
     # Initialize state
@@ -145,7 +159,13 @@ def example_4_accessing_components():
     print("Example 4: Accessing Model Components")
     print("=" * 80)
 
-    config = LinOSSConfig(in_features=10, hidden_dim=32, out_features=5)
+    config = LinOSSConfig(
+        num_blocks=4,
+        encoder_config=LinearEncoderConfig(in_features=10, out_features=32),
+        sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=32),
+        block_config=LinOSSBlockConfig(),
+        head_config=ClassificationHeadConfig(out_features=5),
+    )
     model = config.build(key=jr.PRNGKey(0))
 
     print("\nAccessing encoder:")
@@ -176,20 +196,22 @@ def example_5_custom_dimensions():
 
     # Create config for a specific use case
     config = LinOSSConfig(
-        in_features=28,  # MNIST-like input
-        hidden_dim=64,  # Hidden representation
-        out_features=10,  # 10 classes
+        num_blocks=4,
+        encoder_config=LinearEncoderConfig(in_features=28, out_features=64),  # MNIST-like input
+        sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=64),
+        block_config=LinOSSBlockConfig(),
+        head_config=ClassificationHeadConfig(out_features=10),  # 10 classes
     )
 
     model = config.build(key=jr.PRNGKey(7))
 
     print("\nCustom Dimensions:")
-    print(f"  Input features: {config.in_features}")
-    print(f"  Hidden dimension: {config.hidden_dim}")
-    print(f"  Output features: {config.out_features}")
+    print(f"  Input features: {config.encoder_config.in_features}")
+    print(f"  Hidden dimension: {config.encoder_config.out_features}")
+    print(f"  Output features: {config.head_config.out_features}")
 
     # Test forward pass
-    x = jnp.ones((30, config.in_features))
+    x = jnp.ones((30, config.encoder_config.in_features))
     state = eqx.nn.State(model)
     output, state = model(x, state, jr.PRNGKey(8))
 
@@ -211,11 +233,11 @@ def example_6_high_vs_low_level_config():
     print("   - LinOSSConfig inherits from SSMConfig\n")
 
     high_level_cfg = LinOSSConfig(
-        in_features=32,
-        hidden_dim=64,
-        out_features=10,
         num_blocks=4,
-        drop_rate=0.1,
+        encoder_config=LinearEncoderConfig(in_features=32, out_features=64),
+        sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=64),
+        block_config=LinOSSBlockConfig(drop_rate=0.1),
+        head_config=ClassificationHeadConfig(out_features=10),
     )
     model_high = high_level_cfg.build(key=jr.PRNGKey(0))
     print(f"  Created model with {len(model_high.blocks)} blocks")
@@ -228,11 +250,6 @@ def example_6_high_vs_low_level_config():
     print("   - Component-based configuration")
     print("   - Fine-grained control")
     print("   - Best for custom architectures\n")
-
-    from linax.architecture.blocks.linoss import LinOSSBlockConfig
-    from linax.architecture.encoder import LinearEncoderConfig
-    from linax.architecture.heads.classification import ClassificationHeadConfig
-    from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
     ssm_cfg = SSMConfig(
         encoder_config=LinearEncoderConfig(in_features=32, out_features=64),
@@ -276,11 +293,11 @@ def example_7_model_summary():
     print("\n📊 LinOSS Model Summary (with extra details):")
     # Create a LinOSS model
     linoss_config = LinOSSConfig(
-        in_features=28,
-        hidden_dim=32,
-        out_features=10,
         num_blocks=2,
-        drop_rate=0.15,
+        encoder_config=LinearEncoderConfig(in_features=28, out_features=32),
+        sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=32),
+        block_config=LinOSSBlockConfig(drop_rate=0.15),
+        head_config=ClassificationHeadConfig(out_features=10),
     )
     linoss_model = linoss_config.build(key=jr.PRNGKey(42))
     print(linoss_model)

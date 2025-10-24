@@ -18,7 +18,7 @@ from linax.utils import count_params
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class SSMConfig:
     """Low-level configuration for State Space Models.
 
