@@ -1,5 +1,7 @@
 """LinOSS block."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 import equinox as eqx
@@ -25,7 +27,7 @@ class LinOSSBlockConfig(BlockConfig):
 
     def build(
         self, in_features: int, sequence_mixer: SequenceMixer, key: PRNGKeyArray
-    ) -> "LinOSSBlock":
+    ) -> LinOSSBlock:
         """Build block from config.
 
         Args:
@@ -62,6 +64,7 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
 
     norm: eqx.nn.LayerNorm
     sequence_mixer: SequenceMixer
+    # TODO: Allow for other MLPs (e.g. SwiGLU)
     mlp: GLU
     drop: eqx.nn.Dropout
 

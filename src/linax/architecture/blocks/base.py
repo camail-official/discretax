@@ -30,7 +30,6 @@ class BlockConfig(ABC):
         Returns:
             The block instance.
         """
-        pass
 
 
 class Block[ConfigType: BlockConfig](eqx.Module, ABC):
