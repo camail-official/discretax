@@ -1,5 +1,7 @@
 """Regression head."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 import equinox as eqx
@@ -13,6 +15,17 @@ from linax.architecture.heads.base import Head, HeadConfig
 @dataclass(frozen=True)
 class RegressionHeadConfig(HeadConfig):
     """Configuration for the regression head."""
+
+    def build(self, in_features: int, key: PRNGKeyArray) -> RegressionHead:
+        """Build head from config.
+
+        Args:
+            in_features:
+              Input dimensionality.
+            key:
+              JAX random key for initialization.
+        """
+        return RegressionHead(in_features=in_features, cfg=self, key=key)
 
 
 class RegressionHead[ConfigType: RegressionHeadConfig](Head):
