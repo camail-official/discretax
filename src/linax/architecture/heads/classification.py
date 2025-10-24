@@ -1,5 +1,7 @@
 """Classification head."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 import equinox as eqx
@@ -14,8 +16,18 @@ from linax.architecture.heads.base import Head, HeadConfig
 class ClassificationHeadConfig(HeadConfig):
     """Configuration for the classification head."""
 
-    def build(self, in_features: int, key: PRNGKeyArray) -> "ClassificationHead":
-        """Build head from config."""
+    def build(self, in_features: int, key: PRNGKeyArray) -> ClassificationHead:
+        """Build head from config.
+
+        Args:
+            in_features:
+              Input dimensionality.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The head instance.
+        """
         return ClassificationHead(in_features=in_features, cfg=self, key=key)
 
 
