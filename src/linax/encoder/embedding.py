@@ -8,7 +8,7 @@ import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
-from linax.architecture.encoder.base import Encoder, EncoderConfig
+from linax.encoder.base import Encoder, EncoderConfig
 
 
 @dataclass(frozen=True)

@@ -9,9 +9,9 @@ import jax
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
-from linax.architecture.blocks.base import Block, BlockConfig
-from linax.architecture.channel_mixers.glu import GLU
-from linax.architecture.sequence_mixers.base import SequenceMixer
+from linax.blocks.base import Block, BlockConfig
+from linax.channel_mixers.glu import GLU
+from linax.sequence_mixers.base import SequenceMixer
 from linax.utils import count_params
 
 

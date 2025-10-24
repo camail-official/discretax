@@ -8,7 +8,7 @@ from dataclasses import dataclass
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-from linax.architecture.sequence_mixers.base import SequenceMixer
+from linax.sequence_mixers.base import SequenceMixer
 
 
 @dataclass(frozen=True)

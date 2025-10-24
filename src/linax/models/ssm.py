@@ -9,10 +9,10 @@ import equinox as eqx
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
-from linax.architecture.blocks.base import Block, BlockConfig
-from linax.architecture.encoder.base import Encoder, EncoderConfig
-from linax.architecture.heads.base import Head, HeadConfig
-from linax.architecture.sequence_mixers.base import SequenceMixerConfig
+from linax.blocks.base import Block, BlockConfig
+from linax.encoder.base import Encoder, EncoderConfig
+from linax.heads.base import Head, HeadConfig
+from linax.sequence_mixers.base import SequenceMixerConfig
 from linax.utils import count_params
 
 logger = logging.getLogger(__name__)

@@ -15,12 +15,12 @@ import jax
 import jax.numpy as jnp
 import jax.random as jr
 
-from linax.architecture.blocks.linoss import LinOSSBlockConfig
-from linax.architecture.encoder.linear import LinearEncoderConfig
-from linax.architecture.heads.classification import ClassificationHeadConfig
-from linax.architecture.models.linoss import LinOSSConfig
-from linax.architecture.models.ssm import SSMConfig
-from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+from linax.blocks.linoss import LinOSSBlockConfig
+from linax.encoder.linear import LinearEncoderConfig
+from linax.heads.classification import ClassificationHeadConfig
+from linax.models.linoss import LinOSSConfig
+from linax.models.ssm import SSMConfig
+from linax.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
 
 def example_1_default_config():
@@ -276,10 +276,10 @@ def example_7_model_summary():
 
     print("\n📊 General SSM Summary:")
     # Create a general SSM
-    from linax.architecture.blocks.linoss import LinOSSBlockConfig
-    from linax.architecture.encoder import LinearEncoderConfig
-    from linax.architecture.heads.classification import ClassificationHeadConfig
-    from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+    from linax.blocks.linoss import LinOSSBlockConfig
+    from linax.encoder import LinearEncoderConfig
+    from linax.heads.classification import ClassificationHeadConfig
+    from linax.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
     ssm_config = SSMConfig(
         encoder_config=LinearEncoderConfig(in_features=100, out_features=32),

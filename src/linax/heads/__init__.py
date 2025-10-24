@@ -1,11 +1,11 @@
 """This module contains the heads implemented in Linax."""
 
-from linax.architecture.heads.base import Head, HeadConfig
-from linax.architecture.heads.classification import (
+from linax.heads.base import Head, HeadConfig
+from linax.heads.classification import (
     ClassificationHead,
     ClassificationHeadConfig,
 )
-from linax.architecture.heads.regression import (
+from linax.heads.regression import (
     RegressionHead,
     RegressionHeadConfig,
 )

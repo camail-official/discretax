@@ -2,11 +2,11 @@
 
 from dataclasses import dataclass, field
 
-from linax.architecture.blocks.linoss import LinOSSBlockConfig
-from linax.architecture.encoder.base import EncoderConfig
-from linax.architecture.heads.base import HeadConfig
-from linax.architecture.models.ssm import SSMConfig
-from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+from linax.blocks.linoss import LinOSSBlockConfig
+from linax.encoder.base import EncoderConfig
+from linax.heads.base import HeadConfig
+from linax.models.ssm import SSMConfig
+from linax.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
 
 @dataclass(frozen=True)
@@ -74,8 +74,8 @@ class LinOSSConfig(SSMConfig):
 if __name__ == "__main__":
     import jax.random as jr
 
-    from linax.architecture.encoder import LinearEncoderConfig
-    from linax.architecture.heads.classification import ClassificationHeadConfig
+    from linax.encoder import LinearEncoderConfig
+    from linax.heads.classification import ClassificationHeadConfig
 
     cfg = LinOSSConfig(
         num_blocks=4,

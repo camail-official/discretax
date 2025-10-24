@@ -17,7 +17,7 @@ from jax import nn, random
 from jax.nn.initializers import normal
 from jaxtyping import Array, PRNGKeyArray
 
-from linax.architecture.sequence_mixers.base import SequenceMixerConfig
+from linax.sequence_mixers.base import SequenceMixerConfig
 
 
 @dataclass(frozen=True)

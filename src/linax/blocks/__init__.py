@@ -1,7 +1,7 @@
 """This module contains the blocks implemented in Linax."""
 
-from linax.architecture.blocks.base import Block, BlockConfig
-from linax.architecture.blocks.linoss import LinOSSBlock, LinOSSBlockConfig
+from linax.blocks.base import Block, BlockConfig
+from linax.blocks.linoss import LinOSSBlock, LinOSSBlockConfig
 
 __all__ = [
     "BlockConfig",

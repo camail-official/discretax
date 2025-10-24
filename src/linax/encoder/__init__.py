@@ -1,11 +1,11 @@
 """This module contains the encoders implemented in Linax."""
 
-from linax.architecture.encoder.base import Encoder, EncoderConfig
-from linax.architecture.encoder.embedding import (
+from linax.encoder.base import Encoder, EncoderConfig
+from linax.encoder.embedding import (
     EmbeddingEncoder,
     EmbeddingEncoderConfig,
 )
-from linax.architecture.encoder.linear import LinearEncoder, LinearEncoderConfig
+from linax.encoder.linear import LinearEncoder, LinearEncoderConfig
 
 __all__ = [
     "EncoderConfig",
