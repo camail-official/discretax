@@ -1,42 +1,48 @@
-"""LinOSS model configuration."""
+"""S5 model configuration."""
 
 from dataclasses import dataclass, field
 
-from linax.blocks.linoss import LinOSSBlockConfig
+from linax.blocks.s5 import S5BlockConfig
 from linax.encoder.base import EncoderConfig
 from linax.heads.base import HeadConfig
 from linax.models.ssm import SSMConfig
-from linax.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+from linax.sequence_mixers.s5 import S5SequenceMixerConfig
 
 
 @dataclass(frozen=True)
-class LinOSSConfig(SSMConfig):
-    """Configuration for LinOSS models.
+class S5Config(SSMConfig):
+    """Configuration for S5 models.
 
-    This is a modular configuration that allows building a LinOSS model with different components.
+    This is a modular configuration that allows building an S5 model with different components.
 
     Attributes:
-        num_blocks: Number of LinOSS blocks to stack.
+        num_blocks: Number of S5 blocks to stack.
         encoder_config: Configuration for the encoder.
         head_config: Configuration for the output head.
-        sequence_mixer_config: Optional linoss sequence mixer config that will be replicated
-            for each block. If not provided, defaults to LinOSSSequenceMixerConfig().
-        block_config: Optional linoss block config that will be replicated for each block.
-            If not provided, defaults to LinOSSBlockConfig.
+        sequence_mixer_config: Optional S5 sequence mixer config that will be replicated
+            for each block. If not provided, defaults to S5SequenceMixerConfig().
+        block_config: Optional S5 block config that will be replicated for each block.
+            If not provided, defaults to S5BlockConfig.
 
     Example:
         ```python
         # With explicit configs
-        config = LinOSSConfig(
+        config = S5Config(
             num_blocks=4,
             encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-            sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=64),
-            block_config=LinOSSBlockConfig(drop_rate=0.1),
+            sequence_mixer_config=S5SequenceMixerConfig(
+                state_dim=64,
+                ssm_blocks=1,
+                conj_sym=True,
+                clip_eigs=True,
+                discretization="zoh",
+            ),
+            block_config=S5BlockConfig(drop_rate=0.05),
             head_config=ClassificationHeadConfig(out_features=10),
         )
 
         # With defaults (simpler)
-        config = LinOSSConfig(
+        config = S5Config(
             num_blocks=4,
             encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
             head_config=ClassificationHeadConfig(out_features=10),
@@ -45,20 +51,18 @@ class LinOSSConfig(SSMConfig):
         ```
 
     Reference:
-        LinOSS: https://arxiv.org/abs/2410.03943
+        S5: https://arxiv.org/abs/2208.04933
     """
 
     num_blocks: int
     encoder_config: EncoderConfig
     head_config: HeadConfig
-    sequence_mixer_config: LinOSSSequenceMixerConfig = field(
-        default_factory=LinOSSSequenceMixerConfig
-    )
-    block_config: LinOSSBlockConfig = field(default_factory=LinOSSBlockConfig)
+    sequence_mixer_config: S5SequenceMixerConfig = field(default_factory=S5SequenceMixerConfig)
+    block_config: S5BlockConfig = field(default_factory=S5BlockConfig)
 
     # These will be auto-populated from the single configs
-    sequence_mixer_configs: list[LinOSSSequenceMixerConfig] = field(init=False)
-    block_configs: list[LinOSSBlockConfig] = field(init=False)
+    sequence_mixer_configs: list[S5SequenceMixerConfig] = field(init=False)
+    block_configs: list[S5BlockConfig] = field(init=False)
 
     def __post_init__(self):
         """Replicates configs for each block and validates."""
@@ -77,13 +81,19 @@ if __name__ == "__main__":
     from linax.encoder import LinearEncoderConfig
     from linax.heads.classification import ClassificationHeadConfig
 
-    cfg = LinOSSConfig(
+    cfg = S5Config(
         num_blocks=4,
         encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
         head_config=ClassificationHeadConfig(out_features=10),
     )
+    print("S5 Config:")
+    print(f"  Num blocks: {cfg.num_blocks}")
     print(f"  Auto state_dim: {cfg.sequence_mixer_config.state_dim}")
+    print(f"  Auto ssm_blocks: {cfg.sequence_mixer_config.ssm_blocks}")
+    print(f"  Auto conj_sym: {cfg.sequence_mixer_config.conj_sym}")
+    print(f"  Auto clip_eigs: {cfg.sequence_mixer_config.clip_eigs}")
+    print(f"  Auto discretization: {cfg.sequence_mixer_config.discretization}")
     print(f"  Auto drop_rate: {cfg.block_config.drop_rate}\n")
 
-    linoss = cfg.build(key=jr.PRNGKey(0))
-    print(linoss)
+    s5 = cfg.build(key=jr.PRNGKey(0))
+    print(s5)
