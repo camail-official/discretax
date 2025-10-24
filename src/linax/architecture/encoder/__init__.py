@@ -1,4 +1,4 @@
-"""Encoders."""
+"""This module contains the encoders implemented in Linax."""
 
 from linax.architecture.encoder.base import Encoder, EncoderConfig
 from linax.architecture.encoder.embedding import (

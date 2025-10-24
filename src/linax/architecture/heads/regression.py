@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import equinox as eqx
-import jax
 import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
@@ -50,7 +49,10 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
     linear: eqx.nn.Linear
 
     def __init__(self, in_features: int, cfg: ConfigType, key: PRNGKeyArray):
-        self.linear = eqx.nn.Linear(in_features, cfg.out_features, key=key)
+        """Initialize the regression head."""
+        self.linear = eqx.nn.Linear(
+            in_features=in_features, out_features=cfg.out_features, key=key
+        )
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the regression head.
@@ -67,6 +69,6 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
         Returns:
             Tuple containing the output tensor and updated state.
         """
-        x = jax.vmap(self.linear)(x)
-        x = jnp.mean(x, axis=0)
+        x = jnp.mean(x, axis=0)  # shape (timestep, in_features) -> (in_features)
+        x = self.linear(x)  # shape (in_features) -> (out_features)
         return x, state

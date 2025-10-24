@@ -29,11 +29,12 @@ class HeadConfig(ABC):
         Returns:
             The head instance.
         """
-        pass
 
 
 class Head[ConfigType: HeadConfig](eqx.Module, ABC):
     """Abstract base class for all heads.
+
+    This is the base class for all heads in Linax.
 
     Args:
         in_features:
@@ -51,7 +52,7 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
-        pass
+        """Initialize the head."""
 
     @abstractmethod
     def __call__(
@@ -70,7 +71,6 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
         Returns:
             Tuple containing the output tensor and updated state.
         """
-        pass
 
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for head parameters."""

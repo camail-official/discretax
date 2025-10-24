@@ -41,19 +41,18 @@ class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):
     Attributes:
         embedding:
           Embedding layer.
+
+    Args:
+        out_features:
+          Output dimensionality.
+        cfg:
+          Configuration for the embedding encoder.
+        key:
+          JAX random key for initialization.
     """
 
     def __init__(self, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
-        """Initialize the embedding encoder.
-
-        Args:
-            out_features:
-              Output dimensionality.
-            cfg:
-              Configuration for the embedding encoder.
-            key:
-              JAX random key for initialization.
-        """
+        """Initialize the embedding encoder."""
         self.embedding = eqx.nn.Embedding(
             num_classes=cfg.num_classes, embedding_size=out_features, key=key
         )
@@ -72,5 +71,5 @@ class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):
         Returns:
             Tuple containing the output tensor and updated state.
         """
-        x = jax.vmap(self.embedding)(x)
+        x = jax.vmap(self.embedding)(x)  # vmap over the timestep dimension
         return x, state

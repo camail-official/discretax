@@ -1,4 +1,4 @@
-"""Models."""
+"""This module contains the models implemented in Linax."""
 
 from linax.architecture.models.base import AbstractModel, ModelConfig
 from linax.architecture.models.linoss import LinOSS, LinOSSConfig

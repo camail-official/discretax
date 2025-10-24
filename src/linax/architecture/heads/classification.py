@@ -26,7 +26,7 @@ class ClassificationHeadConfig(HeadConfig):
               JAX random key for initialization.
 
         Returns:
-            The head instance.
+            The classification head instance.
         """
         return ClassificationHead(in_features=in_features, cfg=self, key=key)
 
@@ -59,7 +59,10 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
-        self.linear = eqx.nn.Linear(in_features, cfg.out_features, key=key)
+        """Initialize the classification head."""
+        self.linear = eqx.nn.Linear(
+            in_features=in_features, out_features=cfg.out_features, key=key
+        )
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the classification head.
@@ -76,7 +79,7 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
         Returns:
             Tuple containing the output tensor and updated state.
         """
-        x = jax.vmap(self.linear)(x)
-        x = jnp.mean(x, axis=0)
+        x = jnp.mean(x, axis=0)  # shape (timestep, in_features) -> (in_features)
+        x = self.linear(x)  # shape (in_features) -> (out_features)
         x = jax.nn.log_softmax(x, axis=-1)
         return x, state

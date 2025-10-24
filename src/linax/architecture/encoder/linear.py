@@ -42,21 +42,20 @@ class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
     Attributes:
         linear:
           MLP instance with multiple hidden layers and a last linear layer.
+
+    Args:
+        out_features:
+          Output dimensionality.
+        cfg:
+          Configuration for the linear encoder.
+        key:
+          JAX random key for initialization.
     """
 
     linear: eqx.nn.Linear
 
     def __init__(self, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
-        """Initialize the linear encoder.
-
-        Args:
-            out_features:
-              Output dimensionality.
-            cfg:
-              Configuration for the linear encoder.
-            key:
-              JAX random key for initialization.
-        """
+        """Initialize the linear encoder."""
         self.linear = eqx.nn.Linear(
             in_features=cfg.in_features,
             out_features=out_features,

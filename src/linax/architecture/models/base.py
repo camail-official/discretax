@@ -16,6 +16,14 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
     """Model base class.
 
     This class defines the base class for all models in linax.
+
+    Args:
+        cfg:
+          Configuration for the model.
+        key:
+          JAX random key for initialization.
+        **kwargs:
+          Additional keyword arguments.
     """
 
     @abstractmethod
@@ -25,17 +33,7 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
         key: PRNGKeyArray,
         **kwargs,
     ):
-        """Initialize the model.
-
-        Args:
-            cfg:
-              Configuration for the model.
-            key:
-              JAX random key for initialization.
-            **kwargs:
-              Additional keyword arguments.
-        """
-        pass
+        """Initialize the model."""
 
     @abstractmethod
     def __call__(
@@ -59,4 +57,3 @@ class AbstractModel[ConfigType: ModelConfig](eqx.Module, ABC):
         Returns:
             Tuple containing the output tensor and updated state.
         """
-        pass

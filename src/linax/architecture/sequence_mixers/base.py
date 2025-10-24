@@ -40,6 +40,16 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
     """Abstract base class for all sequence mixers.
 
     This class is used to define the interface for all sequence mixers.
+
+    Args:
+        in_features:
+          Input dimensionality.
+        cfg:
+          Configuration for the sequence mixer.
+        key:
+          JAX random key for initialization.
+        **kwargs:
+          Additional keyword arguments for specific sequence mixer implementations.
     """
 
     @abstractmethod
@@ -50,18 +60,7 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
         key: PRNGKeyArray,
         **kwargs,
     ):
-        """Initialize the sequence mixer.
-
-        Args:
-            in_features:
-              Input dimensionality.
-            cfg:
-              Configuration for the sequence mixer.
-            key:
-              JAX random key for initialization.
-            **kwargs:
-              Additional keyword arguments for specific sequence mixer implementations.
-        """
+        """Initialize the sequence mixer."""
 
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for sequence mixer parameters.

@@ -33,6 +33,14 @@ class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
     """Abstract base class for all encoders.
 
     This is the base class for all encoders.
+
+    Args:
+        out_features:
+          Output dimensionality.
+        cfg:
+          Configuration for the encoder.
+        key:
+          JAX random key for initialization.
     """
 
     @abstractmethod
@@ -42,18 +50,7 @@ class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
-        """Initialize the encoder.
-
-        Args:
-            out_features:
-              Output dimensionality.
-            cfg:
-              Configuration for the encoder.
-            key:
-              JAX random key for initialization.
-
-        """
-        pass
+        """Initialize the encoder."""
 
     @abstractmethod
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
@@ -68,7 +65,6 @@ class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
         Returns:
             Tuple containing the output tensor and updated state.
         """
-        pass
 
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for encoder parameters."""

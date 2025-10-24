@@ -58,6 +58,7 @@ class SSMConfig(ModelConfig):
         ```
     """
 
+    # FIXME: do we need this hidden dim or can it be inferred?
     hidden_dim: int
     encoder_config: EncoderConfig
     sequence_mixer_configs: list[SequenceMixerConfig]

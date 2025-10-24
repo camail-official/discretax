@@ -1,4 +1,4 @@
-"""Heads."""
+"""This module contains the heads implemented in Linax."""
 
 from linax.architecture.heads.base import Head, HeadConfig
 from linax.architecture.heads.classification import (

@@ -33,7 +33,18 @@ class BlockConfig(ABC):
 
 
 class Block[ConfigType: BlockConfig](eqx.Module, ABC):
-    """Abstract base class for all blocks."""
+    """Abstract base class for all blocks.
+
+    Args:
+        in_features:
+          Input features.
+        cfg:
+          Configuration for the block.
+        sequence_mixer:
+          The sequence mixer instance for this block.
+        key:
+          JAX random key for initialization.
+    """
 
     @abstractmethod
     def __init__(
@@ -43,18 +54,7 @@ class Block[ConfigType: BlockConfig](eqx.Module, ABC):
         sequence_mixer: SequenceMixer,
         key: PRNGKeyArray,
     ):
-        """Initialize the block.
-
-        Args:
-            in_features:
-              Input features.
-            cfg:
-              Configuration for the block.
-            sequence_mixer:
-              The sequence mixer instance for this block.
-            key:
-              JAX random key for initialization.
-        """
+        """Initialize the block."""
 
     @abstractmethod
     def __call__(
