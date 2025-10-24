@@ -1,5 +1,7 @@
 """Head base class."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -15,8 +17,18 @@ class HeadConfig(ABC):
     out_features: int
 
     @abstractmethod
-    def build(self, in_features: int, key: PRNGKeyArray) -> "Head":
-        """Build head from config."""
+    def build(self, in_features: int, key: PRNGKeyArray) -> Head:
+        """Build head from config.
+
+        Args:
+            in_features:
+              Input dimensionality.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The head instance.
+        """
         pass
 
 
