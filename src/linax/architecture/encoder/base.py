@@ -1,5 +1,7 @@
 """Encoder base class."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -13,9 +15,18 @@ class EncoderConfig(ABC):
     """Configuration for encoders."""
 
     @abstractmethod
-    def build(self, out_features: int, key: PRNGKeyArray) -> "Encoder":
-        """Build encoder from config."""
-        pass
+    def build(self, out_features: int, key: PRNGKeyArray) -> Encoder:
+        """Build encoder from config.
+
+        Args:
+            out_features:
+              Output dimensionality.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The encoder instance.
+        """
 
 
 class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
