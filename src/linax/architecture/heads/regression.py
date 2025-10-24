@@ -13,18 +13,28 @@ from linax.architecture.heads.base import Head, HeadConfig
 
 @dataclass(frozen=True)
 class RegressionHeadConfig(HeadConfig):
-    """Configuration for the regression head."""
+    """Configuration for the regression head.
+
+    Attributes:
+        out_features:
+          Output dimensionality (prediction dimension).
+    """
 
     def build(self, in_features: int, key: PRNGKeyArray) -> RegressionHead:
         """Build head from config.
 
         Args:
             in_features:
-              Input dimensionality.
+              Input dimensionality (hidden dimension).
             key:
               JAX random key for initialization.
+
+        Returns:
+            The regression head instance.
         """
-        return RegressionHead(in_features=in_features, cfg=self, key=key)
+        return RegressionHead(
+            in_features=in_features, out_features=self.out_features, cfg=self, key=key
+        )
 
 
 class RegressionHead[ConfigType: RegressionHeadConfig](Head):
@@ -36,6 +46,8 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
     Args:
         in_features:
           Input features.
+        out_features:
+          Output features.
         cfg:
           Configuration for the regression head.
         key:
@@ -48,11 +60,9 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
 
     linear: eqx.nn.Linear
 
-    def __init__(self, in_features: int, cfg: ConfigType, key: PRNGKeyArray):
+    def __init__(self, in_features: int, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
         """Initialize the regression head."""
-        self.linear = eqx.nn.Linear(
-            in_features=in_features, out_features=cfg.out_features, key=key
-        )
+        self.linear = eqx.nn.Linear(in_features=in_features, out_features=out_features, key=key)
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the regression head.

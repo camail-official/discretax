@@ -22,9 +22,9 @@ logger = logging.getLogger(__name__)
 class SSMConfig:
     """Low-level configuration for State Space Models.
 
-    This is a component-based configuration that provides fine-grained control over
-    the SSM architecture. You must explicitly specify configurations for each
-    component: encoder, sequence mixers, blocks, and head.
+    This is a fully modular, component-based configuration that provides fine-grained
+    control over the SSM architecture. Each component config contains its own dimension
+    parameters, making the configuration self-contained and composable.
 
     Use this when:
     - Building custom SSM architectures
@@ -35,16 +35,17 @@ class SSMConfig:
     `LinOSSConfig` which automatically compose the appropriate components.
 
     Attributes:
-        hidden_dim:
-          Dimensionality of the hidden state throughout the model.
         encoder_config:
-          Configuration for the encoder that processes input data.
+          Configuration for the encoder that processes input data. Must specify
+          in_features and out_features (hidden_dim).
         sequence_mixer_configs:
-          List of configurations for sequence mixers, one per block.
+          List of configurations for sequence mixers, one per block. Must be compatible
+          with encoder's out_features (hidden_dim).
         block_configs:
           List of configurations for blocks, one per sequence mixer.
         head_config:
-          Configuration for the output head.
+          Configuration for the output head. Must specify out_features. The in_features
+          will be automatically set to match the encoder's out_features.
 
     Raises:
         ValueError: If the number of sequence_mixer_configs and block_configs differ.
@@ -52,8 +53,7 @@ class SSMConfig:
     Example:
         ```python
         config = SSMConfig(
-            hidden_dim=128,
-            encoder_config=LinearEncoderConfig(in_features=784),
+            encoder_config=LinearEncoderConfig(in_features=784, out_features=128),
             sequence_mixer_configs=[LinOSSSequenceMixerConfig(state_dim=128)] * 4,
             block_configs=[LinOSSBlockConfig(drop_rate=0.1)] * 4,
             head_config=ClassificationHeadConfig(out_features=10),
@@ -62,8 +62,6 @@ class SSMConfig:
         ```
     """
 
-    # FIXME: do we need this hidden dim or can it be inferred?
-    hidden_dim: int
     encoder_config: EncoderConfig
     sequence_mixer_configs: list[SequenceMixerConfig]
     block_configs: list[BlockConfig]
@@ -71,6 +69,7 @@ class SSMConfig:
 
     def __post_init__(self):
         """Validate config."""
+        # Check number of configs match
         if len(self.sequence_mixer_configs) != len(self.block_configs):
             raise ValueError("sequence_mixer_configs and block_configs must have same length")
 
@@ -132,23 +131,28 @@ class SSM[ConfigType: SSMConfig](eqx.Module):
         num_blocks = len(cfg.block_configs)
         keys = jr.split(key, 2 * num_blocks + 2)
 
-        self.encoder = cfg.encoder_config.build(out_features=cfg.hidden_dim, key=keys[0])
+        # Build encoder from its config (config contains all dimension info)
+        self.encoder = cfg.encoder_config.build(key=keys[0])
+
+        # Get hidden_dim from encoder output
+        hidden_dim = cfg.encoder_config.out_features
 
         sequence_mixers = [
-            mixer_cfg.build(in_features=cfg.hidden_dim, key=keys[1 + i])
+            mixer_cfg.build(in_features=hidden_dim, key=keys[1 + i])
             for i, mixer_cfg in enumerate(cfg.sequence_mixer_configs)
         ]
 
         self.blocks = [
             block_cfg.build(
-                in_features=cfg.hidden_dim,
+                in_features=hidden_dim,
                 sequence_mixer=mixer,
                 key=keys[1 + num_blocks + i],
             )
             for i, (block_cfg, mixer) in enumerate(zip(cfg.block_configs, sequence_mixers))
         ]
 
-        self.head = cfg.head_config.build(in_features=cfg.hidden_dim, key=keys[-1])
+        # Build head from its config (pass in_features from encoder)
+        self.head = cfg.head_config.build(in_features=hidden_dim, key=keys[-1])
 
     def __call__(
         self, x: Array, state: eqx.nn.State, key: PRNGKeyArray

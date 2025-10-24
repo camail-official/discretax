@@ -74,14 +74,14 @@ class LinOSSConfig(SSMConfig):
         - Classification head for output
         """
         # Build the low-level component configs automatically
-        self.encoder_config = LinearEncoderConfig(in_features=self.in_features)
+        self.encoder_config = LinearEncoderConfig()
         self.sequence_mixer_configs = [
             LinOSSSequenceMixerConfig(state_dim=self.hidden_dim) for _ in range(self.num_blocks)
         ]
         self.block_configs = [
             LinOSSBlockConfig(drop_rate=self.drop_rate) for _ in range(self.num_blocks)
         ]
-        self.head_config = ClassificationHeadConfig(out_features=self.out_features)
+        self.head_config = ClassificationHeadConfig()
 
         # Call parent's __post_init__ for validation
         super().__post_init__()
@@ -91,7 +91,11 @@ if __name__ == "__main__":
     import jax.random as jr
 
     cfg = LinOSSConfig(
-        in_features=784, hidden_dim=64, out_features=10, num_blocks=4, drop_rate=0.1
+        in_features=784,
+        hidden_dim=64,
+        out_features=10,
+        num_blocks=3,
+        drop_rate=0.1,
     )
 
     linoss = cfg.build(key=jr.PRNGKey(0))

@@ -12,15 +12,22 @@ from jaxtyping import Array, PRNGKeyArray
 
 @dataclass(frozen=True)
 class EncoderConfig(ABC):
-    """Configuration for encoders."""
+    """Configuration for encoders.
+
+    Attributes:
+        in_features:
+          Input dimensionality. Semantic meaning depends on encoder type.
+        out_features:
+          Output dimensionality (hidden dimension).
+    """
+
+    out_features: int
 
     @abstractmethod
-    def build(self, out_features: int, key: PRNGKeyArray) -> Encoder:
+    def build(self, key: PRNGKeyArray) -> Encoder:
         """Build encoder from config.
 
         Args:
-            out_features:
-              Output dimensionality.
             key:
               JAX random key for initialization.
 

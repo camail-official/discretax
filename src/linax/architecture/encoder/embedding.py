@@ -13,48 +13,58 @@ from linax.architecture.encoder.base import Encoder, EncoderConfig
 
 @dataclass(frozen=True)
 class EmbeddingEncoderConfig(EncoderConfig):
-    """Configuration for the embedding encoder."""
+    """Configuration for the embedding encoder.
+
+    Attributes:
+        in_features:
+          Number of classes (vocabulary size). Inherited but semantically represents num_classes.
+        out_features:
+          Output dimensionality (embedding dimension).
+    """
 
     num_classes: int
 
-    def build(self, out_features: int, key: PRNGKeyArray) -> EmbeddingEncoder:
+    def build(self, key: PRNGKeyArray) -> EmbeddingEncoder:
         """Build encoder from config.
 
         Args:
-            out_features:
-              Output dimensionality.
             key:
               JAX random key for initialization.
 
         Returns:
             The encoder instance.
         """
-        return EmbeddingEncoder(out_features=out_features, cfg=self, key=key)
+        # in_features represents num_classes for embedding encoder
+        return EmbeddingEncoder(
+            num_classes=self.num_classes, out_features=self.out_features, cfg=self, key=key
+        )
 
 
 class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):
     """Embedding encoder.
 
-    This encoder takes an input of shape (timesteps, in_features)
-    and outputs a hidden representation of shape (timesteps, hidden_dim).
+    This encoder takes an input of shape (timesteps,)
+    and outputs a hidden representation of shape (timesteps, out_features).
 
     Attributes:
         embedding:
           Embedding layer.
 
     Args:
+        num_classes:
+          Number of classes (vocabulary size).
         out_features:
-          Output dimensionality.
+          Output dimensionality (embedding dimension).
         cfg:
           Configuration for the embedding encoder.
         key:
           JAX random key for initialization.
     """
 
-    def __init__(self, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
+    def __init__(self, num_classes: int, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
         """Initialize the embedding encoder."""
         self.embedding = eqx.nn.Embedding(
-            num_classes=cfg.num_classes, embedding_size=out_features, key=key
+            num_classes=num_classes, embedding_size=out_features, key=key
         )
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:

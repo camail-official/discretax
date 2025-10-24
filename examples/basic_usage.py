@@ -235,8 +235,7 @@ def example_6_high_vs_low_level_config():
     from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
     ssm_cfg = SSMConfig(
-        hidden_dim=64,
-        encoder_config=LinearEncoderConfig(in_features=32),
+        encoder_config=LinearEncoderConfig(in_features=32, out_features=64),
         sequence_mixer_configs=[LinOSSSequenceMixerConfig(state_dim=64)] * 4,
         block_configs=[LinOSSBlockConfig(drop_rate=0.1)] * 4,
         head_config=ClassificationHeadConfig(out_features=10),
@@ -266,8 +265,7 @@ def example_7_model_summary():
     from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
 
     ssm_config = SSMConfig(
-        hidden_dim=32,
-        encoder_config=LinearEncoderConfig(in_features=100),
+        encoder_config=LinearEncoderConfig(in_features=100, out_features=32),
         sequence_mixer_configs=[LinOSSSequenceMixerConfig(state_dim=32)] * 2,
         block_configs=[LinOSSBlockConfig(drop_rate=0.2)] * 2,
         head_config=ClassificationHeadConfig(out_features=5),

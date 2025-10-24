@@ -14,21 +14,28 @@ from linax.architecture.heads.base import Head, HeadConfig
 
 @dataclass(frozen=True)
 class ClassificationHeadConfig(HeadConfig):
-    """Configuration for the classification head."""
+    """Configuration for the classification head.
+
+    Attributes:
+        out_features:
+          Output dimensionality (number of classes).
+    """
 
     def build(self, in_features: int, key: PRNGKeyArray) -> ClassificationHead:
         """Build head from config.
 
         Args:
             in_features:
-              Input dimensionality.
+              Input dimensionality (hidden dimension).
             key:
               JAX random key for initialization.
 
         Returns:
             The classification head instance.
         """
-        return ClassificationHead(in_features=in_features, cfg=self, key=key)
+        return ClassificationHead(
+            in_features=in_features, out_features=self.out_features, cfg=self, key=key
+        )
 
 
 class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
@@ -40,6 +47,8 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
     Args:
         in_features:
           Input features.
+        out_features:
+          Output features.
         cfg:
           Configuration for the classification head.
         key:
@@ -56,13 +65,12 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
     def __init__(
         self,
         in_features: int,
+        out_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
         """Initialize the classification head."""
-        self.linear = eqx.nn.Linear(
-            in_features=in_features, out_features=cfg.out_features, key=key
-        )
+        self.linear = eqx.nn.Linear(in_features=in_features, out_features=out_features, key=key)
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the classification head.

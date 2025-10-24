@@ -13,24 +13,33 @@ from linax.architecture.encoder.base import Encoder, EncoderConfig
 
 @dataclass(frozen=True)
 class LinearEncoderConfig(EncoderConfig):
-    """Configuration for the linear encoder."""
+    """Configuration for the linear encoder.
+
+    Attributes:
+        in_features:
+          Input dimensionality (number of input features).
+        out_features:
+          Output dimensionality (hidden dimension).
+        use_bias:
+          Whether to use bias in the linear layer.
+    """
 
     in_features: int
     use_bias: bool = False
 
-    def build(self, out_features: int, key: PRNGKeyArray) -> LinearEncoder:
+    def build(self, key: PRNGKeyArray) -> LinearEncoder:
         """Build encoder from config.
 
         Args:
-            out_features:
-              Output dimensionality.
             key:
               JAX random key for initialization.
 
         Returns:
             The encoder instance.
         """
-        return LinearEncoder(out_features=out_features, cfg=self, key=key)
+        return LinearEncoder(
+            in_features=self.in_features, out_features=self.out_features, cfg=self, key=key
+        )
 
 
 class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
@@ -44,6 +53,8 @@ class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
           MLP instance with multiple hidden layers and a last linear layer.
 
     Args:
+        in_features:
+          Input dimensionality.
         out_features:
           Output dimensionality.
         cfg:
@@ -54,10 +65,10 @@ class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
 
     linear: eqx.nn.Linear
 
-    def __init__(self, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
+    def __init__(self, in_features: int, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
         """Initialize the linear encoder."""
         self.linear = eqx.nn.Linear(
-            in_features=cfg.in_features,
+            in_features=in_features,
             out_features=out_features,
             key=key,
             use_bias=cfg.use_bias,

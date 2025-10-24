@@ -12,7 +12,12 @@ from jaxtyping import Array, PRNGKeyArray
 
 @dataclass(frozen=True)
 class HeadConfig(ABC):
-    """Configuration for heads."""
+    """Configuration for heads.
+
+    Attributes:
+        out_features:
+          Output dimensionality (e.g., number of classes).
+    """
 
     out_features: int
 
@@ -22,7 +27,7 @@ class HeadConfig(ABC):
 
         Args:
             in_features:
-              Input dimensionality.
+              Input dimensionality (from encoder's hidden dimension).
             key:
               JAX random key for initialization.
 
@@ -49,6 +54,7 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
     def __init__(
         self,
         in_features: int,
+        out_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
     ):
