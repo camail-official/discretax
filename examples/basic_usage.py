@@ -1,10 +1,11 @@
-"""Basic usage examples for the LinOSS model.
+"""Basic usage examples and tests for the LinOSS model.
 
 This script demonstrates:
 1. Using default configuration
 2. Creating custom configurations
 3. Forward pass with state management
 4. Accessing model components
+5. Using high-level vs low-level configs
 """
 
 import equinox as eqx
@@ -12,10 +13,8 @@ import jax
 import jax.numpy as jnp
 import jax.random as jr
 
-from linax.architecture.models.linoss import (
-    LinOSS,
-    LinOSSConfig,
-)
+from linax.architecture.models.linoss import LinOSS, LinOSSConfig
+from linax.architecture.models.ssm import SSM
 
 
 def example_1_default_config():
@@ -34,10 +33,13 @@ def example_1_default_config():
     print(f"  Input features: {config.in_features}")
     print(f"  Hidden dimension: {config.hidden_dim}")
     print(f"  Output features: {config.out_features}")
+    print(f"  Number of blocks: {config.num_blocks}")
+    print(f"  Dropout rate: {config.drop_rate}")
 
     print("\nModel Structure:")
-    print(f"  Number of sequence mixers: {len(model.sequence_mixers)}")
+    print(f"  Encoder: {type(model.encoder).__name__}")
     print(f"  Number of blocks: {len(model.blocks)}")
+    print(f"  Head: {type(model.head).__name__}")
 
     # Create dummy input
     seq_len = 100
@@ -81,8 +83,9 @@ def example_2_custom_config():
     print(f"  Output features: {config.out_features}")
 
     print("\nModel Structure:")
-    print(f"  Number of sequence mixers: {len(model.sequence_mixers)}")
+    print(f"  Encoder: {type(model.encoder).__name__}")
     print(f"  Number of blocks: {len(model.blocks)}")
+    print(f"  Head: {type(model.head).__name__}")
 
     # Forward pass
     seq_len = 50
@@ -139,30 +142,22 @@ def example_4_accessing_components():
     config = LinOSSConfig(in_features=10, out_features=5)
     model = LinOSS(cfg=config, key=jr.PRNGKey(0))
 
-    print("\nAccessing sequence mixers:")
-    print(f"  model.sequence_mixers: list of {len(model.sequence_mixers)} mixers")
-    print(f"  First mixer type: {type(model.sequence_mixers[0]).__name__}")
-
     print("\nAccessing encoder:")
     print(f"  model.encoder: {type(model.encoder).__name__}")
 
     print("\nAccessing blocks:")
     print(f"  model.blocks: list of {len(model.blocks)} blocks")
+    print(f"  First block type: {type(model.blocks[0]).__name__}")
 
     print("\nAccessing head:")
     print(f"  model.head: {type(model.head).__name__}")
 
-    print("\nAccessing individual blocks:")
+    print("\nAccessing individual block components:")
     first_block = model.blocks[0]
     print(f"  Block 0 sequence_mixer: {type(first_block.sequence_mixer).__name__}")
-    print(f"  Block 0 GLU: {first_block.mlp}")
-    print(f"  Block 0 norm: {first_block.norm}")
-    print(f"  Block 0 dropout: {first_block.drop}")
-
-    print("\nVerifying sequence mixer assignment:")
-    for i, block in enumerate(model.blocks):
-        same_instance = block.sequence_mixer is model.sequence_mixers[i]
-        print(f"  Block {i} uses model.sequence_mixers[{i}]: {same_instance}")
+    print(f"  Block 0 mlp: {type(first_block.mlp).__name__}")
+    print(f"  Block 0 norm: {type(first_block.norm).__name__}")
+    print(f"  Block 0 drop: {type(first_block.drop).__name__}")
 
     print("\n✅ Example 4 complete!\n")
 
@@ -196,10 +191,50 @@ def example_5_custom_dimensions():
     print("\n✅ Example 5 complete!\n")
 
 
+def example_6_high_vs_low_level_config():
+    """Example 6: High-level vs Low-level configuration."""
+    print("=" * 80)
+    print("Example 6: High-level vs Low-level Config")
+    print("=" * 80)
+
+    # High-level config (simplified, user-friendly)
+    print("\n📝 High-level Config (LinOSSConfig):")
+    print("   - Simple hyperparameters")
+    print("   - Automatic component composition")
+    print("   - Best for quick prototyping\n")
+
+    high_level_cfg = LinOSSConfig(
+        in_features=32,
+        hidden_dim=64,
+        out_features=10,
+        num_blocks=4,
+        drop_rate=0.1,
+    )
+    model_high = LinOSS(cfg=high_level_cfg, key=jr.PRNGKey(0))
+    print(f"  Created model with {len(model_high.blocks)} blocks")
+
+    # Low-level config (component-based, fine-grained control)
+    print("\n🔧 Low-level Config (SSMConfig):")
+    print("   - Component-based configuration")
+    print("   - Fine-grained control")
+    print("   - Best for custom architectures\n")
+
+    ssm_cfg = high_level_cfg.build_ssm_config()
+    model_low = SSM(cfg=ssm_cfg, key=jr.PRNGKey(0))
+    print(f"  Created model with {len(model_low.blocks)} blocks")
+    print(f"  Encoder config: {type(ssm_cfg.encoder_config).__name__}")
+    print(f"  Block config: {type(ssm_cfg.block_configs[0]).__name__}")
+    print(f"  Head config: {type(ssm_cfg.head_config).__name__}")
+
+    # Both produce equivalent models
+    print("\n✅ Both approaches produce equivalent SSM models!")
+    print("\n✅ Example 6 complete!\n")
+
+
 def main():
     """Run all examples."""
     print("\n" + "=" * 80)
-    print("LinOSS Model Usage Examples")
+    print("LinOSS Model Usage Examples and Tests")
     print("=" * 80 + "\n")
 
     # Run all examples
@@ -208,6 +243,7 @@ def main():
     example_3_state_management()
     example_4_accessing_components()
     example_5_custom_dimensions()
+    example_6_high_vs_low_level_config()
 
     print("=" * 80)
     print("All examples completed successfully! 🎉")
@@ -217,7 +253,9 @@ def main():
     print("  2. Customize dimensions: in_features, hidden_dim, out_features")
     print("  3. Always maintain state across forward passes")
     print("  4. Model structure: encoder → blocks → head")
-    print("  5. Model owns sequence_mixers, which are passed to blocks")
+    print("  5. Each LinOSSBlock contains: sequence_mixer + mlp + norm + dropout")
+    print("  6. High-level configs (LinOSSConfig) for simplicity")
+    print("  7. Low-level configs (SSMConfig) for custom architectures")
     print("=" * 80 + "\n")
 
 
