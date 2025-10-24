@@ -1,5 +1,7 @@
 """Embedding encoder."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 import equinox as eqx
@@ -14,6 +16,20 @@ class EmbeddingEncoderConfig(EncoderConfig):
     """Configuration for the embedding encoder."""
 
     num_classes: int
+
+    def build(self, out_features: int, key: PRNGKeyArray) -> EmbeddingEncoder:
+        """Build encoder from config.
+
+        Args:
+            out_features:
+              Output dimensionality.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The encoder instance.
+        """
+        return EmbeddingEncoder(out_features=out_features, cfg=self, key=key)
 
 
 class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):
