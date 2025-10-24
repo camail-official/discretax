@@ -1,5 +1,7 @@
 """Block base class."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
@@ -14,10 +16,20 @@ class BlockConfig(ABC):
     """Configuration for blocks."""
 
     @abstractmethod
-    def build(
-        self, in_features: int, sequence_mixer: "SequenceMixer", key: PRNGKeyArray
-    ) -> "Block":
-        """Build block from config."""
+    def build(self, in_features: int, sequence_mixer: SequenceMixer, key: PRNGKeyArray) -> Block:
+        """Build block from config.
+
+        Args:
+            in_features:
+              Input features.
+            sequence_mixer:
+              The sequence mixer instance for this block.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The block instance.
+        """
         pass
 
 
