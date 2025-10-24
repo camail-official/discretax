@@ -15,7 +15,23 @@ from linax.architecture.sequence_mixers.base import SequenceMixerConfig
 
 @dataclass
 class SSMConfig(ModelConfig):
-    """Configuration for SSM models."""
+    """Configuration for SSM models.
+
+    Attributes:
+        hidden_dim:
+          Dimensionality of the hidden state.
+        encoder_config:
+          Configuration for the encoder.
+        sequence_mixer_configs:
+          Configuration for the sequence mixers.
+        block_configs:
+          Configuration for the blocks.
+        head_config:
+          Configuration for the head.
+
+    Raises:
+        ValueError: If the number of sequence mixers and blocks is not the same.
+    """
 
     hidden_dim: int
     encoder_config: EncoderConfig
@@ -30,7 +46,22 @@ class SSMConfig(ModelConfig):
 
 
 class SSM[ConfigType: SSMConfig](AbstractModel):
-    """General SSM model."""
+    """General SSM model.
+
+    Args:
+        cfg:
+          Configuration for the SSM model.
+        key:
+          JAX random key for initialization.
+
+    Attributes:
+        encoder:
+          Encoder instance.
+        blocks:
+          List of blocks.
+        head:
+          Head instance.
+    """
 
     encoder: Encoder
     blocks: list[Block]
