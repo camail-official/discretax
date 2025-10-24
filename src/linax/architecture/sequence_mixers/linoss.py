@@ -3,6 +3,8 @@
 See: https://arxiv.org/pdf/2410.03943
 """
 
+from __future__ import annotations
+
 import math
 from dataclasses import dataclass
 from typing import Literal
@@ -45,8 +47,18 @@ class LinOSSSequenceMixerConfig(SequenceMixerConfig):
     r_min: float = 0.9
     theta_max: float = jnp.pi
 
-    def build(self, in_features: int, key: PRNGKeyArray) -> "LinOSSSequenceMixer":
-        """Build sequence mixer from config."""
+    def build(self, in_features: int, key: PRNGKeyArray) -> LinOSSSequenceMixer:
+        """Build sequence mixer from config.
+
+        Args:
+            in_features:
+              Input dimensionality.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The sequence mixer instance.
+        """
         return LinOSSSequenceMixer(in_features=in_features, cfg=self, key=key)
 
 
