@@ -16,10 +16,8 @@ class EmbeddingEncoderConfig(EncoderConfig):
     """Configuration for the embedding encoder.
 
     Attributes:
-        in_features:
-          Number of classes (vocabulary size). Inherited but semantically represents num_classes.
-        out_features:
-          Output dimensionality (embedding dimension).
+        num_classes: Number of classes (vocabulary size).
+        out_features: Output dimensionality (embedding dimension).
     """
 
     num_classes: int
@@ -28,8 +26,7 @@ class EmbeddingEncoderConfig(EncoderConfig):
         """Build encoder from config.
 
         Args:
-            key:
-              JAX random key for initialization.
+            key: JAX random key for initialization.
 
         Returns:
             The encoder instance.
@@ -46,19 +43,14 @@ class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):
     This encoder takes an input of shape (timesteps,)
     and outputs a hidden representation of shape (timesteps, out_features).
 
-    Attributes:
-        embedding:
-          Embedding layer.
-
     Args:
-        num_classes:
-          Number of classes (vocabulary size).
-        out_features:
-          Output dimensionality (embedding dimension).
-        cfg:
-          Configuration for the embedding encoder.
-        key:
-          JAX random key for initialization.
+        num_classes: Number of classes (vocabulary size).
+        out_features: Output dimensionality (embedding dimension).
+        cfg: Configuration for the embedding encoder.
+        key: JAX random key for initialization.
+
+    Attributes:
+        embedding: Embedding layer.
     """
 
     def __init__(self, num_classes: int, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
@@ -73,10 +65,8 @@ class EmbeddingEncoder[ConfigType: EmbeddingEncoderConfig](Encoder):
         This forward pass applies the embedding layer to the input.
 
         Args:
-            x:
-              Input tensor.
-            state:
-              Current state for stateful layers.
+            x: Input tensor.
+            state: Current state for stateful layers.
 
         Returns:
             Tuple containing the output tensor and updated state.

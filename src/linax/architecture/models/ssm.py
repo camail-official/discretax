@@ -35,17 +35,13 @@ class SSMConfig:
     `LinOSSConfig` which automatically compose the appropriate components.
 
     Attributes:
-        encoder_config:
-          Configuration for the encoder that processes input data. Must specify
-          in_features and out_features (hidden_dim).
-        sequence_mixer_configs:
-          List of configurations for sequence mixers, one per block. Must be compatible
-          with encoder's out_features (hidden_dim).
-        block_configs:
-          List of configurations for blocks, one per sequence mixer.
-        head_config:
-          Configuration for the output head. Must specify out_features. The in_features
-          will be automatically set to match the encoder's out_features.
+        encoder_config: Configuration for the encoder that processes input data.
+        Must specify in_features and out_features (hidden_dim).
+        sequence_mixer_configs: List of configurations for sequence mixers, one per block.
+            Must be compatible with encoder's out_features (hidden_dim).
+        block_configs: List of configurations for blocks, one per sequence mixer.
+        head_config: Configuration for the output head. Must specify out_features.
+            The in_features will be automatically set to match the encoder's out_features.
 
     Raises:
         ValueError: If the number of sequence_mixer_configs and block_configs differ.
@@ -77,8 +73,7 @@ class SSMConfig:
         """Build an SSM model from this configuration.
 
         Args:
-            key:
-              JAX random key for parameter initialization.
+            key: JAX random key for parameter initialization.
 
         Returns:
             Instantiated SSM model.
@@ -109,18 +104,13 @@ class SSM[ConfigType: SSMConfig](eqx.Module):
     3. Head: Produces final output (classification, regression, etc.)
 
     Args:
-        cfg:
-          Low-level configuration specifying all components (see `SSMConfig`).
-        key:
-          JAX random key for parameter initialization.
+        cfg: Low-level configuration specifying all components (see `SSMConfig`).
+        key: JAX random key for parameter initialization.
 
     Attributes:
-        encoder:
-          The encoder instance that processes raw inputs.
-        blocks:
-          List of block instances, each containing a sequence mixer and channel mixer.
-        head:
-          The output head instance that produces final predictions.
+        encoder: The encoder instance that processes raw inputs.
+        blocks: List of block instances, each containing a sequence mixer and channel mixer.
+        head: The output head instance that produces final predictions.
     """
 
     encoder: Encoder
@@ -160,12 +150,9 @@ class SSM[ConfigType: SSMConfig](eqx.Module):
         """Forward pass of the SSM model.
 
         Args:
-            x:
-              Input tensor.
-            state:
-              Current state for stateful layers.
-            key:
-              JAX random key for operations.
+            x: Input tensor.
+            state: Current state for stateful layers.
+            key: JAX random key for operations.
 
         Returns:
             Tuple containing the output tensor and updated state.

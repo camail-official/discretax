@@ -20,8 +20,7 @@ class LinOSSBlockConfig(BlockConfig):
     """Configuration for the LinOSS block.
 
     Attributes:
-        drop_rate:
-          Dropout rate for the GLU.
+        drop_rate: Dropout rate for the GLU.
     """
 
     drop_rate: float = 0.1
@@ -32,12 +31,9 @@ class LinOSSBlockConfig(BlockConfig):
         """Build block from config.
 
         Args:
-            in_features:
-              Input features.
-            sequence_mixer:
-              The sequence mixer instance for this block.
-            key:
-              JAX random key for initialization of layers.
+            in_features: Input features.
+            sequence_mixer: The sequence mixer instance for this block.
+            key: JAX random key for initialization of layers.
 
         Returns:
             The LinOSS block instance.
@@ -53,14 +49,10 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
     This block implements a sequence mixer, normalization layers, and a GLU-based MLP.
 
     Attributes:
-        norm:
-          LayerNorm layer applied after the sequence mixer.
-        sequence_mixer:
-          The sequence mixing mechanism for sequence processing.
-        mlp:
-          GLU-based feed-forward network.
-        drop:
-          Dropout layer applied after the GLU.
+        norm: LayerNorm layer applied after the sequence mixer.
+        sequence_mixer: The sequence mixing mechanism for sequence processing.
+        mlp: GLU-based feed-forward network.
+        drop: Dropout layer applied after the GLU.
     """
 
     norm: eqx.nn.LayerNorm
@@ -79,14 +71,10 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
         """Initialize the LinOSS block.
 
         Args:
-            in_features:
-              Input features.
-            cfg:
-              Configuration for the LinOSS block.
-            sequence_mixer:
-              The sequence mixer instance for this block.
-            key:
-              JAX random key for initialization of layers.
+            in_features: Input features.
+            cfg: Configuration for the LinOSS block.
+            sequence_mixer: The sequence mixer instance for this block.
+            key: JAX random key for initialization of layers.
         """
         # TODO: make this a BatchNorm (I think this is what the original implementation does)
         self.norm = eqx.nn.LayerNorm(shape=in_features)
@@ -105,12 +93,9 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
         """Apply the LinOSS block to the input sequence.
 
         Args:
-            x:
-              Input tensor of shape (timesteps, hidden_dim).
-            state:
-              Current state for stateful normalization layers.
-            key:
-              JAX random key for dropout operations.
+            x: Input tensor of shape (timesteps, hidden_dim).
+            state: Current state for stateful normalization layers.
+            key: JAX random key for dropout operations.
 
         Returns:
             Tuple containing the output tensor and updated state.

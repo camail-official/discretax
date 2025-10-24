@@ -16,18 +16,15 @@ class RegressionHeadConfig(HeadConfig):
     """Configuration for the regression head.
 
     Attributes:
-        out_features:
-          Output dimensionality (prediction dimension).
+        out_features: Output dimensionality (prediction dimension).
     """
 
     def build(self, in_features: int, key: PRNGKeyArray) -> RegressionHead:
         """Build head from config.
 
         Args:
-            in_features:
-              Input dimensionality (hidden dimension).
-            key:
-              JAX random key for initialization.
+            in_features: Input dimensionality (hidden dimension).
+            key: JAX random key for initialization.
 
         Returns:
             The regression head instance.
@@ -44,18 +41,13 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
     and outputs a regression of shape (out_features).
 
     Args:
-        in_features:
-          Input features.
-        out_features:
-          Output features.
-        cfg:
-          Configuration for the regression head.
-        key:
-          JAX random key for initialization.
+        in_features: Input features.
+        out_features: Output features.
+        cfg: Configuration for the regression head.
+        key: JAX random key for initialization.
 
     Attributes:
-        linear:
-          Linear layer.
+        linear: Linear layer.
     """
 
     linear: eqx.nn.Linear
@@ -71,10 +63,8 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
         and returns the mean of the output.
 
         Args:
-            x:
-              Input tensor.
-            state:
-              Current state for stateful layers.
+            x: Input tensor.
+            state: Current state for stateful layers.
 
         Returns:
             Tuple containing the output tensor and updated state.

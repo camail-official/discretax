@@ -28,16 +28,11 @@ class LinOSSSequenceMixerConfig(SequenceMixerConfig):
     It includes options for the model's architecture, training parameters, and behavior.
 
     Attributes:
-        state_dim:
-          Dimensionality of the state space.
-        discretization:
-          Discretization method to use.
-        damping:
-          Whether to use damping.
-        r_min:
-          Minimum value for the radius.
-        theta_max:
-          Maximum value for the theta parameter.
+        state_dim: Dimensionality of the state space.
+        discretization: Discretization method to use.
+        damping: Whether to use damping.
+        r_min: Minimum value for the radius.
+        theta_max: Maximum value for the theta parameter.
     """
 
     state_dim: int = 64
@@ -51,10 +46,8 @@ class LinOSSSequenceMixerConfig(SequenceMixerConfig):
         """Build sequence mixer from config.
 
         Args:
-            in_features:
-              Input dimensionality.
-            key:
-              JAX random key for initialization.
+            in_features: Input dimensionality.
+            key: JAX random key for initialization.
 
         Returns:
             The sequence mixer instance.
@@ -68,22 +61,14 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
     This layer implements the LinOSS sequence mixer.
 
     Attributes:
-        A_diag:
-          Diagonal state matrix.
-        G_diag:
-          Diagonal damping matrix.
-        B:
-          Input matrix.
-        C:
-          Output matrix.
-        D:
-          Output matrix.
-        steps:
-          Step sizes for the sequence mixer.
-        discretization:
-          Discretization method to use.
-        damping:
-          Whether to use damping.
+        A_diag: Diagonal state matrix.
+        G_diag: Diagonal damping matrix.
+        B: Input matrix.
+        C: Output matrix.
+        D: Output matrix.
+        steps: Step sizes for the sequence mixer.
+        discretization: Discretization method to use.
+        damping: Whether to use damping.
     """
 
     A_diag: jax.Array
@@ -104,12 +89,9 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
         """Initialize the LinOSS sequence mixer layer.
 
         Args:
-            in_features:
-              Input dimensionality.
-            cfg:
-              Configuration for the LinOSS sequence mixer.
-            key:
-              JAX random key for initialization.
+            in_features: Input dimensionality.
+            cfg: Configuration for the LinOSS sequence mixer.
+            key: JAX random key for initialization.
         """
         A_key, G_key, B_key, C_key, D_key, step_key, key = jr.split(key, 7)
 
@@ -150,10 +132,8 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
         """Forward pass of the LinOSS sequence mixer layer.
 
         Args:
-            x:
-              Input sequence of features.
-            key:
-              JAX random key for initialization.
+            x: Input sequence of features.
+            key: JAX random key for initialization.
 
         Returns:
             The output of the LinOSS sequence mixer.
@@ -206,12 +186,9 @@ def _simple_uniform_init(rng, shape, std=1.0):
     This function initializes the weights of a linear layer using a simple uniform distribution.
 
     Args:
-        rng:
-          JAX random key for initialization.
-        shape:
-          Shape of the weights.
-        std:
-          Standard deviation of the weight initialization.
+        rng: JAX random key for initialization.
+        shape: Shape of the weights.
+        std: Standard deviation of the weight initialization.
 
     Returns:
         Weights initialized using a simple uniform distribution.
@@ -226,12 +203,9 @@ def _map_theta_to_A(thetas, G_diag, steps):  # noqa: N802
     This function computes the diagonal state matrix A for damped LinOSS-IMEX.
 
     Args:
-        thetas:
-          Theta parameter values.
-        G_diag:
-          Diagonal damping matrix.
-        steps:
-          Discretization time-steps.
+        thetas: Theta parameter values.
+        G_diag: Diagonal damping matrix.
+        steps: Discretization time-steps.
 
     Returns:
         Diagonal state matrix A computed from the input parameters.
@@ -276,13 +250,11 @@ def _binary_operator(q_i, q_j):  # noqa: N802
     This function implements the binary operator for the parallel scan of the linear recurrence.
 
     Args:
-        q_i:
-          Tuple containing A_i and b_i at position i
-        q_j:
-          Tuple containing A_j and b_j at position j
+        q_i: Tuple containing A_i and b_i at position i.
+        q_j: Tuple containing A_j and b_j at position j.
 
     Returns:
-        The binary operator applied to the input
+        The binary operator applied to the input.
     """
     A_i, b_i = q_i
     A_j, b_j = q_j
@@ -318,13 +290,11 @@ def _make_linoss_im_recurrence(A_diag, step):  # noqa: N802
     This function computes the state transition matrix for LinOSS-IM.
 
     Args:
-        A_diag:
-          Diagonal state matrix
-        step:
-          Discretization time-step
+        A_diag: Diagonal state matrix.
+        step: Discretization time-step.
 
     Returns:
-        The state transition matrix for LinOSS-IM
+        The state transition matrix for LinOSS-IM.
     """
     S = 1.0 / (1.0 + step**2.0 * A_diag)
     M_11 = jnp.diag(1.0 - step**2.0 * A_diag * S)
@@ -344,13 +314,11 @@ def _make_linoss_imex_recurrence(A_diag, step):  # noqa: N802
     This function computes the state transition matrix for LinOSS-IMEX.
 
     Args:
-        A_diag:
-          Diagonal state matrix
-        step:
-          Discretization time-step
+        A_diag: Diagonal state matrix.
+        step: Discretization time-step.
 
     Returns:
-        The state transition matrix for LinOSS-IMEX
+        The state transition matrix for LinOSS-IMEX.
     """
     M_11 = jnp.diag(jnp.ones_like(A_diag))
     M_12 = jnp.diag(-1.0 * step * A_diag)
@@ -368,15 +336,12 @@ def _make_damped_linoss_imex_recurrence(A_diag, G_diag, step):  # noqa: N802
     This function computes the state transition matrix for Damped LinOSS-IMEX.
 
     Args:
-        A_diag:
-          Diagonal state matrix
-        G_diag:
-          Diagonal damping matrix
-        step:
-          Discretization time-step
+        A_diag: Diagonal state matrix.
+        G_diag: Diagonal damping matrix.
+        step: Discretization time-step.
 
     Returns:
-        The state transition matrix for Damped LinOSS-IMEX
+        The state transition matrix for Damped LinOSS-IMEX.
     """
     I = jnp.ones_like(A_diag)
     S = I + step * G_diag
@@ -396,14 +361,10 @@ def _apply_linoss_im(A_diag, B, x, step):  # noqa: N802
     This function computes the output of the LinOSS-IM sequence mixer.
 
     Args:
-        A_diag:
-          Diagonal state matrix
-        B:
-          Input matrix
-        x:
-          Input sequence of features
-        step:
-          Discretization time-step
+        A_diag: Diagonal state matrix.
+        B: Input matrix.
+        x: Input sequence of features.
+        step: Discretization time-step.
 
     Returns:
         The output of the LinOSS-IM sequence mixer at a specific time step.
@@ -436,14 +397,10 @@ def _apply_linoss_imex(A_diag, B, x, step):  # noqa: N802
     This function computes the output of the LinOSS-IMEX sequence mixer.
 
     Args:
-        A_diag:
-          Diagonal state matrix
-        B:
-          Input matrix
-        x:
-          Input sequence of features
-        step:
-          Discretization time-step
+        A_diag: Diagonal state matrix.
+        B: Input matrix.
+        x: Input sequence of features.
+        step: Discretization time-step.
 
     Returns:
         The output of the LinOSS-IMEX sequence mixer.
@@ -475,16 +432,11 @@ def _apply_damped_linoss_imex(A_diag, G_diag, B, x, step):  # noqa: N802
     This function computes the output of the Damped LinOSS-IMEX sequence mixer.
 
     Args:
-        A_diag:
-          Diagonal state matrix
-        G_diag:
-          Diagonal damping matrix
-        B:
-          Input matrix
-        x:
-          Input sequence of features
-        step:
-          Discretization time-step
+        A_diag: Diagonal state matrix.
+        G_diag: Diagonal damping matrix.
+        B: Input matrix.
+        x: Input sequence of features.
+        step: Discretization time-step.
 
     Returns:
         The output of the Damped LinOSS-IMEX sequence mixer.

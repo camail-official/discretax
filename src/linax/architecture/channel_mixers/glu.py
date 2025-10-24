@@ -12,19 +12,14 @@ from jaxtyping import Array, PRNGKeyArray
 class GLU(eqx.Module):
     """Gated Linear Unit (GLU) layer.
 
-    Attributes:
-        w1:
-          First linear layer.
-        w2:
-          Second linear layer.
-
     Args:
-        input_dim:
-          Dimensionality of the input features.
-        output_dim:
-          Dimensionality of the output features.
-        key:
-          JAX random key for initialization.
+        input_dim: Dimensionality of the input features.
+        output_dim: Dimensionality of the output features.
+        key: JAX random key for initialization.
+
+    Attributes:
+        w1: First linear layer.
+        w2: Second linear layer.
 
     Source:
         https://arxiv.org/pdf/2002.05202
@@ -44,8 +39,7 @@ class GLU(eqx.Module):
         """Forward pass of the GLU layer.
 
         Args:
-            x:
-              Input tensor.
+            x: Input tensor.
 
         Returns:
             Output tensor after applying gated linear transformation.

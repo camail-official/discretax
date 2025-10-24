@@ -15,10 +15,8 @@ class EncoderConfig(ABC):
     """Configuration for encoders.
 
     Attributes:
-        in_features:
-          Input dimensionality. Semantic meaning depends on encoder type.
-        out_features:
-          Output dimensionality (hidden dimension).
+        in_features: Input dimensionality. Semantic meaning depends on encoder type.
+        out_features: Output dimensionality (hidden dimension).
     """
 
     out_features: int
@@ -28,8 +26,7 @@ class EncoderConfig(ABC):
         """Build encoder from config.
 
         Args:
-            key:
-              JAX random key for initialization.
+            key: JAX random key for initialization.
 
         Returns:
             The encoder instance.
@@ -42,12 +39,9 @@ class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
     This is the base class for all encoders.
 
     Args:
-        out_features:
-          Output dimensionality.
-        cfg:
-          Configuration for the encoder.
-        key:
-          JAX random key for initialization.
+        out_features: Output dimensionality.
+        cfg: Configuration for the encoder.
+        key: JAX random key for initialization.
     """
 
     @abstractmethod
@@ -64,10 +58,8 @@ class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
         """Forward pass of the encoder.
 
         Args:
-            x:
-              Input tensor.
-            state:
-              Current state for stateful layers.
+            x: Input tensor.
+            state: Current state for stateful layers.
 
         Returns:
             Tuple containing the output tensor and updated state.

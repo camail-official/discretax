@@ -15,8 +15,7 @@ class HeadConfig(ABC):
     """Configuration for heads.
 
     Attributes:
-        out_features:
-          Output dimensionality (e.g., number of classes).
+        out_features: Output dimensionality (e.g., number of classes).
     """
 
     out_features: int
@@ -26,10 +25,8 @@ class HeadConfig(ABC):
         """Build head from config.
 
         Args:
-            in_features:
-              Input dimensionality (from encoder's hidden dimension).
-            key:
-              JAX random key for initialization.
+            in_features: Input dimensionality (from encoder's hidden dimension).
+            key: JAX random key for initialization.
 
         Returns:
             The head instance.
@@ -42,12 +39,9 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
     This is the base class for all heads in Linax.
 
     Args:
-        in_features:
-          Input dimensionality.
-        cfg:
-          Configuration for the head.
-        key:
-          JAX random key for initialization.
+        in_features: Input dimensionality.
+        cfg: Configuration for the head.
+        key: JAX random key for initialization.
     """
 
     @abstractmethod
@@ -69,10 +63,8 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
         """Forward pass of the head.
 
         Args:
-            x:
-              Input tensor.
-            state:
-              Current state for stateful layers.
+            x: Input tensor.
+            state: Current state for stateful layers.
 
         Returns:
             Tuple containing the output tensor and updated state.

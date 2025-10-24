@@ -15,8 +15,7 @@ class SequenceMixerConfig(ABC):
     """Configuration for sequence mixers.
 
     Attributes:
-        state_dim:
-          Dimensionality of the state space.
+        state_dim: Dimensionality of the state space.
     """
 
     state_dim: int
@@ -26,10 +25,8 @@ class SequenceMixerConfig(ABC):
         """Build sequence mixer from config.
 
         Args:
-            in_features:
-              Input dimensionality.
-            key:
-              JAX random key for initialization.
+            in_features: Input dimensionality.
+            key: JAX random key for initialization.
 
         Returns:
             The sequence mixer instance.
@@ -42,14 +39,10 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
     This class is used to define the interface for all sequence mixers.
 
     Args:
-        in_features:
-          Input dimensionality.
-        cfg:
-          Configuration for the sequence mixer.
-        key:
-          JAX random key for initialization.
-        **kwargs:
-          Additional keyword arguments for specific sequence mixer implementations.
+        in_features: Input dimensionality.
+        cfg: Configuration for the sequence mixer.
+        key: JAX random key for initialization.
+        **kwargs: Additional keyword arguments for specific sequence mixer implementations.
     """
 
     @abstractmethod
@@ -75,10 +68,8 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
         """Forward pass of the sequence mixer.
 
         Args:
-            x:
-              The input sequence to the sequence mixer.
-            key:
-              The random key for the sequence mixer.
+            x: The input sequence to the sequence mixer.
+            key: The random key for the sequence mixer.
 
         Returns:
             The output of the sequence mixer.

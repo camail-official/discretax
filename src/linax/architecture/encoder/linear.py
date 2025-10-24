@@ -16,12 +16,9 @@ class LinearEncoderConfig(EncoderConfig):
     """Configuration for the linear encoder.
 
     Attributes:
-        in_features:
-          Input dimensionality (number of input features).
-        out_features:
-          Output dimensionality (hidden dimension).
-        use_bias:
-          Whether to use bias in the linear layer.
+        in_features: Input dimensionality (number of input features).
+        out_features: Output dimensionality (hidden dimension).
+        use_bias: Whether to use bias in the linear layer.
     """
 
     in_features: int
@@ -31,8 +28,7 @@ class LinearEncoderConfig(EncoderConfig):
         """Build encoder from config.
 
         Args:
-            key:
-              JAX random key for initialization.
+            key: JAX random key for initialization.
 
         Returns:
             The encoder instance.
@@ -48,19 +44,14 @@ class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
     This encoder takes an input of shape (timesteps, in_features)
     and outputs a hidden representation of shape (timesteps, hidden_dim).
 
-    Attributes:
-        linear:
-          MLP instance with multiple hidden layers and a last linear layer.
-
     Args:
-        in_features:
-          Input dimensionality.
-        out_features:
-          Output dimensionality.
-        cfg:
-          Configuration for the linear encoder.
-        key:
-          JAX random key for initialization.
+        in_features: Input dimensionality.
+        out_features: Output dimensionality.
+        cfg: Configuration for the linear encoder.
+        key: JAX random key for initialization.
+
+    Attributes:
+        linear: MLP instance with multiple hidden layers and a last linear layer.
     """
 
     linear: eqx.nn.Linear
@@ -80,10 +71,8 @@ class LinearEncoder[ConfigType: LinearEncoderConfig](Encoder):
         This forward pass applies the linear layer to the input.
 
         Args:
-            x:
-              Input tensor.
-            state:
-              Current state for stateful layers.
+            x: Input tensor.
+            state: Current state for stateful layers.
 
         Returns:
             Tuple containing the output tensor and updated state.

@@ -17,18 +17,15 @@ class ClassificationHeadConfig(HeadConfig):
     """Configuration for the classification head.
 
     Attributes:
-        out_features:
-          Output dimensionality (number of classes).
+        out_features: Output dimensionality (number of classes).
     """
 
     def build(self, in_features: int, key: PRNGKeyArray) -> ClassificationHead:
         """Build head from config.
 
         Args:
-            in_features:
-              Input dimensionality (hidden dimension).
-            key:
-              JAX random key for initialization.
+            in_features: Input dimensionality (hidden dimension).
+            key: JAX random key for initialization.
 
         Returns:
             The classification head instance.
@@ -45,19 +42,13 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
     and outputs a logits of shape (out_features).
 
     Args:
-        in_features:
-          Input features.
-        out_features:
-          Output features.
-        cfg:
-          Configuration for the classification head.
-        key:
-          JAX random key for initialization.
+        in_features: Input features.
+        out_features: Output features.
+        cfg: Configuration for the classification head.
+        key: JAX random key for initialization.
 
     Attributes:
-        linear:
-          Linear layer.
-
+        linear: Linear layer.
     """
 
     linear: eqx.nn.Linear
@@ -79,10 +70,8 @@ class ClassificationHead[ConfigType: ClassificationHeadConfig](Head):
         and returns the logits of the output.
 
         Args:
-            x:
-              Input tensor.
-            state:
-              Current state for stateful layers.
+            x: Input tensor.
+            state: Current state for stateful layers.
 
         Returns:
             Tuple containing the output tensor and updated state.

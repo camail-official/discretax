@@ -8,8 +8,7 @@ def count_params(module) -> int:
     """Count the number of parameters in a module.
 
     Args:
-        module:
-            An equinox module (or any pytree containing arrays).
+        module: An equinox module (or any pytree containing arrays).
 
     Returns:
         Total number of parameters (sum of all array sizes).
