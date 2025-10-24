@@ -44,3 +44,13 @@ class GLU(eqx.Module):
             Output tensor after applying gated linear transformation.
         """
         return self.w1(x) * jax.nn.sigmoid(self.w2(x))
+
+    def __repr__(self) -> str:
+        """Return a string representation of the GLU layer.
+
+        Returns:
+            Compact summary showing dimensions.
+        """
+        in_dim = self.w1.in_features
+        out_dim = self.w1.out_features
+        return f"GLU({in_dim}→{out_dim})"

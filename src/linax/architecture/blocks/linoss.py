@@ -138,6 +138,12 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
         discretization = getattr(self.sequence_mixer, "discretization", "N/A")
         damping = "✓" if getattr(self.sequence_mixer, "damping", False) else "✗"
 
+        # Get MLP representation
+        mlp_repr = repr(self.mlp)
+
         params = count_params(self)
 
-        return f"{params:,} params | {discretization} | damp:{damping} | drop:{dropout_rate:.2f}"
+        return (
+            f"{params:,} params | {discretization} | damp:{damping} | "
+            f"{mlp_repr} | drop:{dropout_rate:.2f}"
+        )

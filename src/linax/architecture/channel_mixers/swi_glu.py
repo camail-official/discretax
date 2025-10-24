@@ -72,3 +72,13 @@ class SwiGLU(eqx.Module):
         """
         gate, y = self.gate_proj(x), self.up_proj(x)
         return self.down_proj(jax.nn.swish(gate) * y)
+
+    def __repr__(self) -> str:
+        """Return a string representation of the SwiGLU layer.
+
+        Returns:
+            Compact summary showing dimensions.
+        """
+        hidden_dim = self.gate_proj.in_features
+        intermediate_dim = self.gate_proj.out_features
+        return f"SwiGLU({hidden_dim}→{intermediate_dim}→{hidden_dim})"
