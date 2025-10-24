@@ -12,6 +12,7 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.blocks.base import Block, BlockConfig
 from linax.architecture.channel_mixers.glu import GLU
 from linax.architecture.sequence_mixers.base import SequenceMixer
+from linax.utils import count_params
 
 
 @dataclass(frozen=True)
@@ -125,4 +126,18 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
 
         return x, state
 
-    # TODO: add `__repr__` method
+    def __repr__(self) -> str:
+        """Return a string representation of the LinOSS block.
+
+        Returns:
+            Compact summary of block configuration and components.
+        """
+        dropout_rate = self.drop.p
+
+        # Get LinOSS-specific config if available
+        discretization = getattr(self.sequence_mixer, "discretization", "N/A")
+        damping = "✓" if getattr(self.sequence_mixer, "damping", False) else "✗"
+
+        params = count_params(self)
+
+        return f"{params:,} params | {discretization} | damp:{damping} | drop:{dropout_rate:.2f}"

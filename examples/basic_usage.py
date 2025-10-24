@@ -5,7 +5,9 @@ This script demonstrates:
 2. Creating custom configurations
 3. Forward pass with state management
 4. Accessing model components
-5. Using high-level vs low-level configs
+5. Custom dimensions
+6. Using high-level vs low-level configs
+7. Model summary with __repr__
 """
 
 import equinox as eqx
@@ -14,7 +16,7 @@ import jax.numpy as jnp
 import jax.random as jr
 
 from linax.architecture.models.linoss import LinOSS, LinOSSConfig
-from linax.architecture.models.ssm import SSM
+from linax.architecture.models.ssm import SSM, SSMConfig
 
 
 def example_1_default_config():
@@ -231,6 +233,44 @@ def example_6_high_vs_low_level_config():
     print("\n✅ Example 6 complete!\n")
 
 
+def example_7_model_summary():
+    """Example 7: Model summary with __repr__."""
+    print("=" * 80)
+    print("Example 7: Model Summary")
+    print("=" * 80)
+
+    print("\n📊 General SSM Summary:")
+    # Create a general SSM
+    from linax.architecture.blocks.linoss import LinOSSBlockConfig
+    from linax.architecture.encoder import LinearEncoderConfig
+    from linax.architecture.heads.classification import ClassificationHeadConfig
+    from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+
+    ssm_config = SSMConfig(
+        hidden_dim=32,
+        encoder_config=LinearEncoderConfig(in_features=100),
+        sequence_mixer_configs=[LinOSSSequenceMixerConfig(state_dim=32)] * 2,
+        block_configs=[LinOSSBlockConfig(drop_rate=0.2)] * 2,
+        head_config=ClassificationHeadConfig(out_features=5),
+    )
+    ssm_model = SSM(cfg=ssm_config, key=jr.PRNGKey(42))
+    print(ssm_model)
+
+    print("\n📊 LinOSS Model Summary (with extra details):")
+    # Create a LinOSS model
+    linoss_config = LinOSSConfig(
+        in_features=28,
+        hidden_dim=32,
+        out_features=10,
+        num_blocks=2,
+        drop_rate=0.15,
+    )
+    linoss_model = LinOSS(cfg=linoss_config, key=jr.PRNGKey(42))
+    print(linoss_model)
+
+    print("\n✅ Example 7 complete!\n")
+
+
 def main():
     """Run all examples."""
     print("\n" + "=" * 80)
@@ -244,6 +284,7 @@ def main():
     example_4_accessing_components()
     example_5_custom_dimensions()
     example_6_high_vs_low_level_config()
+    example_7_model_summary()
 
     print("=" * 80)
     print("All examples completed successfully! 🎉")
@@ -256,6 +297,7 @@ def main():
     print("  5. Each LinOSSBlock contains: sequence_mixer + mlp + norm + dropout")
     print("  6. High-level configs (LinOSSConfig) for simplicity")
     print("  7. Low-level configs (SSMConfig) for custom architectures")
+    print("  8. Use print(model) to see detailed model summary")
     print("=" * 80 + "\n")
 
 

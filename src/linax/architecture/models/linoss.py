@@ -104,6 +104,52 @@ class LinOSS(SSM):
     def __init__(self, cfg: LinOSSConfig, key: PRNGKeyArray):
         super().__init__(cfg.build_ssm_config(), key)
 
+    def __repr__(self) -> str:
+        """Pretty print the LinOSS model with high-level configuration.
+
+        Adds LinOSS-specific configuration info before the standard SSM repr.
+
+        Returns:
+            Formatted string representation with LinOSS config and SSM structure.
+        """
+        # Get dimensions from actual components
+        if hasattr(self.encoder, "linear"):
+            in_features = self.encoder.linear.in_features
+            hidden_dim = self.encoder.linear.out_features
+        else:
+            in_features = "N/A"
+            hidden_dim = "N/A"
+
+        if hasattr(self.head, "linear"):
+            out_features = self.head.linear.out_features
+        else:
+            out_features = "N/A"
+
+        # Fixed width for alignment
+        width = 70
+
+        def pad_line(text: str) -> str:
+            """Pad line to fixed width."""
+            return f"║ {text:<{width}} ║"
+
+        # LinOSS-specific header
+        header_lines = [
+            "╔" + "═" * (width + 2) + "╗",
+            pad_line("LinOSS Model Configuration".center(width)),
+            "╠" + "═" * (width + 2) + "╣",
+            pad_line(f"  Input Features:       {in_features:>8}"),
+            pad_line(f"  Hidden Dimension:     {hidden_dim:>8}"),
+            pad_line(f"  Output Features:      {out_features:>8}"),
+            pad_line(f"  Number of Blocks:     {len(self.blocks):>8}"),
+            "╚" + "═" * (width + 2) + "╝",
+            "",
+        ]
+
+        # Get base SSM repr
+        ssm_repr = super().__repr__()
+
+        return "\n".join(header_lines) + ssm_repr
+
 
 if __name__ == "__main__":
     cfg = LinOSSConfig(
@@ -115,3 +161,4 @@ if __name__ == "__main__":
     )
 
     model = LinOSS(cfg=cfg, key=jr.PRNGKey(0))
+    print(model)

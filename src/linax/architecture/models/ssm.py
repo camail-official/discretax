@@ -11,6 +11,7 @@ from linax.architecture.encoder.base import Encoder, EncoderConfig
 from linax.architecture.heads.base import Head, HeadConfig
 from linax.architecture.models.base import AbstractModel, ModelConfig
 from linax.architecture.sequence_mixers.base import SequenceMixerConfig
+from linax.utils import count_params
 
 
 @dataclass
@@ -149,3 +150,58 @@ class SSM[ConfigType: SSMConfig](AbstractModel):
         # Apply the head
         x, state = self.head(x, state)
         return x, state
+
+    def __repr__(self) -> str:
+        """Pretty print the model architecture.
+
+        Aggregates representations from encoder, blocks, and head to provide
+        a comprehensive model summary. Each component provides its own repr.
+
+        Returns:
+            Formatted string representation of the model.
+        """
+        # Get basic info
+        num_blocks = len(self.blocks)
+        encoder_type = type(self.encoder).__name__
+        head_type = type(self.head).__name__
+
+        # Count parameters
+        total_params = count_params(self)
+        encoder_params = count_params(self.encoder)
+        head_params = count_params(self.head)
+        blocks_params = sum(count_params(block) for block in self.blocks)
+
+        # Fixed width for alignment
+        width = 70
+
+        def pad_line(text: str) -> str:
+            """Pad line to fixed width."""
+            return f"║ {text:<{width}} ║"
+
+        # Get block type from first block
+        block_type = type(self.blocks[0]).__name__ if self.blocks else "Block"
+
+        lines = [
+            "╔" + "═" * (width + 2) + "╗",
+            pad_line(f"{type(self).__name__} Model Summary".center(width)),
+            "╠" + "═" * (width + 2) + "╣",
+            pad_line("Components:"),
+            pad_line(f"  Encoder:  {encoder_type} ({encoder_params:,} params)"),
+            pad_line(f"  Blocks:   {num_blocks}× {block_type} (total {blocks_params:,} params)"),
+        ]
+
+        # Add each block's representation
+        for i, block in enumerate(self.blocks):
+            block_repr = repr(block)
+            lines.append(pad_line(f"    [{i}] {block_repr}"))
+
+        lines.extend(
+            [
+                pad_line(f"  Head:     {head_type} ({head_params:,} params)"),
+                "╠" + "═" * (width + 2) + "╣",
+                pad_line(f"Total Parameters: {total_params:,}"),
+                "╚" + "═" * (width + 2) + "╝",
+            ]
+        )
+
+        return "\n".join(lines)
