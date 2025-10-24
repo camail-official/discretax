@@ -16,7 +16,8 @@ def count_params(module) -> int:
 
     Example:
         ```python
-        model = LinOSS(cfg=config, key=key)
+        config = LinOSSConfig(...)
+        model = config.build(key=key)
         total_params = count_params(model)
         print(f"Model has {total_params:,} parameters")
         ```

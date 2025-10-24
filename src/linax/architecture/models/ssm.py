@@ -1,5 +1,8 @@
 """General SSM (State Space Model) implementation."""
 
+from __future__ import annotations
+
+import logging
 from dataclasses import dataclass
 
 import equinox as eqx
@@ -9,13 +12,14 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.blocks.base import Block, BlockConfig
 from linax.architecture.encoder.base import Encoder, EncoderConfig
 from linax.architecture.heads.base import Head, HeadConfig
-from linax.architecture.models.base import ModelConfig
 from linax.architecture.sequence_mixers.base import SequenceMixerConfig
 from linax.utils import count_params
 
+logger = logging.getLogger(__name__)
+
 
 @dataclass
-class SSMConfig(ModelConfig):
+class SSMConfig:
     """Low-level configuration for State Space Models.
 
     This is a component-based configuration that provides fine-grained control over
@@ -54,7 +58,7 @@ class SSMConfig(ModelConfig):
             block_configs=[LinOSSBlockConfig(drop_rate=0.1)] * 4,
             head_config=ClassificationHeadConfig(out_features=10),
         )
-        model = SSM(cfg=config, key=key)
+        model = config.build(key=key)
         ```
     """
 
@@ -69,6 +73,28 @@ class SSMConfig(ModelConfig):
         """Validate config."""
         if len(self.sequence_mixer_configs) != len(self.block_configs):
             raise ValueError("sequence_mixer_configs and block_configs must have same length")
+
+    def build(self, key: PRNGKeyArray | None = None) -> SSM:
+        """Build an SSM model from this configuration.
+
+        Args:
+            key:
+              JAX random key for parameter initialization.
+
+        Returns:
+            Instantiated SSM model.
+
+        Example:
+            ```python
+            config = SSMConfig(...)
+            model = config.build(key=jr.PRNGKey(0))
+            ```
+        """
+        if key is None:
+            logger.warning("No key provided. Set automatically.")
+            key = jr.PRNGKey(0)
+
+        return SSM(cfg=self, key=key)
 
 
 class SSM[ConfigType: SSMConfig](eqx.Module):
@@ -115,7 +141,9 @@ class SSM[ConfigType: SSMConfig](eqx.Module):
 
         self.blocks = [
             block_cfg.build(
-                in_features=cfg.hidden_dim, sequence_mixer=mixer, key=keys[1 + num_blocks + i]
+                in_features=cfg.hidden_dim,
+                sequence_mixer=mixer,
+                key=keys[1 + num_blocks + i],
             )
             for i, (block_cfg, mixer) in enumerate(zip(cfg.block_configs, sequence_mixers))
         ]

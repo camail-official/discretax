@@ -15,8 +15,8 @@ import jax
 import jax.numpy as jnp
 import jax.random as jr
 
-from linax.architecture.models.linoss import LinOSS, LinOSSConfig
-from linax.architecture.models.ssm import SSM, SSMConfig
+from linax.architecture.models.linoss import LinOSSConfig
+from linax.architecture.models.ssm import SSMConfig
 
 
 def example_1_default_config():
@@ -25,11 +25,15 @@ def example_1_default_config():
     print("Example 1: Default Configuration")
     print("=" * 80)
 
-    # Create model with all defaults
-    config = LinOSSConfig()
+    # Create model with standard MNIST-like settings
+    config = LinOSSConfig(
+        in_features=784,
+        hidden_dim=20,
+        out_features=10,
+    )
     key = jr.PRNGKey(0)
 
-    model = LinOSS(cfg=config, key=key)
+    model = config.build(key=key)
 
     print("\nModel Configuration:")
     print(f"  Input features: {config.in_features}")
@@ -77,7 +81,7 @@ def example_2_custom_config():
 
     # Initialize model
     key = jr.PRNGKey(42)
-    model = LinOSS(cfg=config, key=key)
+    model = config.build(key=key)
 
     print("\nCustom Configuration:")
     print(f"  Input features: {config.in_features}")
@@ -110,8 +114,8 @@ def example_3_state_management():
     print("=" * 80)
 
     # Create model
-    config = LinOSSConfig(in_features=16, out_features=5)
-    model = LinOSS(cfg=config, key=jr.PRNGKey(0))
+    config = LinOSSConfig(in_features=16, hidden_dim=32, out_features=5)
+    model = config.build(key=jr.PRNGKey(0))
 
     # Initialize state
     state = eqx.nn.State(model)
@@ -141,8 +145,8 @@ def example_4_accessing_components():
     print("Example 4: Accessing Model Components")
     print("=" * 80)
 
-    config = LinOSSConfig(in_features=10, out_features=5)
-    model = LinOSS(cfg=config, key=jr.PRNGKey(0))
+    config = LinOSSConfig(in_features=10, hidden_dim=32, out_features=5)
+    model = config.build(key=jr.PRNGKey(0))
 
     print("\nAccessing encoder:")
     print(f"  model.encoder: {type(model.encoder).__name__}")
@@ -177,7 +181,7 @@ def example_5_custom_dimensions():
         out_features=10,  # 10 classes
     )
 
-    model = LinOSS(cfg=config, key=jr.PRNGKey(7))
+    model = config.build(key=jr.PRNGKey(7))
 
     print("\nCustom Dimensions:")
     print(f"  Input features: {config.in_features}")
@@ -203,7 +207,8 @@ def example_6_high_vs_low_level_config():
     print("\n📝 High-level Config (LinOSSConfig):")
     print("   - Simple hyperparameters")
     print("   - Automatic component composition")
-    print("   - Best for quick prototyping\n")
+    print("   - Best for quick prototyping")
+    print("   - LinOSSConfig inherits from SSMConfig\n")
 
     high_level_cfg = LinOSSConfig(
         in_features=32,
@@ -212,8 +217,11 @@ def example_6_high_vs_low_level_config():
         num_blocks=4,
         drop_rate=0.1,
     )
-    model_high = LinOSS(cfg=high_level_cfg, key=jr.PRNGKey(0))
+    model_high = high_level_cfg.build(key=jr.PRNGKey(0))
     print(f"  Created model with {len(model_high.blocks)} blocks")
+    print(f"  Encoder config: {type(high_level_cfg.encoder_config).__name__}")
+    print(f"  Block config: {type(high_level_cfg.block_configs[0]).__name__}")
+    print(f"  Head config: {type(high_level_cfg.head_config).__name__}")
 
     # Low-level config (component-based, fine-grained control)
     print("\n🔧 Low-level Config (SSMConfig):")
@@ -221,8 +229,19 @@ def example_6_high_vs_low_level_config():
     print("   - Fine-grained control")
     print("   - Best for custom architectures\n")
 
-    ssm_cfg = high_level_cfg.build_ssm_config()
-    model_low = SSM(cfg=ssm_cfg, key=jr.PRNGKey(0))
+    from linax.architecture.blocks.linoss import LinOSSBlockConfig
+    from linax.architecture.encoder import LinearEncoderConfig
+    from linax.architecture.heads.classification import ClassificationHeadConfig
+    from linax.architecture.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+
+    ssm_cfg = SSMConfig(
+        hidden_dim=64,
+        encoder_config=LinearEncoderConfig(in_features=32),
+        sequence_mixer_configs=[LinOSSSequenceMixerConfig(state_dim=64)] * 4,
+        block_configs=[LinOSSBlockConfig(drop_rate=0.1)] * 4,
+        head_config=ClassificationHeadConfig(out_features=10),
+    )
+    model_low = ssm_cfg.build(key=jr.PRNGKey(0))
     print(f"  Created model with {len(model_low.blocks)} blocks")
     print(f"  Encoder config: {type(ssm_cfg.encoder_config).__name__}")
     print(f"  Block config: {type(ssm_cfg.block_configs[0]).__name__}")
@@ -253,7 +272,7 @@ def example_7_model_summary():
         block_configs=[LinOSSBlockConfig(drop_rate=0.2)] * 2,
         head_config=ClassificationHeadConfig(out_features=5),
     )
-    ssm_model = SSM(cfg=ssm_config, key=jr.PRNGKey(42))
+    ssm_model = ssm_config.build(key=jr.PRNGKey(42))
     print(ssm_model)
 
     print("\n📊 LinOSS Model Summary (with extra details):")
@@ -265,7 +284,7 @@ def example_7_model_summary():
         num_blocks=2,
         drop_rate=0.15,
     )
-    linoss_model = LinOSS(cfg=linoss_config, key=jr.PRNGKey(42))
+    linoss_model = linoss_config.build(key=jr.PRNGKey(42))
     print(linoss_model)
 
     print("\n✅ Example 7 complete!\n")
@@ -290,14 +309,15 @@ def main():
     print("All examples completed successfully! 🎉")
     print("=" * 80)
     print("\nKey Takeaways:")
-    print("  1. Use LinOSSConfig() for quick setup with defaults")
-    print("  2. Customize dimensions: in_features, hidden_dim, out_features")
-    print("  3. Always maintain state across forward passes")
-    print("  4. Model structure: encoder → blocks → head")
-    print("  5. Each LinOSSBlock contains: sequence_mixer + mlp + norm + dropout")
-    print("  6. High-level configs (LinOSSConfig) for simplicity")
-    print("  7. Low-level configs (SSMConfig) for custom architectures")
-    print("  8. Use print(model) to see detailed model summary")
+    print("  1. LinOSSConfig requires: in_features, hidden_dim, out_features")
+    print("  2. Optional parameters: num_blocks (default 4), drop_rate (default 0.1)")
+    print("  3. Build models with config.build(key=...)")
+    print("  4. Always maintain state across forward passes")
+    print("  5. Model structure: encoder → blocks → head")
+    print("  6. Each LinOSSBlock contains: sequence_mixer + mlp + norm + dropout")
+    print("  7. High-level configs (LinOSSConfig) for simplicity")
+    print("  8. Low-level configs (SSMConfig) for custom architectures")
+    print("  9. Use print(model) to see detailed model summary")
     print("=" * 80 + "\n")
 
 
