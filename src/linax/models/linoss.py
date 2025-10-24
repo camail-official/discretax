@@ -17,8 +17,8 @@ class LinOSSConfig(SSMConfig):
 
     Attributes:
         num_blocks: Number of LinOSS blocks to stack.
-        encoder_config: Configuration for the encoder.
-        head_config: Configuration for the output head.
+        encoder_config: Configuration for the encoder (contains in_features and out_features).
+        head_config: Configuration for the output head (contains out_features).
         sequence_mixer_config: Optional linoss sequence mixer config that will be replicated
             for each block. If not provided, defaults to LinOSSSequenceMixerConfig().
         block_config: Optional linoss block config that will be replicated for each block.
