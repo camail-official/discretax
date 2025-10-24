@@ -1,5 +1,7 @@
 """Sequence mixer base class."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -20,9 +22,18 @@ class SequenceMixerConfig(ABC):
     state_dim: int
 
     @abstractmethod
-    def build(self, in_features: int, key: PRNGKeyArray) -> "SequenceMixer":
-        """Build sequence mixer from config."""
-        pass
+    def build(self, in_features: int, key: PRNGKeyArray) -> SequenceMixer:
+        """Build sequence mixer from config.
+
+        Args:
+            in_features:
+              Input dimensionality.
+            key:
+              JAX random key for initialization.
+
+        Returns:
+            The sequence mixer instance.
+        """
 
 
 class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
