@@ -1,4 +1,4 @@
-"""Head base class."""
+"""This module contains the base class for all heads in Linax."""
 
 from __future__ import annotations
 

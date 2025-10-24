@@ -1,4 +1,4 @@
-"""Block base class."""
+"""This module contains the base class for all blocks in Linax."""
 
 from __future__ import annotations
 

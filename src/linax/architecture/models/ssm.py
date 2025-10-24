@@ -9,7 +9,7 @@ from jaxtyping import Array, PRNGKeyArray
 from linax.architecture.blocks.base import Block, BlockConfig
 from linax.architecture.encoder.base import Encoder, EncoderConfig
 from linax.architecture.heads.base import Head, HeadConfig
-from linax.architecture.models.base import AbstractModel, ModelConfig
+from linax.architecture.models.base import ModelConfig
 from linax.architecture.sequence_mixers.base import SequenceMixerConfig
 from linax.utils import count_params
 
@@ -71,7 +71,7 @@ class SSMConfig(ModelConfig):
             raise ValueError("sequence_mixer_configs and block_configs must have same length")
 
 
-class SSM[ConfigType: SSMConfig](AbstractModel):
+class SSM[ConfigType: SSMConfig](eqx.Module):
     """General State Space Model (SSM) implementation.
 
     This is a flexible, composable SSM architecture that can be configured with

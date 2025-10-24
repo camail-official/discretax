@@ -1,4 +1,4 @@
-"""Sequence mixer base class."""
+"""This module contains the base class for all sequence mixers in Linax."""
 
 from __future__ import annotations
 
