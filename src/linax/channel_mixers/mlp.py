@@ -39,15 +39,16 @@ def non_linearity_factory(
 class MLPChannelMixer(eqx.Module):
     """MLP channel mixer.
 
+    This channel mixer applies a multi-layer perceptron (MLP) to the input tensor.
+
     Args:
         input_dim: Dimensionality of the input features.
         output_dim: Dimensionality of the output features.
         key: JAX random key for initialization.
 
     Attributes:
-        w1: First linear layer.
-        w2: Second linear layer.
-    This channel mixer applies a multi-layer perceptron (MLP) to the input tensor.
+        linear: Linear layer applied to the input.
+        non_linearity: The non-linearity function used after the linear layer.
     """
 
     linear: eqx.nn.Linear
