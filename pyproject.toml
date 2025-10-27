@@ -35,16 +35,6 @@ requires-python = "==3.12.*"
 dependencies = ["equinox>=0.13.2", "jax>=0.7.2", "jaxtyping>=0.3.3"]
 
 [project.optional-dependencies]
-cu12 = []
-examples = [
-    "ipykernel>=7.0.1",
-    "optax>=0.2.6",
-    "torchvision>=0.24.0",
-    "torch>=2.6.0",
-    "matplotlib>=3.10.0",
-]
-
-[dependency-groups]
 dev = [
     "pre-commit>=4.3.0",
     "ruff>=0.12.11",
@@ -53,7 +43,20 @@ dev = [
     "pytest>=8.3.3",
 ]
 
-# [project.urls]
+examples = [
+    "ipykernel>=7.0.1",
+    "optax>=0.2.6",
+    "torchvision>=0.24.0",
+    "torch>=2.6.0",
+    "matplotlib>=3.10.0",
+]
+
+cu12 = ["jax[cuda12]>=0.7.2"]
+
+[project.urls]
+Homepage = "https://camail.org/linax/"
+Discord = "https://discord.gg/VazrGCxeT7"
+Repository = "https://github.com/camail-official/linax"
 
 [build-system]
 requires = ["hatchling>=1.27.0", "hatch-vcs"]
