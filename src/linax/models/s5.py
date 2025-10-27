@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 
-from linax.blocks.s5 import S5BlockConfig
+from linax.blocks.standard import StandardBlockConfig
 from linax.channel_mixers.glu import GLUConfig
 from linax.encoder.base import EncoderConfig
 from linax.heads.base import HeadConfig
@@ -23,7 +23,7 @@ class S5Config(SSMConfig):
         sequence_mixer_config: Optional S5 sequence mixer config that will be replicated
             for each block. If not provided, defaults to S5SequenceMixerConfig().
         block_config: Optional S5 block config that will be replicated for each block.
-            If not provided, defaults to S5BlockConfig.
+            If not provided, defaults to StandardBlockConfig.
 
     Example:
         ```python
@@ -38,7 +38,7 @@ class S5Config(SSMConfig):
                 clip_eigs=True,
                 discretization="zoh",
             ),
-            block_config=S5BlockConfig(drop_rate=0.05),
+            block_config=StandardBlockConfig(drop_rate=0.05),
             head_config=ClassificationHeadConfig(out_features=10),
         )
 
@@ -59,12 +59,12 @@ class S5Config(SSMConfig):
     encoder_config: EncoderConfig
     head_config: HeadConfig
     sequence_mixer_config: S5SequenceMixerConfig = field(default_factory=S5SequenceMixerConfig)
-    block_config: S5BlockConfig = field(default_factory=S5BlockConfig)
+    block_config: StandardBlockConfig = field(default_factory=StandardBlockConfig)
     channel_mixer_config: GLUConfig = field(default_factory=GLUConfig)
 
     # These will be auto-populated from the single configs
     sequence_mixer_configs: list[S5SequenceMixerConfig] = field(init=False)
-    block_configs: list[S5BlockConfig] = field(init=False)
+    block_configs: list[StandardBlockConfig] = field(init=False)
     channel_mixer_configs: list[GLUConfig] = field(init=False)
 
     def __post_init__(self):

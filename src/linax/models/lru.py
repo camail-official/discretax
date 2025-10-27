@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 
-from linax.blocks.lru import LRUBlockConfig
+from linax.blocks.standard import StandardBlockConfig
 from linax.channel_mixers.glu import GLUConfig
 from linax.encoder.base import EncoderConfig
 from linax.heads.base import HeadConfig
@@ -23,7 +23,7 @@ class LRUConfig(SSMConfig):
         sequence_mixer_config: Optional LRU sequence mixer config that will be replicated
             for each block. If not provided, defaults to LRUSequenceMixerConfig().
         block_config: Optional LRU block config that will be replicated for each block.
-            If not provided, defaults to LRUBlockConfig.
+            If not provided, defaults to StandardBlockConfig.
 
     Example:
         ```python
@@ -37,7 +37,7 @@ class LRUConfig(SSMConfig):
                 r_max=1.0,
                 max_phase=6.28,
             ),
-            block_config=LRUBlockConfig(drop_rate=0.1),
+            block_config=StandardBlockConfig(drop_rate=0.1),
             head_config=ClassificationHeadConfig(out_features=10),
         )
 
@@ -58,12 +58,12 @@ class LRUConfig(SSMConfig):
     encoder_config: EncoderConfig
     head_config: HeadConfig
     sequence_mixer_config: LRUSequenceMixerConfig = field(default_factory=LRUSequenceMixerConfig)
-    block_config: LRUBlockConfig = field(default_factory=LRUBlockConfig)
+    block_config: StandardBlockConfig = field(default_factory=StandardBlockConfig)
     channel_mixer_config: GLUConfig = field(default_factory=GLUConfig)
 
     # These will be auto-populated from the single configs
     sequence_mixer_configs: list[LRUSequenceMixerConfig] = field(init=False)
-    block_configs: list[LRUBlockConfig] = field(init=False)
+    block_configs: list[StandardBlockConfig] = field(init=False)
     channel_mixer_configs: list[GLUConfig] = field(init=False)
 
     def __post_init__(self):

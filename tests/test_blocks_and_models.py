@@ -4,9 +4,7 @@ import equinox as eqx
 import jax
 import jax.random as jr
 
-from linax.blocks.linoss import LinOSSBlockConfig
-from linax.blocks.lru import LRUBlockConfig
-from linax.blocks.s5 import S5BlockConfig
+from linax.blocks.standard import StandardBlockConfig
 from linax.channel_mixers.glu import GLUConfig
 from linax.encoder import LinearEncoderConfig
 from linax.heads.classification import ClassificationHeadConfig
@@ -61,7 +59,7 @@ def test_lru_model_forward():
         num_blocks=2,
         encoder_config=LinearEncoderConfig(in_features=16, out_features=16),
         sequence_mixer_config=LRUSequenceMixerConfig(state_dim=32),
-        block_config=LRUBlockConfig(drop_rate=0.0),
+        block_config=StandardBlockConfig(drop_rate=0.0),
         head_config=ClassificationHeadConfig(out_features=3),
         channel_mixer_config=GLUConfig(),
     )
@@ -94,7 +92,7 @@ def test_s5_model_forward():
         num_blocks=2,
         encoder_config=LinearEncoderConfig(in_features=16, out_features=16),
         sequence_mixer_config=S5SequenceMixerConfig(state_dim=32, ssm_blocks=1),
-        block_config=S5BlockConfig(drop_rate=0.0),
+        block_config=StandardBlockConfig(drop_rate=0.0),
         head_config=ClassificationHeadConfig(out_features=3),
         channel_mixer_config=GLUConfig(),
     )
@@ -128,7 +126,7 @@ def test_linoss_model_forward():
         num_blocks=2,
         encoder_config=LinearEncoderConfig(in_features=16, out_features=16),
         sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=32),
-        block_config=LinOSSBlockConfig(drop_rate=0.0),
+        block_config=StandardBlockConfig(drop_rate=0.0),
         head_config=ClassificationHeadConfig(out_features=3),
         channel_mixer_config=GLUConfig(),
     )

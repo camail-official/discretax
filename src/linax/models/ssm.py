@@ -52,7 +52,8 @@ class SSMConfig:
         config = SSMConfig(
             encoder_config=LinearEncoderConfig(in_features=784, out_features=128),
             sequence_mixer_configs=[LinOSSSequenceMixerConfig(state_dim=128)] * 4,
-            block_configs=[LinOSSBlockConfig(drop_rate=0.1)] * 4,
+            block_configs=[StandardBlockConfig(drop_rate=0.1)] * 4,
+            channel_mixer_configs=[GLUConfig()] * 4,
             head_config=ClassificationHeadConfig(out_features=10),
         )
         model = config.build(key=key)
