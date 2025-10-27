@@ -16,9 +16,11 @@ class HeadConfig(ABC):
 
     Attributes:
         out_features: Output dimensionality (e.g., number of classes).
+        reduce: Whether to reduce the time dimension by averaging.
     """
 
     out_features: int
+    reduce: bool = True
 
     @abstractmethod
     def build(self, in_features: int, key: PRNGKeyArray) -> Head:

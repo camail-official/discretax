@@ -67,8 +67,12 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
             state: Current state for stateful layers.
 
         Returns:
-            Tuple containing the output tensor and updated state.
+            Tuple containing the output tensor and updated state. If reduce is True,
+            the output tensor is of shape (out_features). If reduce is False,
+            the output tensor is of shape (timesteps, out_features).
         """
-        x = jnp.mean(x, axis=0)  # shape (timestep, in_features) -> (in_features)
-        x = self.linear(x)  # shape (in_features) -> (out_features)
+        # reduce over the time dimension if reduce is True
+        if self.cfg.reduce:
+            x = jnp.mean(x, axis=0)  # shape (timestep, in_features) -> (in_features)
+        x = self.linear(x)  # shape ((timesteps), in_features)) -> ((timesteps),out_features)
         return x, state
