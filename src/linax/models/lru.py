@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 
 from linax.blocks.lru import LRUBlockConfig
+from linax.channel_mixers.glu import GLUConfig
 from linax.encoder.base import EncoderConfig
 from linax.heads.base import HeadConfig
 from linax.models.ssm import SSMConfig
@@ -58,10 +59,12 @@ class LRUConfig(SSMConfig):
     head_config: HeadConfig
     sequence_mixer_config: LRUSequenceMixerConfig = field(default_factory=LRUSequenceMixerConfig)
     block_config: LRUBlockConfig = field(default_factory=LRUBlockConfig)
+    channel_mixer_config: GLUConfig = field(default_factory=GLUConfig)
 
     # These will be auto-populated from the single configs
     sequence_mixer_configs: list[LRUSequenceMixerConfig] = field(init=False)
     block_configs: list[LRUBlockConfig] = field(init=False)
+    channel_mixer_configs: list[GLUConfig] = field(init=False)
 
     def __post_init__(self):
         """Replicates configs for each block and validates."""
@@ -70,6 +73,9 @@ class LRUConfig(SSMConfig):
             self, "sequence_mixer_configs", [self.sequence_mixer_config] * self.num_blocks
         )
         object.__setattr__(self, "block_configs", [self.block_config] * self.num_blocks)
+        object.__setattr__(
+            self, "channel_mixer_configs", [self.channel_mixer_config] * self.num_blocks
+        )
 
         super().__post_init__()
 

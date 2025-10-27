@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
+from linax.channel_mixers.base import ChannelMixer
 from linax.sequence_mixers.base import SequenceMixer
 
 
@@ -16,12 +17,19 @@ class BlockConfig(ABC):
     """Configuration for blocks."""
 
     @abstractmethod
-    def build(self, in_features: int, sequence_mixer: SequenceMixer, key: PRNGKeyArray) -> Block:
+    def build(
+        self,
+        in_features: int,
+        sequence_mixer: SequenceMixer,
+        channel_mixer: ChannelMixer,
+        key: PRNGKeyArray,
+    ) -> Block:
         """Build block from config.
 
         Args:
             in_features: Input features.
             sequence_mixer: The sequence mixer instance for this block.
+            channel_mixer: The channel mixer instance for this block.
             key: JAX random key for initialization.
 
         Returns:
@@ -36,6 +44,7 @@ class Block[ConfigType: BlockConfig](eqx.Module, ABC):
         in_features: Input features.
         cfg: Configuration for the block.
         sequence_mixer: The sequence mixer instance for this block.
+        channel_mixer: The channel mixer instance for this block.
         key: JAX random key for initialization.
     """
 
@@ -45,6 +54,7 @@ class Block[ConfigType: BlockConfig](eqx.Module, ABC):
         in_features: int,
         cfg: ConfigType,
         sequence_mixer: SequenceMixer,
+        channel_mixer: ChannelMixer,
         key: PRNGKeyArray,
     ):
         """Initialize the block."""

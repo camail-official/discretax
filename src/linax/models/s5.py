@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 
 from linax.blocks.s5 import S5BlockConfig
+from linax.channel_mixers.glu import GLUConfig
 from linax.encoder.base import EncoderConfig
 from linax.heads.base import HeadConfig
 from linax.models.ssm import SSMConfig
@@ -59,10 +60,12 @@ class S5Config(SSMConfig):
     head_config: HeadConfig
     sequence_mixer_config: S5SequenceMixerConfig = field(default_factory=S5SequenceMixerConfig)
     block_config: S5BlockConfig = field(default_factory=S5BlockConfig)
+    channel_mixer_config: GLUConfig = field(default_factory=GLUConfig)
 
     # These will be auto-populated from the single configs
     sequence_mixer_configs: list[S5SequenceMixerConfig] = field(init=False)
     block_configs: list[S5BlockConfig] = field(init=False)
+    channel_mixer_configs: list[GLUConfig] = field(init=False)
 
     def __post_init__(self):
         """Replicates configs for each block and validates."""
@@ -71,6 +74,9 @@ class S5Config(SSMConfig):
             self, "sequence_mixer_configs", [self.sequence_mixer_config] * self.num_blocks
         )
         object.__setattr__(self, "block_configs", [self.block_config] * self.num_blocks)
+        object.__setattr__(
+            self, "channel_mixer_configs", [self.channel_mixer_config] * self.num_blocks
+        )
 
         super().__post_init__()
 

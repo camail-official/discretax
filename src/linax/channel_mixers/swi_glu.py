@@ -8,12 +8,46 @@ References:
     Aziz et al. Paper Summary: https://azizbelaweid.substack.com/p/what-is-swiglu-how-to-implement-it
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass
+
 import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
+from linax.channel_mixers.base import ChannelMixer, ChannelMixerConfig
 
-class SwiGLU(eqx.Module):
+
+@dataclass(frozen=True)
+class SwiGLUConfig(ChannelMixerConfig):
+    """Configuration for the SwiGLU channel mixer.
+
+    Attributes:
+        hidden_ratio: Ratio to scale hidden dimension for intermediate size calculation.
+        intermediate_dim: Optional explicit intermediate size.
+    """
+
+    hidden_ratio: int | float | None = None
+    intermediate_dim: int | None = None
+    use_bias: bool = False
+
+    def build(self, in_features: int, out_features: int | None, key: PRNGKeyArray) -> SwiGLU:
+        """Build SwiGLU from config.
+
+        Args:
+            in_features: Input dimensionality.
+            out_features: Optional output dimensionality. If None, defaults to in_features.
+            key: JAX random key for initialization.
+
+        Returns:
+            The SwiGLU instance.
+        """
+        # out_features is unused for SwiGLU since it keeps input dimension the same
+        return SwiGLU(in_features=in_features, cfg=self, key=key)
+
+
+class SwiGLU[ConfigType: SwiGLUConfig](ChannelMixer):
     """Swish Gated Linear Unit (SwiGLU) layer.
 
     Adapted from https://huggingface.co/blog/sachithgunasekara/nanojaxgpt .
@@ -25,7 +59,7 @@ class SwiGLU(eqx.Module):
     The computation is: down_proj(swish(gate_proj(x)) * up_proj(x))
 
     Args:
-        hidden_dim: Dimensionality of the input and output features.
+        in_features: Dimensionality of the input and output features.
         hidden_ratio: Ratio to scale hidden dimension for intermediate size calculation.
             If None, defaults to 4.
         intermediate_dim: Dimensionality of the intermediate projection.
@@ -40,22 +74,27 @@ class SwiGLU(eqx.Module):
 
     def __init__(
         self,
-        hidden_dim: int,
-        hidden_ratio: int | float | None,
-        intermediate_dim: int | None,
-        key: PRNGKeyArray,
+        in_features: int | None = None,
+        cfg: ConfigType | None = None,
+        key: PRNGKeyArray | None = None,
+        *,
+        out_features: int | None = None,
     ) -> None:
         k1, k2, k3 = jax.random.split(key, 3)
 
-        if hidden_ratio is None:
-            hidden_ratio = 4
+        hidden_ratio = 4 if cfg.hidden_ratio is None else cfg.hidden_ratio
+        intermediate_dim = cfg.intermediate_dim
         if intermediate_dim is None:
-            intermediate_dim = int(hidden_dim * hidden_ratio * 2 / 3)
+            intermediate_dim = int(in_features * hidden_ratio * 2 / 3)
             intermediate_dim = 256 * ((intermediate_dim + 256 - 1) // 256)
 
-        self.gate_proj = eqx.nn.Linear(hidden_dim, intermediate_dim, use_bias=False, key=k1)
-        self.up_proj = eqx.nn.Linear(hidden_dim, intermediate_dim, use_bias=False, key=k2)
-        self.down_proj = eqx.nn.Linear(intermediate_dim, hidden_dim, use_bias=False, key=k3)
+        self.gate_proj = eqx.nn.Linear(
+            in_features, intermediate_dim, use_bias=cfg.use_bias, key=k1
+        )
+        self.up_proj = eqx.nn.Linear(in_features, intermediate_dim, use_bias=cfg.use_bias, key=k2)
+        self.down_proj = eqx.nn.Linear(
+            intermediate_dim, in_features, use_bias=cfg.use_bias, key=k3
+        )
 
     def __call__(self, x: Array) -> Array:
         """Forward pass of the SwiGLU layer.

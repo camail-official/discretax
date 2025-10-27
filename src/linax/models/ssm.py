@@ -10,6 +10,7 @@ import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
 from linax.blocks.base import Block, BlockConfig
+from linax.channel_mixers.base import ChannelMixerConfig
 from linax.encoder.base import Encoder, EncoderConfig
 from linax.heads.base import Head, HeadConfig
 from linax.sequence_mixers.base import SequenceMixerConfig
@@ -61,6 +62,7 @@ class SSMConfig:
     encoder_config: EncoderConfig
     sequence_mixer_configs: list[SequenceMixerConfig]
     block_configs: list[BlockConfig]
+    channel_mixer_configs: list[ChannelMixerConfig]
     head_config: HeadConfig
 
     def __post_init__(self):
@@ -68,6 +70,8 @@ class SSMConfig:
         # Check number of configs match
         if len(self.sequence_mixer_configs) != len(self.block_configs):
             raise ValueError("sequence_mixer_configs and block_configs must have same length")
+        if len(self.channel_mixer_configs) != len(self.block_configs):
+            raise ValueError("channel_mixer_configs and block_configs must have same length")
 
     def build(self, key: PRNGKeyArray | None = None) -> SSM:
         """Build an SSM model from this configuration.
@@ -132,13 +136,23 @@ class SSM[ConfigType: SSMConfig](eqx.Module):
             for i, mixer_cfg in enumerate(cfg.sequence_mixer_configs)
         ]
 
+        channel_mixers = [
+            mixer_cfg.build(
+                in_features=hidden_dim, out_features=None, key=keys[1 + num_blocks + i]
+            )
+            for i, mixer_cfg in enumerate(cfg.channel_mixer_configs)
+        ]
+
         self.blocks = [
             block_cfg.build(
                 in_features=hidden_dim,
-                sequence_mixer=mixer,
-                key=keys[1 + num_blocks + i],
+                sequence_mixer=seq_mixer,
+                channel_mixer=chan_mixer,
+                key=keys[1 + 2 * num_blocks + i],
             )
-            for i, (block_cfg, mixer) in enumerate(zip(cfg.block_configs, sequence_mixers))
+            for i, (block_cfg, seq_mixer, chan_mixer) in enumerate(
+                zip(cfg.block_configs, sequence_mixers, channel_mixers)
+            )
         ]
 
         # Build head from its config (pass in_features from encoder)

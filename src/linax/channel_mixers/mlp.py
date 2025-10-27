@@ -1,11 +1,16 @@
 """MLP channel mixer."""
 
+from __future__ import annotations
+
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import Literal
 
 import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
+
+from linax.channel_mixers.base import ChannelMixer, ChannelMixerConfig
 
 # the available activations
 activation = Literal["relu", "gelu", "swish", "silu", "tanh"]
@@ -45,7 +50,37 @@ def _get_activation(
         )
 
 
-class MLPChannelMixer(eqx.Module):
+@dataclass(frozen=True)
+class MLPChannelMixerConfig(ChannelMixerConfig):
+    """Configuration for the MLP channel mixer.
+
+    Attributes:
+        non_linearity: Name of the activation function to apply after the linear layer.
+        use_bias: Whether to include a bias term in the linear layer.
+    """
+
+    non_linearity: activation = "gelu"
+    use_bias: bool = False
+
+    def build(
+        self, in_features: int, out_features: int | None, key: PRNGKeyArray
+    ) -> MLPChannelMixer:
+        """Build MLPChannelMixer from config.
+
+        Args:
+            in_features: Input dimensionality.
+            out_features: Optional output dimensionality. If None, defaults to in_features.
+            key: JAX random key for initialization.
+
+        Returns:
+            The MLPChannelMixer instance.
+        """
+        return MLPChannelMixer(
+            in_features=in_features, cfg=self, key=key, out_features=out_features
+        )
+
+
+class MLPChannelMixer[ConfigType: MLPChannelMixerConfig](ChannelMixer):
     """MLP channel mixer.
 
     This channel mixer applies a multi-layer perceptron (MLP) to the input tensor.
@@ -65,17 +100,18 @@ class MLPChannelMixer(eqx.Module):
 
     def __init__(
         self,
-        input_dim: int,
-        output_dim: int,
-        non_linearity: activation,
-        use_bias: bool = False,
-        *,
+        in_features: int,
+        cfg: ConfigType,
         key: PRNGKeyArray,
+        *,
+        out_features: int | None = None,
+        **kwargs,
     ):
         """Initialize the MLP channel mixer."""
-        self.linear = eqx.nn.Linear(input_dim, output_dim, use_bias=use_bias, key=key)
+        out_dim = out_features if out_features is not None else in_features
+        self.linear = eqx.nn.Linear(in_features, out_dim, use_bias=cfg.use_bias, key=key)
 
-        self.non_linearity = non_linearity
+        self.non_linearity = cfg.non_linearity
 
     def __call__(self, x: Array) -> Array:
         """Forward pass of the MLP channel mixer.

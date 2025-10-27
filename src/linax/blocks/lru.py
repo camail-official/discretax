@@ -13,7 +13,7 @@ import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
 from linax.blocks.base import Block, BlockConfig
-from linax.channel_mixers.glu import GLU
+from linax.channel_mixers.base import ChannelMixer
 from linax.sequence_mixers.base import SequenceMixer
 from linax.utils import count_params
 
@@ -29,19 +29,30 @@ class LRUBlockConfig(BlockConfig):
     drop_rate: float = 0.1
 
     def build(
-        self, in_features: int, sequence_mixer: SequenceMixer, key: PRNGKeyArray
+        self,
+        in_features: int,
+        sequence_mixer: SequenceMixer,
+        channel_mixer: ChannelMixer,
+        key: PRNGKeyArray,
     ) -> LRUBlock:
         """Build block from config.
 
         Args:
             in_features: Input features.
             sequence_mixer: The sequence mixer instance for this block.
+            channel_mixer: The channel mixer instance for this block.
             key: JAX random key for initialization of layers.
 
         Returns:
             The LRU block instance.
         """
-        return LRUBlock(in_features=in_features, cfg=self, sequence_mixer=sequence_mixer, key=key)
+        return LRUBlock(
+            in_features=in_features,
+            cfg=self,
+            sequence_mixer=sequence_mixer,
+            channel_mixer=channel_mixer,
+            key=key,
+        )
 
 
 class LRUBlock[ConfigType: LRUBlockConfig](Block):
@@ -52,14 +63,20 @@ class LRUBlock[ConfigType: LRUBlockConfig](Block):
     Attributes:
         norm: LayerNorm layer applied after the sequence mixer.
         sequence_mixer: The sequence mixing mechanism for sequence processing.
-        mlp: GLU-based feed-forward network.
-        drop: Dropout layer applied after the GLU.
+        channel_mixer: The channel mixing mechanism for channel processing.
+        drop: Dropout layer applied after the channel mixer.
+
+    Args:
+        in_features: Input features.
+        cfg: Configuration for the LRU block.
+        sequence_mixer: The sequence mixer instance for this block.
+        channel_mixer: The channel mixer instance for this block.
+        key: JAX random key for initialization of layers.
     """
 
     norm: eqx.nn.LayerNorm
     sequence_mixer: SequenceMixer
-    # TODO: allow for a general MLP here
-    mlp: GLU
+    channel_mixer: ChannelMixer
     drop: eqx.nn.Dropout
 
     def __init__(
@@ -67,22 +84,15 @@ class LRUBlock[ConfigType: LRUBlockConfig](Block):
         in_features: int,
         cfg: ConfigType,
         sequence_mixer: SequenceMixer,
+        channel_mixer: ChannelMixer,
         key: PRNGKeyArray,
     ):
-        """Initialize the LRU block.
-
-        Args:
-            in_features: Input features.
-            cfg: Configuration for the LRU block.
-            sequence_mixer: The sequence mixer instance for this block.
-            key: JAX random key for initialization of layers.
-        """
+        """Initialize the LRU block."""
         # TODO: this should be a BatchNorm
         self.norm = eqx.nn.LayerNorm(shape=in_features)
 
         self.sequence_mixer = sequence_mixer
-
-        self.mlp = GLU(input_dim=in_features, output_dim=in_features, key=key)
+        self.channel_mixer = channel_mixer
         self.drop = eqx.nn.Dropout(p=cfg.drop_rate)
 
     def __call__(
@@ -109,7 +119,7 @@ class LRUBlock[ConfigType: LRUBlockConfig](Block):
         x, state = jax.vmap(self.norm)(x, state)
         x = self.sequence_mixer(x, lrukey)
         x = self.drop(jax.nn.gelu(x), key=dropkey1)
-        x = jax.vmap(self.mlp)(x)
+        x = jax.vmap(self.channel_mixer)(x)
         x = self.drop(x, key=dropkey2)
         x = skip + x
 
@@ -132,7 +142,7 @@ class LRUBlock[ConfigType: LRUBlockConfig](Block):
         r_max = getattr(self.sequence_mixer, "r_max", "N/A")
 
         # Get MLP representation
-        mlp_repr = repr(self.mlp)
+        mlp_repr = repr(self.channel_mixer)
 
         params = count_params(self)
 

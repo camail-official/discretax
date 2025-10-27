@@ -92,7 +92,7 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
     D: jax.Array
     log_step: jax.Array
 
-    H: int
+    in_features: int
     P: int
     conj_sym: bool
     clip_eigs: bool
