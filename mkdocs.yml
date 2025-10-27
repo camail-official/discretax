@@ -3,6 +3,25 @@ repo_url: https://linax.readthedocs.io
 site_url: https://linax.camail.org
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
 
 plugins:
   - search
