@@ -398,6 +398,40 @@ class MNISTSeq(VisionDataset):
         else:
             plt.show()
 
+    def plot_samples(
+        self,
+        num_samples: int = 16,
+        start_idx: int = 0,
+        save_path: Path | str | None = None,
+    ) -> None:
+        """Plot samples from this dataset by visualizing sequences as drawn digits.
+
+        This is a convenient instance method that directly uses the dataset's data.
+
+        Args:
+            num_samples: Number of samples to plot (default 16 for 4x4 grid).
+            start_idx: Index to start from (default 0).
+            save_path: If provided, saves figure to this path. Otherwise, displays it.
+
+        Example:
+            >>> dataset = MNISTSeq(root="./data", train=True, download=True)
+            >>> dataset.plot_samples(num_samples=16)  # Plot first 16 samples
+            >>> # Plot 9 samples starting from index 100
+            >>> dataset.plot_samples(num_samples=9, start_idx=100)
+        """
+        # Limit to available data
+        num_samples = min(num_samples, len(self) - start_idx)
+        if num_samples <= 0:
+            logger.warning(f"No samples to plot (start_idx={start_idx}, dataset_size={len(self)})")
+            return
+
+        # Get sequences and labels for the requested samples
+        sequences = self.data[start_idx : start_idx + num_samples]
+        labels = self.labels[start_idx : start_idx + num_samples]
+
+        # Use the static method to do the actual plotting
+        self.plot_batch(sequences, labels, num_samples=num_samples, save_path=save_path)
+
     def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.Tensor]:
         """Get a single sample from the dataset.
 
@@ -443,14 +477,14 @@ if __name__ == "__main__":
     data_root = Path(__file__).parent / "data_dir"
 
     train_data = MNISTSeq(root=data_root, train=True, download=True)
-    print(train_data.data.shape)
-    print(train_data.labels.shape)
-    train_data.plot_batch(train_data.data, train_data.labels)
+    print(f"Train data shape: {train_data.data.shape}")
+    print(f"Train labels shape: {train_data.labels.shape}")
+    train_data.plot_samples(num_samples=16)  # Much cleaner!
 
     test_data = MNISTSeq(root=data_root, train=False, download=True)
-    print(test_data.data.shape)
-    print(test_data.labels.shape)
-    test_data.plot_batch(test_data.data, test_data.labels)
+    print(f"Test data shape: {test_data.data.shape}")
+    print(f"Test labels shape: {test_data.labels.shape}")
+    test_data.plot_samples(num_samples=16)  # Much cleaner!
 
     # Keep windows open until user presses Enter
     input("\nPress Enter to close all windows...")
