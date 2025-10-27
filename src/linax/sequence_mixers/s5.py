@@ -117,7 +117,6 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
         B_key, C_key, D_key, step_key, key = jr.split(key, 5)
 
         ssm_size = cfg.state_dim
-        H = in_features
         blocks = cfg.ssm_blocks
         C_init = cfg.C_init
         conj_sym = cfg.conj_sym
@@ -147,7 +146,7 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
         V = block_diag(*([V] * blocks))
         Vinv = block_diag(*([Vc] * blocks))
 
-        self.H = H
+        self.in_features = in_features
         self.P = P
         if conj_sym:
             local_P = 2 * P
@@ -161,7 +160,7 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
 
         self.clip_eigs = clip_eigs
 
-        self.B = _init_vinb(lecun_normal(), B_key, (local_P, self.H), Vinv)
+        self.B = _init_vinb(lecun_normal(), B_key, (local_P, self.in_features), Vinv)
 
         # Initialize state to output (C) matrix
         if C_init in ["trunc_standard_normal"]:
@@ -174,11 +173,11 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
             raise NotImplementedError(f"C_init method {C_init} not implemented")
 
         if C_init in ["complex_normal"]:
-            self.C = C_init_fn(C_key, (self.H, 2 * self.P, 2))
+            self.C = C_init_fn(C_key, (self.in_features, 2 * self.P, 2))
         else:
-            self.C = _init_cv(C_init_fn, C_key, (self.H, local_P, 2), V)
+            self.C = _init_cv(C_init_fn, C_key, (self.in_features, local_P, 2), V)
 
-        self.D = normal(stddev=1.0)(D_key, (self.H,))
+        self.D = normal(stddev=1.0)(D_key, (self.in_features,))
 
         # Initialize learnable discretization timescale value
         self.log_step = _init_log_steps(step_key, (self.P, dt_min, dt_max))
@@ -322,14 +321,14 @@ def _init_log_steps(key: PRNGKeyArray, input: tuple) -> Array:
 
     Args:
         key: JAX random key.
-        input: Tuple containing (H, dt_min, dt_max) where H is the shape.
+        input: Tuple containing (dim, dt_min, dt_max) where dim is the shape.
 
     Returns:
-        Initialized array of timescales of shape (H,).
+        Initialized array of timescales of shape (dim,).
     """
-    H, dt_min, dt_max = input
+    dim, dt_min, dt_max = input
     log_steps = []
-    for i in range(H):
+    for i in range(dim):
         key, skey = jr.split(key)
         log_step = _log_step_initializer(dt_min=dt_min, dt_max=dt_max)(skey, shape=(1,))
         log_steps.append(log_step)
