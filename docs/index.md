@@ -3,7 +3,7 @@
 [linax](https://github.com/camail-official/linax) is a collection of state space models implemented in JAX. It is
 
 <div align="center">
-  <img width="400" alt="Linax Logo" src="https://raw.githubusercontent.com/camail-official/linax/main/assets/logo.png" />
+  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png?token=GHSAT0AAAAAADHTDDHA4ER52Q5LACECLQAU2H7ZSYQ" />
 </div>
 
 - is easy to use

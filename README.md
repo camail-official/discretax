@@ -7,7 +7,7 @@
 </div>
 
 <div align="center">
-  <img width="1344" height="768" alt="Linax Banner" src="assets/banner.png" />
+  <img width="1344" height="768" alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png" />
 </div>
 
 `linax` is a collection of State space models in `JAX`.
