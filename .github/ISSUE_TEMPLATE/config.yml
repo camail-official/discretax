@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discord Community
+    url: https://discord.gg/VazrGCxeT7
+    about: Ask questions and discuss Linax with the community
+  - name: 📚 Documentation
+    url: https://camail.org/linax/
+    about: Check out the documentation for guides and examples
+  - name: ❓ GitHub Discussions
+    url: https://github.com/camail-official/linax/discussions
+    about: Ask questions or start a discussion about Linax
