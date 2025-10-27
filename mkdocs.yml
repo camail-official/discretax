@@ -4,7 +4,6 @@ site_url: https://linax.camail.org
 theme:
   name: material
   features:
-    - navigation.tabs
     - navigation.top
     - content.code.copy
 
@@ -35,5 +34,13 @@ extra_css: []
 extra_javascript: []
 
 nav:
-  - Home: index.md
-  - Documentation: reference.md
+  - Reference:
+      - Overview: reference/index.md
+      - linax: reference/linax.md
+      - Blocks: reference/blocks.md
+      - Channel Mixers: reference/channel_mixers.md
+      - Encoders: reference/encoder.md
+      - Heads: reference/heads.md
+      - Models: reference/models.md
+      - Sequence Mixers: reference/sequence_mixers.md
+      - Utils: reference/utils.md

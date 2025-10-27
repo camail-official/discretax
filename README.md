@@ -1,6 +1,7 @@
 <div align="center">
-  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png?token=GHSAT0AAAAAADHTDDHB4SFOT7XBPH2P6GFS2H7Z2QQ" />
+  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png" style="padding-bottom: 2rem;" />
 </div>
+
 
 # linax - State Space Models in Jax
 
