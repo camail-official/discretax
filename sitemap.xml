@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://linax.camail.org/</loc>
-         <lastmod>2025-10-20</lastmod>
+         <loc>https://camail.org/linax/</loc>
+         <lastmod>2025-10-27</lastmod>
     </url>
     <url>
-         <loc>https://linax.camail.org/contributing/</loc>
-         <lastmod>2025-10-20</lastmod>
+         <loc>https://camail.org/linax/contributing/</loc>
+         <lastmod>2025-10-27</lastmod>
     </url>
     <url>
-         <loc>https://linax.camail.org/reference/</loc>
-         <lastmod>2025-10-20</lastmod>
+         <loc>https://camail.org/linax/reference/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/blocks/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/channel_mixers/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/encoder/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/heads/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/linax/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/models/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/sequence_mixers/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://camail.org/linax/reference/utils/</loc>
+         <lastmod>2025-10-27</lastmod>
     </url>
 </urlset>
