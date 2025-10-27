@@ -28,7 +28,7 @@ uv sync
 To include development tooling (pre-commit, Ruff), install with the `--dev` flag:
 
 ```bash
-uv sync --dev
+uv sync --extra dev
 ```
 
 After installing the development dependencies (activate your environment if needed), enable the git hooks:
@@ -46,7 +46,7 @@ uv sync --extra cu12
 To combine the CUDA extras with development dependencies:
 
 ```bash
-uv sync --extra cu12 --dev
+uv sync --extra cu12 --extra dev
 ```
 
 ## Core Contributors
@@ -56,7 +56,6 @@ This repository has been created and is maintained by:
 - [Benedict Armstrong](https://github.com/benedict-armstrong)
 - [Philipp Nazari](https://phnazari.github.io)
 - [Francesco Maria Ruscio](https://github.com/francescoshox)
-- [Shlomo Libo Feigin](https://github.com/ShlomoLibo)
 
 This work has been carried out within the [Computational Applied Mathematics & AI Lab](https://camail.org),
 led by [T. Konstantin Rusch](https://github.com/tk-rusch).

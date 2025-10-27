@@ -55,13 +55,9 @@ for GPU run
 uv sync --extra cu12
 ```
 
-To include development tooling (pre-commit, Ruff), install with the `--dev` flag:
+To include development tooling (pre-commit, Ruff), install:
 ```bash
-uv sync --extra cu12 --dev
-```
-or
-```bash
-uv sync --dev
+uv sync --extra dev
 ```
 After installing the development dependencies (activate your environment if needed), enable the git hooks:
 
@@ -79,7 +75,6 @@ This repository has been created and is maintained by:
 - [Benedict Armstrong](https://github.com/benedict-armstrong)
 - [Philipp Nazari](https://phnazari.github.io)
 - [Francesco Maria Ruscio](https://github.com/francescoshox)
-- [Shlomo Libo Feigin](https://github.com/ShlomoLibo)
 
 This work has been carried out within the [Computational Applied Mathematics & AI Lab](https://camail.org),
 led by [T. Konstantin Rusch](https://github.com/tk-rusch).

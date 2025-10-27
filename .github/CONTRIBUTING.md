@@ -42,7 +42,7 @@ cd linax
 2. **Install dependencies (including dev tools):**
 
 ```bash
-uv sync --dev
+uv sync --extra dev
 ```
 
 3. **Install pre-commit hooks:**
@@ -58,7 +58,7 @@ This will automatically run linters and formatters before each commit.
 If you have a CUDA-enabled GPU:
 
 ```bash
-uv sync --extra cu12 --dev
+uv sync --extra cu12 --extra dev
 ```
 
 ---
