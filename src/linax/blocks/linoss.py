@@ -66,7 +66,6 @@ class LinOSSBlock[ConfigType: LinOSSBlockConfig](Block):
 
     norm: eqx.nn.LayerNorm
     sequence_mixer: SequenceMixer
-    # TODO: Allow for other MLPs (e.g. SwiGLU)
     channel_mixer: ChannelMixer
     drop: eqx.nn.Dropout
 
