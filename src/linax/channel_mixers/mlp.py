@@ -7,7 +7,7 @@ import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
-# the avalable activations
+# the available activations
 activation = Literal["relu", "gelu", "swish", "silu", "tanh"]
 
 # activation registry to map string names to activation functions
