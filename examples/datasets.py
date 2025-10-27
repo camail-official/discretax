@@ -328,6 +328,7 @@ class MNISTSeq(VisionDataset):
         labels: np.ndarray | torch.Tensor,
         num_samples: int = 16,
         save_path: Path | str | None = None,
+        figsize: tuple[int, int] | None = None,
     ) -> None:
         """Plot samples from a batch by visualizing sequences as drawn digits.
 
@@ -338,6 +339,7 @@ class MNISTSeq(VisionDataset):
             labels: Ground truth labels, shape (batch_size,) with integer labels.
             num_samples: Number of samples to plot (default 16 for 4x4 grid).
             save_path: If provided, saves figure to this path. Otherwise, displays it.
+            figsize: Figure size as (width, height). If None, defaults to (12, 12).
 
         Example:
             >>> dataset = MNISTSeq(root="./data", train=True)
@@ -357,7 +359,9 @@ class MNISTSeq(VisionDataset):
 
         # Calculate grid dimensions
         grid_size = int(np.ceil(np.sqrt(num_samples)))
-        fig, axs = plt.subplots(grid_size, grid_size, figsize=(12, 12))
+        if figsize is None:
+            figsize = (12, 12)
+        fig, axs = plt.subplots(grid_size, grid_size, figsize=figsize)
         axs = axs.flatten()
 
         for i in range(num_samples):
@@ -403,6 +407,7 @@ class MNISTSeq(VisionDataset):
         num_samples: int = 16,
         start_idx: int = 0,
         save_path: Path | str | None = None,
+        figsize: tuple[int, int] | None = None,
     ) -> None:
         """Plot samples from this dataset by visualizing sequences as drawn digits.
 
@@ -412,6 +417,7 @@ class MNISTSeq(VisionDataset):
             num_samples: Number of samples to plot (default 16 for 4x4 grid).
             start_idx: Index to start from (default 0).
             save_path: If provided, saves figure to this path. Otherwise, displays it.
+            figsize: Figure size as (width, height). If None, defaults to (12, 12).
 
         Example:
             >>> dataset = MNISTSeq(root="./data", train=True, download=True)
@@ -430,7 +436,9 @@ class MNISTSeq(VisionDataset):
         labels = self.labels[start_idx : start_idx + num_samples]
 
         # Use the static method to do the actual plotting
-        self.plot_batch(sequences, labels, num_samples=num_samples, save_path=save_path)
+        self.plot_batch(
+            sequences, labels, num_samples=num_samples, save_path=save_path, figsize=figsize
+        )
 
     def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.Tensor]:
         """Get a single sample from the dataset.
