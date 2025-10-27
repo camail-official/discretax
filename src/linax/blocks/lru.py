@@ -58,6 +58,7 @@ class LRUBlock[ConfigType: LRUBlockConfig](Block):
 
     norm: eqx.nn.LayerNorm
     sequence_mixer: SequenceMixer
+    # TODO: allow for a general MLP here
     mlp: GLU
     drop: eqx.nn.Dropout
 
@@ -102,7 +103,7 @@ class LRUBlock[ConfigType: LRUBlockConfig](Block):
         """
         lrukey, dropkey1, dropkey2 = jr.split(key, 3)
 
-        # TODO I think I fucked this up here. Also how do we do batchnorm
+        # TODO This should be a batchnorm. how do we do batchnorm
         # if the batch dimension is vmapped?
         skip = x
         x, state = jax.vmap(self.norm)(x, state)
@@ -124,6 +125,9 @@ class LRUBlock[ConfigType: LRUBlockConfig](Block):
         norm_type = type(self.norm).__name__
 
         # Get LRU-specific config if available
+        # TODO philipp @francesco should every sequence mixer have its own repr
+        # which is then called by the block? Would probably make more sense...
+        # TODO: should do something like self.sequence_mixer.__repr__()
         r_min = getattr(self.sequence_mixer, "r_min", "N/A")
         r_max = getattr(self.sequence_mixer, "r_max", "N/A")
 

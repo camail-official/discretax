@@ -7,33 +7,42 @@ import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
+# the avalable activations
+activation = Literal["relu", "gelu", "swish", "silu", "tanh"]
 
-def non_linearity_factory(
-    non_linearity: Literal["relu", "gelu", "swish", "silu", "tanh"],
+# activation registry to map string names to activation functions
+ACTIVATION_REGISTRY = {
+    "relu": jax.nn.relu,
+    "gelu": jax.nn.gelu,
+    "swish": jax.nn.swish,
+    "silu": jax.nn.silu,
+    "tanh": jax.nn.tanh,
+}
+
+
+def _get_activation(
+    activation: activation,
 ) -> Callable[[Array], Array]:
-    """Factory function for non-linearities.
+    """Get the activation function from the registry.
+
+    This function is used to retrieve the activation function from the registry.
 
     Args:
-        non_linearity: The non-linearity to use.
+        activation: name of the activation function.
 
     Returns:
-        A function that applies the non-linearity to the input.
+        The activation function.
 
     Raises:
-        ValueError: If the non-linearity is invalid.
+        KeyError: If the activation function is invalid.
     """
-    if non_linearity == "relu":
-        return jax.nn.relu
-    elif non_linearity == "gelu":
-        return jax.nn.gelu
-    elif non_linearity == "swish":
-        return jax.nn.swish
-    elif non_linearity == "silu":
-        return jax.nn.silu
-    elif non_linearity == "tanh":
-        return jax.nn.tanh
-    else:
-        raise ValueError(f"Invalid non-linearity: {non_linearity}")
+    try:
+        return ACTIVATION_REGISTRY[activation]
+    except KeyError:
+        raise KeyError(
+            f"Invalid activation: {activation}."
+            f" Valid activations are: {list(ACTIVATION_REGISTRY.keys())}."
+        )
 
 
 class MLPChannelMixer(eqx.Module):
@@ -52,14 +61,14 @@ class MLPChannelMixer(eqx.Module):
     """
 
     linear: eqx.nn.Linear
-    non_linearity: Literal["relu", "gelu", "swish", "silu", "tanh"]
+    non_linearity: activation
 
     def __init__(
         self,
         input_dim: int,
         output_dim: int,
-        non_linearity: Literal["relu", "gelu", "swish", "silu", "tanh"],
-        use_bias: bool = True,
+        non_linearity: activation,
+        use_bias: bool = False,
         *,
         key: PRNGKeyArray,
     ):
@@ -77,4 +86,4 @@ class MLPChannelMixer(eqx.Module):
         Returns:
             Output tensor.
         """
-        return non_linearity_factory(self.non_linearity)(self.linear(x))
+        return _get_activation(self.non_linearity)(self.linear(x))

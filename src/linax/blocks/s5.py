@@ -100,8 +100,8 @@ class S5Block[ConfigType: S5BlockConfig](Block):
         s5key, dropkey1, dropkey2 = jr.split(key, 3)
 
         skip = x
-        # TODO: this is fucked as well. Should be BatchNorm. Also,
-        # all of these block seem to be the same?!?! WTF!
+        # TODO: Should be BatchNorm. Also,
+        # all of these block seem to be the same?!
         x, state = jax.vmap(self.norm)(x, state)
         x = self.sequence_mixer(x, s5key)
         x = self.drop(jax.nn.gelu(x), key=dropkey1)

@@ -15,7 +15,6 @@ class EncoderConfig(ABC):
     """Configuration for encoders.
 
     Attributes:
-        in_features: Input dimensionality. Semantic meaning depends on encoder type.
         out_features: Output dimensionality (hidden dimension).
     """
 
