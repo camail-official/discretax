@@ -11,6 +11,10 @@ plugins:
         python:
           paths: ["src"] # or "." if your package is in the root
 
+# Include additional directories for static files
+extra_css: []
+extra_javascript: []
+
 nav:
   - Home: index.md
   - Documentation: reference.md

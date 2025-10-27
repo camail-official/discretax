@@ -2,6 +2,10 @@
 
 [linax](https://github.com/camail-official/linax) is a collection of state space models implemented in JAX. It is
 
+<div align="center">
+  <img width="400" alt="Linax Logo" src="https://raw.githubusercontent.com/camail-official/linax/main/assets/logo.png" />
+</div>
+
 - is easy to use
 - ⚡ lightning fast
 - highly accessible.
