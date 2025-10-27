@@ -56,10 +56,23 @@ class StandardBlockConfig(BlockConfig):
 class StandardBlock[ConfigType: StandardBlockConfig](Block):
     """A single block in the Standard backbone.
 
-    This block implements a sequence mixer, normalization layers, and a channel mixer.
+    This block implements a sequence mixer, BatchNorm normalization, and a channel mixer.
+
+    .. warning::
+        This block uses BatchNorm for normalization. When training with vmap, ensure you
+        name the batch axis as 'batch' for compatibility. Example:
+
+        .. code-block:: python
+
+            # Correct usage with axis naming
+            jax.vmap(model, axis_name="batch")
+            # or
+            jax.vmap(model, in_axes=(0, None, 0), axis_name="batch")
+
+        This ensures BatchNorm can properly compute batch statistics across the named axis.
 
     Attributes:
-        norm: LayerNorm layer applied after the sequence mixer.
+        norm: BatchNorm layer applied after the sequence mixer.
         sequence_mixer: The sequence mixing mechanism for sequence processing.
         channel_mixer: The channel mixing mechanism for channel processing.
         drop: Dropout layer applied after the channel mixer.
@@ -73,7 +86,7 @@ class StandardBlock[ConfigType: StandardBlockConfig](Block):
         key: JAX random key for initialization of layers.
     """
 
-    norm: eqx.nn.LayerNorm
+    norm: eqx.nn.BatchNorm
     sequence_mixer: SequenceMixer
     channel_mixer: ChannelMixer
     drop: eqx.nn.Dropout
@@ -88,8 +101,9 @@ class StandardBlock[ConfigType: StandardBlockConfig](Block):
         key: PRNGKeyArray,
     ):
         """Initialize the Standard block."""
-        # TODO: make this a BatchNorm (I think this is what the original implementation does)
-        self.norm = eqx.nn.LayerNorm(shape=in_features)
+        self.norm = eqx.nn.BatchNorm(
+            input_size=in_features, axis_name="batch", channelwise_affine=False, mode="ema"
+        )
 
         self.sequence_mixer = sequence_mixer
         self.channel_mixer = channel_mixer
@@ -115,13 +129,15 @@ class StandardBlock[ConfigType: StandardBlockConfig](Block):
         key, dropkey1, dropkey2 = jr.split(key, 3)
         skip = x
         if self.prenorm:
-            x, state = jax.vmap(self.norm)(x, state)
+            x, state = self.norm(x.T, state)
+            x = x.T
         x = self.sequence_mixer(x, key)
         x = self.drop(jax.nn.gelu(x), key=dropkey1)
         x = jax.vmap(self.channel_mixer)(x)
         x = self.drop(x, key=dropkey2)
         x = skip + x
         if not self.prenorm:
-            x, state = jax.vmap(self.norm)(x, state)
+            x, state = self.norm(x.T, state)
+            x = x.T
 
         return x, state

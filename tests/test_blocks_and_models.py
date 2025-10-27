@@ -72,7 +72,7 @@ def test_lru_model_forward():
     def single_forward(x_single, key_single):
         return model(x_single, state, key_single)
 
-    batched_forward = jax.vmap(single_forward, in_axes=(0, 0))
+    batched_forward = jax.vmap(single_forward, in_axes=(0, 0), axis_name="batch")
     y, _ = batched_forward(x, jr.split(jr.PRNGKey(1), 2))
 
     assert y.shape == (2, 3)  # (batch_size, out_features)
@@ -105,7 +105,7 @@ def test_s5_model_forward():
     def single_forward(x_single, key_single):
         return model(x_single, state, key_single)
 
-    batched_forward = jax.vmap(single_forward, in_axes=(0, 0))
+    batched_forward = jax.vmap(single_forward, in_axes=(0, 0), axis_name="batch")
     y, _ = batched_forward(x, jr.split(jr.PRNGKey(2), 2))
 
     assert y.shape == (2, 3)  # (batch_size, out_features)
@@ -139,7 +139,7 @@ def test_linoss_model_forward():
     def single_forward(x_single, key_single):
         return model(x_single, state, key_single)
 
-    batched_forward = jax.vmap(single_forward, in_axes=(0, 0))
+    batched_forward = jax.vmap(single_forward, in_axes=(0, 0), axis_name="batch")
     y, _ = batched_forward(x, jr.split(jr.PRNGKey(3), 2))
 
     assert y.shape == (2, 3)  # (batch_size, out_features)
