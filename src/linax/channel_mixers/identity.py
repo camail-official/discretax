@@ -50,7 +50,6 @@ class IdentityChannelMixer[ConfigType: IdentityChannelMixerConfig](ChannelMixer)
         key: PRNGKeyArray,
         *,
         out_features: int | None = None,
-        **kwargs,
     ):
         """Initialize the identity channel mixer."""
 

@@ -52,7 +52,6 @@ class IdentitySequenceMixer[ConfigType: IdentitySequenceMixerConfig](SequenceMix
         in_features: Input dimensionality.
         cfg: Configuration for the Identity sequence mixer.
         key: JAX random key for initialization.
-        **kwargs: Additional keyword arguments (unused, for compatibility).
     """
 
     def __init__(
@@ -60,7 +59,6 @@ class IdentitySequenceMixer[ConfigType: IdentitySequenceMixerConfig](SequenceMix
         in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
-        **kwargs,
     ):
         """Initialize the Identity sequence mixer layer."""
         # Identity mixer has no parameters

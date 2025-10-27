@@ -74,9 +74,9 @@ class SwiGLU[ConfigType: SwiGLUConfig](ChannelMixer):
 
     def __init__(
         self,
-        in_features: int | None = None,
-        cfg: ConfigType | None = None,
-        key: PRNGKeyArray | None = None,
+        in_features: int,
+        cfg: ConfigType,
+        key: PRNGKeyArray,
         *,
         out_features: int | None = None,
     ) -> None:

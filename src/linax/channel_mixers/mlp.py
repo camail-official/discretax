@@ -105,7 +105,6 @@ class MLPChannelMixer[ConfigType: MLPChannelMixerConfig](ChannelMixer):
         key: PRNGKeyArray,
         *,
         out_features: int | None = None,
-        **kwargs,
     ):
         """Initialize the MLP channel mixer."""
         out_dim = out_features if out_features is not None else in_features

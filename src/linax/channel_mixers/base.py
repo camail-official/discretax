@@ -41,7 +41,6 @@ class ChannelMixer[ConfigType: ChannelMixerConfig](eqx.Module, ABC):
         in_features: Input dimensionality.
         cfg: Configuration for the channel mixer.
         key: JAX random key for initialization.
-        **kwargs: Additional keyword arguments for specific channel mixer implementations.
     """
 
     @abstractmethod
@@ -52,7 +51,6 @@ class ChannelMixer[ConfigType: ChannelMixerConfig](eqx.Module, ABC):
         key: PRNGKeyArray,
         *,
         out_features: int | None = None,
-        **kwargs,
     ):
         """Initialize the channel mixer."""
 

@@ -123,7 +123,7 @@ class SSM[ConfigType: SSMConfig](eqx.Module):
 
     def __init__(self, cfg: ConfigType, key: PRNGKeyArray):
         num_blocks = len(cfg.block_configs)
-        keys = jr.split(key, 2 * num_blocks + 2)
+        keys = jr.split(key, 3 * num_blocks + 2)
 
         # Build encoder from its config (config contains all dimension info)
         self.encoder = cfg.encoder_config.build(key=keys[0])

@@ -65,7 +65,6 @@ class GLU[ConfigType: GLUConfig](ChannelMixer):
         key: PRNGKeyArray,
         *,
         out_features: int | None = None,
-        **kwargs,
     ):
         """Initialize the GLU layer."""
         w1_key, w2_key = jr.split(key, 2)

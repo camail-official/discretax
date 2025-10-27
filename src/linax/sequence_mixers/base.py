@@ -42,7 +42,6 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
         in_features: Input dimensionality.
         cfg: Configuration for the sequence mixer.
         key: JAX random key for initialization.
-        **kwargs: Additional keyword arguments for specific sequence mixer implementations.
     """
 
     @abstractmethod
@@ -51,7 +50,6 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
         in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
-        **kwargs,
     ):
         """Initialize the sequence mixer."""
 
