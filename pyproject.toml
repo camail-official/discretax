@@ -15,7 +15,7 @@ maintainers = [
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
-keywords = ["jax", "equinox", "ssm", "state-space-models", "sequence-modeling", "neural-networks", "deep-learning"]
+keywords = ["jax", "equinox", "ssm", "state-space-models", "sequence-modeling", "neural-networks", "deep-learning", "machine-learning", "ml"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
