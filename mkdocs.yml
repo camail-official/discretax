@@ -1,0 +1,16 @@
+site_name: LinAX
+repo_url: https://linax.readthedocs.io
+site_url: https://linax.camail.org
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["src"] # or "." if your package is in the root
+
+nav:
+  - Home: index.md
+  - Documentation: reference.md

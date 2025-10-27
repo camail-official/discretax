@@ -41,6 +41,8 @@ dev = [
     "pandas>=2.3.2",
     "ipykernel>=6.30.1",
     "pytest>=8.3.3",
+    "mkdocs-material>=9.6.22",
+    "mkdocstrings-python>=1.18.2",
 ]
 
 examples = [
