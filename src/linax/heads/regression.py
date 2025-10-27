@@ -51,10 +51,12 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
     """
 
     linear: eqx.nn.Linear
+    reduce: bool
 
     def __init__(self, in_features: int, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
         """Initialize the regression head."""
         self.linear = eqx.nn.Linear(in_features=in_features, out_features=out_features, key=key)
+        self.reduce = cfg.reduce
 
     def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the regression head.
@@ -72,7 +74,7 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
             the output tensor is of shape (timesteps, out_features).
         """
         # reduce over the time dimension if reduce is True
-        if self.cfg.reduce:
+        if self.reduce:
             x = jnp.mean(x, axis=0)  # shape (timestep, in_features) -> (in_features)
         x = self.linear(x)  # shape ((timesteps), in_features)) -> ((timesteps),out_features)
         return x, state
