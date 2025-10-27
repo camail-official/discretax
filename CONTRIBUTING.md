@@ -21,7 +21,7 @@ Before contributing, please:
 
 1. **Check existing issues** to see if someone is already working on it
 2. **Open an issue** to discuss major changes before implementing them
-3. **Read our code of conduct** (if applicable)
+3. **Read our [Code of Conduct](CODE_OF_CONDUCT.md)** and follow community standards
 
 ## Development Setup
 
