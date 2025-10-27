@@ -41,7 +41,7 @@ pip install linax[cuda]
 ```
 
 ## Full Library Installation
-If you want to install the full libary, especially if you want to **contribute** to the project, clone the [linax](https://github.com/camail-official/linax) repository and cd into it
+If you want to install the full library, especially if you want to **contribute** to the project, clone the [linax](https://github.com/camail-official/linax) repository and cd into it
 ```bash
 cd linax
 ```
