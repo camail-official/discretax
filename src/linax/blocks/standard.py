@@ -1,4 +1,4 @@
-"""Standard block. This the standard block used in recent papers like S5, LRU and LinOSS."""
+"""Standard block. This is the standard block used in recent papers like S5, LRU and LinOSS."""
 
 from __future__ import annotations
 
