@@ -1,4 +1,8 @@
-# Linax - State Space Models in Jax
+<div align="center">
+  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png?token=GHSAT0AAAAAADHTDDHB4SFOT7XBPH2P6GFS2H7Z2QQ" />
+</div>
+
+# linax - State Space Models in Jax
 
 <div align="center">
 
@@ -6,9 +10,6 @@
 
 </div>
 
-<div align="center">
-  <img width="1344" height="768" alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png" />
-</div>
 
 `linax` is a collection of State space models in `JAX`.
 

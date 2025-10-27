@@ -1,10 +1,10 @@
+<div align="center">
+  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png?token=GHSAT0AAAAAADHTDDHB4SFOT7XBPH2P6GFS2H7Z2QQ" />
+</div>
+
 # Getting Started
 
 [linax](https://github.com/camail-official/linax) is a collection of state space models implemented in JAX. It is
-
-<div align="center">
-  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/feature/docs/assets/logo.png?token=GHSAT0AAAAAADHTDDHA4ER52Q5LACECLQAU2H7ZSYQ" />
-</div>
 
 - is easy to use
 - ⚡ lightning fast
