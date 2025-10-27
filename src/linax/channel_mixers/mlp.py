@@ -21,14 +21,14 @@ ACTIVATION_REGISTRY = {
 
 
 def _get_activation(
-    activation: activation,
+    non_linearity: activation,
 ) -> Callable[[Array], Array]:
     """Get the activation function from the registry.
 
     This function is used to retrieve the activation function from the registry.
 
     Args:
-        activation: name of the activation function.
+        non_linearity: name of the activation function.
 
     Returns:
         The activation function.
@@ -37,10 +37,10 @@ def _get_activation(
         KeyError: If the activation function is invalid.
     """
     try:
-        return ACTIVATION_REGISTRY[activation]
+        return ACTIVATION_REGISTRY[non_linearity]
     except KeyError:
         raise KeyError(
-            f"Invalid activation: {activation}."
+            f"Invalid activation: {non_linearity}."
             f" Valid activations are: {list(ACTIVATION_REGISTRY.keys())}."
         )
 
