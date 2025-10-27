@@ -1,6 +1,5 @@
 """LRU model configuration."""
 
-import logging
 from dataclasses import dataclass, field
 
 from linax.blocks.lru import LRUBlockConfig
@@ -8,8 +7,6 @@ from linax.encoder.base import EncoderConfig
 from linax.heads.base import HeadConfig
 from linax.models.ssm import SSMConfig
 from linax.sequence_mixers.lru import LRUSequenceMixerConfig
-
-logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -68,16 +65,6 @@ class LRUConfig(SSMConfig):
 
     def __post_init__(self):
         """Replicates configs for each block and validates."""
-        # Log if default configs are being used
-        default_sequence_mixer = LRUSequenceMixerConfig()
-        default_block = LRUBlockConfig()
-
-        if self.sequence_mixer_config == default_sequence_mixer:
-            logger.info("Using default LRUSequenceMixerConfig: %s", default_sequence_mixer)
-
-        if self.block_config == default_block:
-            logger.info("Using default LRUBlockConfig: %s", default_block)
-
         # Use object.__setattr__ because dataclass is frozen
         object.__setattr__(
             self, "sequence_mixer_configs", [self.sequence_mixer_config] * self.num_blocks
