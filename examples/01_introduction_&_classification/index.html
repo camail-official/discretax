@@ -475,7 +475,7 @@
           <li class="md-nav__item">
   <a href="#visualizing-mnist-sequences" class="md-nav__link">
     <span class="md-ellipsis">
-      Visualizing MNIST Sequences 👀
+      Visualizing MNIST Sequences
     </span>
   </a>
   
@@ -489,11 +489,11 @@
         <li class="md-nav__item">
   <a href="#model-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      Model Architecture 🏗️
+      Model Architecture
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Model Architecture 🏗️">
+    <nav class="md-nav" aria-label="Model Architecture">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -508,7 +508,7 @@
           <li class="md-nav__item">
   <a href="#model-summary" class="md-nav__link">
     <span class="md-ellipsis">
-      Model Summary 📋
+      Model Summary
     </span>
   </a>
   
@@ -522,11 +522,11 @@
         <li class="md-nav__item">
   <a href="#loss-function" class="md-nav__link">
     <span class="md-ellipsis">
-      Loss Function 📉
+      Loss Function
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Loss Function 📉">
+    <nav class="md-nav" aria-label="Loss Function">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -541,7 +541,7 @@
           <li class="md-nav__item">
   <a href="#testing-gradient-computation" class="md-nav__link">
     <span class="md-ellipsis">
-      Testing Gradient Computation ✅
+      Testing Gradient Computation
     </span>
   </a>
   
@@ -555,26 +555,17 @@
         <li class="md-nav__item">
   <a href="#evaluation-metrics" class="md-nav__link">
     <span class="md-ellipsis">
-      Evaluation Metrics 📊
+      Evaluation Metrics
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Evaluation Metrics 📊">
+    <nav class="md-nav" aria-label="Evaluation Metrics">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#jit-compilation" class="md-nav__link">
-    <span class="md-ellipsis">
-      JIT Compilation ⚡:
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#test-set-evaluation" class="md-nav__link">
     <span class="md-ellipsis">
-      Test Set Evaluation 🧪
+      Test Set Evaluation
     </span>
   </a>
   
@@ -588,7 +579,7 @@
         <li class="md-nav__item">
   <a href="#optimizer-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Optimizer Setup ⚙️
+      Optimizer Setup
     </span>
   </a>
   
@@ -597,26 +588,17 @@
         <li class="md-nav__item">
   <a href="#training-loop" class="md-nav__link">
     <span class="md-ellipsis">
-      Training Loop 🏋️
+      Training Loop
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Training Loop 🏋️">
+    <nav class="md-nav" aria-label="Training Loop">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#performance-optimization" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance Optimization ⚡:
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#expected-results" class="md-nav__link">
     <span class="md-ellipsis">
-      Expected Results 🎯:
+      Expected Results:
     </span>
   </a>
   
@@ -624,15 +606,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#congratulations" class="md-nav__link">
-    <span class="md-ellipsis">
-      🎉 Congratulations!
-    </span>
-  </a>
   
 </li>
       
@@ -1726,13 +1699,6 @@
 <span class="c1"># random keys take care of randomness in JAX</span>
 <span class="n">key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>⚡ Speed Up Training for Testing:</strong></p>
-<p>To reduce training time for experimentation:
-- <strong>STEPS = 3000</strong> (2 epochs) 
-- <strong>NUM_BLOCKS = 4</strong></p>
-<p>With these parameters, training takes around <strong>2 minutes</strong>.</p>
-<p><strong>⚠️ Common Mistake:</strong> Using <strong>PRINT_EVERY=1</strong> slows down training significantly because data must be transferred between the accelerator and host device frequently. <br>
-For optimal performance, refer to the <a href="https://jax.readthedocs.io/en/latest/notebooks/Common_Gotchas_in_JAX.html">JAX Training Cookbook</a>.</p>
 <h2 id="data-loading">Data Loading 📊<a class="headerlink" href="#data-loading" title="Permanent link">¤</a></h2>
 <p>We load the <strong>MNIST Sequence dataset</strong> where handwritten digits are represented as sequences of pen strokes.</p>
 <h3 id="dataset-details">Dataset Details:<a class="headerlink" href="#dataset-details" title="Permanent link">¤</a></h3>
@@ -1776,12 +1742,12 @@ For optimal performance, refer to the <a href="https://jax.readthedocs.io/en/lat
 Label shape: (32,)
 Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
 </code></pre></div>
-<h3 id="visualizing-mnist-sequences">Visualizing MNIST Sequences 👀<a class="headerlink" href="#visualizing-mnist-sequences" title="Permanent link">¤</a></h3>
+<h3 id="visualizing-mnist-sequences">Visualizing MNIST Sequences<a class="headerlink" href="#visualizing-mnist-sequences" title="Permanent link">¤</a></h3>
 <p>Let's visualize some samples from the training set to see what our model will be learning from. Each visualization shows how the pen strokes form the digit:</p>
 <div class="highlight"><pre><span></span><code><span class="n">train_dataset</span><span class="o">.</span><span class="n">plot_samples</span><span class="p">(</span><span class="n">num_samples</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 </code></pre></div>
-<p><img alt="img" src="../_data/7eeb5dcc492d45ab9e64a72b84b4b3e5.png" /></p>
-<h2 id="model-architecture">Model Architecture 🏗️<a class="headerlink" href="#model-architecture" title="Permanent link">¤</a></h2>
+<p><img alt="img" src="../_data/e194a5753993465aa029b06954dc3f81.png" /></p>
+<h2 id="model-architecture">Model Architecture<a class="headerlink" href="#model-architecture" title="Permanent link">¤</a></h2>
 <p>We'll build a LinOSS model using Linax's configuration system. The model consists of three main components:</p>
 <ol>
 <li><strong>Encoder</strong>: Transforms input sequences (4 features) to a higher-dimensional space (64 features)</li>
@@ -1800,13 +1766,14 @@ Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
     <span class="n">head_config</span><span class="o">=</span><span class="n">ClassificationHeadConfig</span><span class="p">(</span><span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>Next, we build the model from the config</p>
 <div class="highlight"><pre><span></span><code><span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">linoss_cfg</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">subkey</span><span class="p">)</span>
 
 <span class="n">state</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="model-summary">Model Summary 📋<a class="headerlink" href="#model-summary" title="Permanent link">¤</a></h3>
+<h3 id="model-summary">Model Summary<a class="headerlink" href="#model-summary" title="Permanent link">¤</a></h3>
 <p>Let's inspect the model to see its architecture and parameter count. </p>
 <p><strong>What to look for:</strong>
 - Total parameters (scales with <code>NUM_BLOCKS</code> - lightweight for sequence modeling!)
@@ -1837,16 +1804,15 @@ Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
 ║ Total Parameters: 251,786                                              ║
 ╚════════════════════════════════════════════════════════════════════════╝
 </code></pre></div>
-<h2 id="loss-function">Loss Function 📉<a class="headerlink" href="#loss-function" title="Permanent link">¤</a></h2>
-<p>We use <strong>cross-entropy loss</strong> for multi-class classification, measuring how well the model's predicted probability distribution matches the true labels.</p>
+<h2 id="loss-function">Loss Function<a class="headerlink" href="#loss-function" title="Permanent link">¤</a></h2>
+<p>We train our model using the <strong>cross-entropy loss</strong> for multi-class classification.</p>
 <h3 id="implementation-details">Implementation Details:<a class="headerlink" href="#implementation-details" title="Permanent link">¤</a></h3>
 <ul>
 <li><strong>Batched computation</strong>: <code>jax.vmap</code> processes all samples in parallel for efficiency</li>
 <li><strong>Stateful forward pass</strong>: Model state (e.g., batch norm statistics) is threaded through computation</li>
 <li><strong>Axis naming</strong>: <code>axis_name="batch"</code> enables collective operations across the batch dimension</li>
-<li><strong>Returns</strong>: Both the loss value and updated model state (required for stateful layers)</li>
 </ul>
-<p><strong>Expected initial loss:</strong> ~2.3 (log(10)), which corresponds to random guessing among 10 classes.</p>
+<p><strong>Expected initial loss:</strong> ~2.3 = log(10), which corresponds to random guessing among 10 classes.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">loss</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="s2">&quot;batch 128 4&quot;</span><span class="p">],</span>
@@ -1885,9 +1851,9 @@ Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
 <div class="highlight"><pre><span></span><code>Loss shape: ()
 Initial loss value: 2.3367
 </code></pre></div>
-<h3 id="testing-gradient-computation">Testing Gradient Computation ✅<a class="headerlink" href="#testing-gradient-computation" title="Permanent link">¤</a></h3>
+<h3 id="testing-gradient-computation">Testing Gradient Computation<a class="headerlink" href="#testing-gradient-computation" title="Permanent link">¤</a></h3>
 <p>Before training, let's verify that gradients flow correctly through the model. We use <code>eqx.filter_value_and_grad</code> with <code>has_aux=True</code> to compute gradients while also getting the updated model state.</p>
-<p><strong>Note:</strong> You may see a <code>ComplexWarning</code> - this is expected! LinOSS uses complex-valued internal representations that are converted to real values during backpropagation.</p>
+<p><strong>Note:</strong> You may see a <code>ComplexWarning</code> - this is expected! LinOSS uses complex-valued internal representations that are converted to real values for reading out the hidden states.</p>
 <div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">loss_value</span><span class="p">,</span> <span class="n">new_state</span><span class="p">),</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">filter_value_and_grad</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">has_aux</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span>
     <span class="n">model</span><span class="p">,</span> <span class="n">dummy_x</span><span class="p">,</span> <span class="n">dummy_y</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key</span>
 <span class="p">)</span>
@@ -1899,13 +1865,8 @@ Initial loss value: 2.3367
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>Loss after gradient computation: 2.3367
 </code></pre></div>
-<h2 id="evaluation-metrics">Evaluation Metrics 📊<a class="headerlink" href="#evaluation-metrics" title="Permanent link">¤</a></h2>
+<h2 id="evaluation-metrics">Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Permanent link">¤</a></h2>
 <p>In addition to loss, we track <strong>classification accuracy</strong> to better understand model performance.</p>
-<h3 id="jit-compilation">JIT Compilation ⚡:<a class="headerlink" href="#jit-compilation" title="Permanent link">¤</a></h3>
-<p>Both loss and accuracy functions are wrapped with <code>@eqx.filter_jit</code> for maximum performance:
-- Compiles Python/JAX code to optimized XLA machine code
-- First call is slow (compilation), subsequent calls are very fast
-- Typical speedup: 10-100x faster than eager execution</p>
 <div class="highlight"><pre><span></span><code><span class="n">loss</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">filter_jit</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>  <span class="c1"># JIT our loss function from earlier!</span>
 
 
@@ -1929,12 +1890,9 @@ Initial loss value: 2.3367
     <span class="n">pred_y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred_y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">pred_y</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="test-set-evaluation">Test Set Evaluation 🧪<a class="headerlink" href="#test-set-evaluation" title="Permanent link">¤</a></h3>
+<h3 id="test-set-evaluation">Test Set Evaluation<a class="headerlink" href="#test-set-evaluation" title="Permanent link">¤</a></h3>
 <p>This function evaluates the model on the entire test set by iterating through all test batches.</p>
-<p><strong>Inference Mode</strong>: We use <code>eqx.tree_inference(model, value=True)</code> to switch to inference mode:
-- ✓ Disables dropout (we want deterministic predictions)
-- ✓ Uses running statistics for batch normalization (instead of batch statistics)
-- ✓ Ensures fair comparison between training and test performance</p>
+<p><strong>Inference Mode</strong>: We use <code>eqx.tree_inference(model, value=True)</code> to switch to inference mode.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
     <span class="n">testloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
@@ -1954,33 +1912,13 @@ Initial loss value: 2.3367
         <span class="n">avg_acc</span> <span class="o">+=</span> <span class="n">compute_accuracy</span><span class="p">(</span><span class="n">inference_model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">avg_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">testloader</span><span class="p">),</span> <span class="n">avg_acc</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">testloader</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="optimizer-setup">Optimizer Setup ⚙️<a class="headerlink" href="#optimizer-setup" title="Permanent link">¤</a></h2>
+<h2 id="optimizer-setup">Optimizer Setup<a class="headerlink" href="#optimizer-setup" title="Permanent link">¤</a></h2>
 <p>We use the <strong>AdamW</strong> optimizer from Optax, which is Adam with decoupled weight decay regularization.</p>
-<p><strong>Why AdamW?</strong>
-- Better generalization than standard Adam
-- Separates weight decay from gradient-based updates
-- Well-suited for training SSMs with relatively few parameters
-- Learning rate of <span class="arithmatex">\(3 \times 10^{-4}\)</span> is a good default starting point</p>
 <div class="highlight"><pre><span></span><code><span class="n">optim</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">adamw</span><span class="p">(</span><span class="n">LEARNING_RATE</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="training-loop">Training Loop 🏋️<a class="headerlink" href="#training-loop" title="Permanent link">¤</a></h2>
-<p>Now let's train the model! The training process follows these steps:</p>
-<ol>
-<li><strong>Initialize optimizer state</strong> with the model's trainable parameters</li>
-<li><strong>Define a single training step</strong> (<code>make_step</code>) that:</li>
-<li>Computes loss and gradients via <code>eqx.filter_value_and_grad</code></li>
-<li>Updates parameters using the optimizer</li>
-<li>Returns updated model, optimizer state, loss, and model state</li>
-<li><strong>JIT-compile the training step</strong> for maximum performance</li>
-<li><strong>Iterate over training data</strong> for the specified number of steps</li>
-<li><strong>Evaluate periodically</strong> on the test set to monitor progress</li>
-</ol>
-<h3 id="performance-optimization">Performance Optimization ⚡:<a class="headerlink" href="#performance-optimization" title="Permanent link">¤</a></h3>
-<p>The entire training step is wrapped in a single JIT region, ensuring:
-- Minimal Python overhead
-- Fused operations for efficiency<br />
-- Maximum GPU/TPU utilization</p>
-<h3 id="expected-results">Expected Results 🎯:<a class="headerlink" href="#expected-results" title="Permanent link">¤</a></h3>
+<h2 id="training-loop">Training Loop<a class="headerlink" href="#training-loop" title="Permanent link">¤</a></h2>
+<p>Now let's train the model!</p>
+<h3 id="expected-results">Expected Results:<a class="headerlink" href="#expected-results" title="Permanent link">¤</a></h3>
 <p>With the default configuration (<code>BATCH_SIZE=32</code>, <code>NUM_BLOCKS=10</code>, <code>STEPS=7500</code>):</p>
 <ul>
 <li><strong>Initial accuracy</strong>: ~10-12% (random guessing among 10 classes)</li>
@@ -1989,7 +1927,7 @@ Initial loss value: 2.3367
 <li><strong>After 7500 steps</strong> (~5 epochs): <strong>~96% accuracy</strong></li>
 </ul>
 <p>Training takes approximately <strong>17 minutes</strong> with these settings.</p>
-<p>Time to train! ☕</p>
+<p>Time to train!</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
     <span class="n">trainloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
@@ -2084,23 +2022,20 @@ Initial loss value: 2.3367
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
-<h2 id="congratulations">🎉 Congratulations!<a class="headerlink" href="#congratulations" title="Permanent link">¤</a></h2>
-<p>You've completed the first step on your journey from beginner to hero! 🦸</p>
 <p>In this notebook, you learned how to:
 - ✅ Load and visualize sequential data (MNIST Sequence dataset)
 - ✅ Configure and build a LinOSS model using Linax
 - ✅ Set up training with JAX, Equinox, and Optax
 - ✅ Train a state space model and monitor its performance</p>
 <p><strong>What's Next?</strong> 🚀</p>
-<p>Continue your hero route by exploring the next notebooks, where you'll dive deeper into:
+<p>Continue by exploring the next notebooks, where you'll dive deeper into:
 - SSM for regression problems
 - Advanced SSM architectures (LRU, S4, S5)
 - Configurable SSM architectures</p>
-<p>Keep going - you're on your way to mastering State Space Models! 💪</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">¤</a></h2>
 <ol>
 <li><strong>Linax GitHub Repository</strong>: https://github.com/camail-official/linax (⭐ Star the repo!)</li>
-<li><strong>LinOSS Paper</strong>: Rusch, T. K., &amp; Rus, D. (2024). "Oscillatory State-Space Models". <em>arXiv preprint arXiv:2410.03943</em>. https://arxiv.org/abs/2410.03943</li>
+<li><strong>LinOSS Paper</strong>: Rusch, T. K., &amp; Rus, D. (2024). "Oscillatory State-Space Models". https://openreview.net/forum?id=GRMfXcAAFh</li>
 <li><strong>Equinox Documentation</strong>: https://docs.kidger.site/equinox/</li>
 <li><strong>JAX Documentation</strong>: https://jax.readthedocs.io/</li>
 <li><strong>MNIST SEQUENCE Dataset</strong>: https://edwin-de-jong.github.io/blog/mnist-sequence-data/</li>
