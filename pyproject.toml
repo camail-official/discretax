@@ -29,6 +29,7 @@ examples = [
     "torchvision>=0.24.0",
     "torch>=2.6.0",
     "matplotlib>=3.10.0",
+    "tqdm>=4.67.1",
 ]
 
 [dependency-groups]
