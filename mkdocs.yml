@@ -1,5 +1,5 @@
-site_name: LinaX
-site_description: The documentation for the LinaX software package.
+site_name: linax
+site_description: The documentation for the linax software package.
 site_author: Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong
 repo_url: https://github.com/camail-official/linax
 repo_name: camail-official/linax
@@ -60,7 +60,7 @@ plugins:
       # and https://github.com/patrick-kidger/equinox/issues/984
       # In particular this allows for searching e.g. 'filter_grad' and to match 'equinox.filter_grad'.
       separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
-  #- ipynb
+  - ipynb
   - hippogriffe:
       show_bases: true
       show_source_links: all
@@ -83,8 +83,9 @@ plugins:
             show_symbol_type_toc: true
 
 nav:
-  - Getting started:
-      - "index.md"
+  - "index.md"
+  - Examples:
+      - "examples/example.md"
   - API:
       - Base:
           - "api/base/heads.md"
@@ -94,6 +95,11 @@ nav:
           - "api/base/channel_mixer.md"
       - Blocks:
           - "api/blocks/standard.md"
+      - Models:
+          - "api/models/ssm.md"
+          - "api/models/linoss.md"
+          - "api/models/lru.md"
+          - "api/models/s5.md"
       - Sequence Mixers:
           - "api/sequence_mixer/identity.md"
           - "api/sequence_mixer/lru.md"
@@ -112,4 +118,5 @@ nav:
           - "api/heads/classification.md"
           - "api/heads/regression.md"
   - Contributing:
+      - "contributing.md"
       - "contributing.md"

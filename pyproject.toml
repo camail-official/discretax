@@ -42,10 +42,17 @@ dev = [
     "ruff>=0.12.11",
     "pandas>=2.3.2",
     "ipykernel>=6.30.1",
-    "pytest>=8.3.3",
+    "pytest>=8.3.3"
+]
+
+docs = [
+    "mkdocs>=1.6.1",
     "mkdocs-material>=9.6.22",
     "mkdocstrings-python>=1.18.2",
     "hippogriffe>=0.2.2",
+    "mkdocs-ipynb>=0.1.1",
+    "mkdocstrings-python>=1.18.2",
+    "pymdown-extensions==10.14.3"
 ]
 
 examples = [

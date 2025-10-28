@@ -1,8 +1,9 @@
+# Getting Started
+
 <div align="center">
   <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/main/assets/logo.png" style="padding-bottom: 2rem;" />
 </div>
 
-# Getting Started
 
 [linax](https://github.com/camail-official/linax) is a collection of state space models implemented in JAX. It is
 
