@@ -4,13 +4,11 @@ dynamic = ["version"]
 description = "State Space Models in Jax"
 readme = "README.md"
 authors = [
-    { name = "Computational Applied Mathematics & AI Lab", email = "tkrusch@tue.ellis.eu" },
     { name = "Benedict Armstrong", email = "benedict.armstrong@inf.ethz.ch" },
     { name = "Francesco Maria Ruscio", email = "franciruscio@gmail.com" },
     { name = "Philipp Nazari", email = "philipp.nazari@tuebingen.mpg.de" },
 ]
 maintainers = [
-    { name = "Computational Applied Mathematics & AI Lab"},
     { name = "Benedict Armstrong" },
     { name = "Francesco Maria Ruscio" },
     { name = "Philipp Nazari" },

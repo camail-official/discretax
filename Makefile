@@ -3,6 +3,11 @@
 # 	https://github.com/ashleve/lightning-hydra-template
 # =============================
 
+# Declare all targets as phony (not actual files)
+.PHONY: help clean format git-sync test-full install install-dev install-cuda install-examples install-docs install-all clean-env remake-lockfile
+
+# Default target - show help when just running 'make'
+.DEFAULT_GOAL := help
 
 help:  ## Show help
 	@grep -E '^[.a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -37,8 +42,16 @@ install-cuda: ## Install dependencies with CUDA support
 install-examples: ## Install examples dependencies from `pyproject.toml`
 	uv sync --extra examples
 
+install-docs: ## Install docs dependencies from `pyproject.toml`
+	uv sync --extra docs
+
 install-all: ## Install all dependencies from `pyproject.toml`
 	uv sync --all-extras
 
-remove: ## Remove installed dependecies
+clean-env: ## Remove virtual environment and lockfile
 	rm -rf .venv uv.lock
+	@echo "🗑️  Removed .venv and uv.lock"
+
+remake-lockfile: clean-env ## Recreate lockfile and environment from scratch
+	uv sync --extra dev --extra examples --extra docs
+	@echo "✅ Fresh environment created with new lockfile"
