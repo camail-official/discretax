@@ -35,7 +35,7 @@ class MNISTSeq(VisionDataset):
         download: If True, downloads the dataset from the internet.
         transform: Optional transform to be applied on a sample.
         target_transform: Optional transform to be applied on the target.
-        timesteps: Maximum sequence length (sequences are padded/truncated to this length).
+        pad_to: Maximum sequence length (sequences are padded/truncated to this length).
         train_val_split: Fraction of training data to use for training (rest is validation).
         stage: Split to use - "train", "val", or "test". If None, inferred from `train` arg.
 
@@ -67,7 +67,7 @@ class MNISTSeq(VisionDataset):
         download: bool = False,
         transform: Callable | None = None,
         target_transform: Callable | None = None,
-        timesteps: int = 128,
+        pad_to: int = 128,
         train_val_split: float = 0.8,
         stage: str | None = None,
     ):
@@ -75,7 +75,7 @@ class MNISTSeq(VisionDataset):
         super().__init__(root, transform=transform, target_transform=target_transform)
 
         # Store configuration
-        self.timesteps = timesteps
+        self.pad_to = pad_to
         self.train_val_split = train_val_split
 
         # Determine which split to use
@@ -241,13 +241,13 @@ class MNISTSeq(VisionDataset):
                 sequence = np.loadtxt(filepath)
 
                 # Pad or truncate to fixed length
-                if sequence.shape[0] < self.timesteps:
+                if sequence.shape[0] < self.pad_to:
                     # Pad with zeros if sequence is too short
-                    padding = ((0, self.timesteps - sequence.shape[0]), (0, 0))
+                    padding = ((0, self.pad_to - sequence.shape[0]), (0, 0))
                     sequence = np.pad(sequence, padding, mode="constant")
                 else:
                     # Truncate if sequence is too long
-                    sequence = sequence[: self.timesteps]
+                    sequence = sequence[: self.pad_to]
 
                 data_list.append(sequence)
 
@@ -266,7 +266,7 @@ class MNISTSeq(VisionDataset):
 
         Returns:
             Tuple of (data, labels) where:
-                - data: np.ndarray of shape (n_samples, timesteps, 4)
+                - data: np.ndarray of shape (n_samples, pad_to, 4)
                 - labels: np.ndarray of shape (n_samples,) with integer labels 0-9
 
         Raises:
@@ -335,7 +335,7 @@ class MNISTSeq(VisionDataset):
         Converts sequences back to images by drawing strokes on a 28x28 canvas.
 
         Args:
-            sequences: Batch of sequences, shape (batch_size, timesteps, 4).
+            sequences: Batch of sequences, shape (batch_size, pad_to, 4).
             labels: Ground truth labels, shape (batch_size,) with integer labels.
             num_samples: Number of samples to plot (default 16 for 4x4 grid).
             save_path: If provided, saves figure to this path. Otherwise, displays it.
@@ -448,7 +448,7 @@ class MNISTSeq(VisionDataset):
 
         Returns:
             Tuple of (data, label) where:
-                - data: Tensor of shape (timesteps, 4) with sequence features
+                - data: Tensor of shape (pad_to, 4) with sequence features
                 - label: Integer tensor with digit label (0-9)
         """
         # Convert to PyTorch tensors
