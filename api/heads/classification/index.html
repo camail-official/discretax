@@ -12,26 +12,28 @@
         <meta name="author" content="Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong">
       
       
-        <link rel="canonical" href="https://camail.org/linax/">
+        <link rel="canonical" href="https://camail.org/linax/api/heads/classification/">
       
       
+        <link rel="prev" href="../../encoder/linear/">
       
-        <link rel="next" href="examples/01_introduction_%26_classification/">
+      
+        <link rel="next" href="../regression/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
-        <title>linax</title>
+        <title>Classification Head - linax</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -50,13 +52,13 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="assets/_hippogriffe.css">
+      <link rel="stylesheet" href="../../../assets/_hippogriffe.css">
     
-      <link rel="stylesheet" href="_static/custom_css.css">
+      <link rel="stylesheet" href="../../../_static/custom_css.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started" class="md-skip">
+        <a href="#classification-head" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +100,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="linax" class="md-header__button md-logo" aria-label="linax" data-md-component="logo">
+    <a href="../../.." title="linax" class="md-header__button md-logo" aria-label="linax" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -118,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting Started
+              Classification Head
             
           </span>
         </div>
@@ -236,7 +238,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="linax" class="md-nav__button md-logo" aria-label="linax" data-md-component="logo">
+    <a href="../../.." title="linax" class="md-nav__button md-logo" aria-label="linax" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -263,32 +265,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Getting Started
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -299,98 +279,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#table-of-contents" class="md-nav__link">
-    <span class="md-ellipsis">
-      Table of contents
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#just-get-me-going" class="md-nav__link">
-    <span class="md-ellipsis">
-      Just get me Going
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#join-the-community" class="md-nav__link">
-    <span class="md-ellipsis">
-      Join the Community
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#full-library-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Full Library Installation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#contributing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Contributing
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#core-contributors" class="md-nav__link">
-    <span class="md-ellipsis">
-      Core Contributors
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#citation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Citation
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -445,7 +333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="examples/01_introduction_%26_classification/" class="md-nav__link">
+      <a href="../../../examples/01_introduction_%26_classification/" class="md-nav__link">
         
   
   
@@ -472,8 +360,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -484,11 +374,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -504,7 +394,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             API
@@ -558,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/base/heads/" class="md-nav__link">
+      <a href="../../base/heads/" class="md-nav__link">
         
   
   
@@ -581,7 +471,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/base/encoder/" class="md-nav__link">
+      <a href="../../base/encoder/" class="md-nav__link">
         
   
   
@@ -604,7 +494,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/base/blocks/" class="md-nav__link">
+      <a href="../../base/blocks/" class="md-nav__link">
         
   
   
@@ -627,7 +517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/base/sequence_mixer/" class="md-nav__link">
+      <a href="../../base/sequence_mixer/" class="md-nav__link">
         
   
   
@@ -650,7 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/base/channel_mixer/" class="md-nav__link">
+      <a href="../../base/channel_mixer/" class="md-nav__link">
         
   
   
@@ -721,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/blocks/standard/" class="md-nav__link">
+      <a href="../../blocks/standard/" class="md-nav__link">
         
   
   
@@ -792,7 +682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/models/ssm/" class="md-nav__link">
+      <a href="../../models/ssm/" class="md-nav__link">
         
   
   
@@ -815,7 +705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/models/linoss/" class="md-nav__link">
+      <a href="../../models/linoss/" class="md-nav__link">
         
   
   
@@ -838,7 +728,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/models/lru/" class="md-nav__link">
+      <a href="../../models/lru/" class="md-nav__link">
         
   
   
@@ -861,7 +751,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/models/s5/" class="md-nav__link">
+      <a href="../../models/s5/" class="md-nav__link">
         
   
   
@@ -932,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/sequence_mixer/identity/" class="md-nav__link">
+      <a href="../../sequence_mixer/identity/" class="md-nav__link">
         
   
   
@@ -955,7 +845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/sequence_mixer/lru/" class="md-nav__link">
+      <a href="../../sequence_mixer/lru/" class="md-nav__link">
         
   
   
@@ -978,7 +868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/sequence_mixer/s4d/" class="md-nav__link">
+      <a href="../../sequence_mixer/s4d/" class="md-nav__link">
         
   
   
@@ -1001,7 +891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/sequence_mixer/s5/" class="md-nav__link">
+      <a href="../../sequence_mixer/s5/" class="md-nav__link">
         
   
   
@@ -1024,7 +914,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/sequence_mixer/linoss/" class="md-nav__link">
+      <a href="../../sequence_mixer/linoss/" class="md-nav__link">
         
   
   
@@ -1095,7 +985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/channel_mixer/identity/" class="md-nav__link">
+      <a href="../../channel_mixer/identity/" class="md-nav__link">
         
   
   
@@ -1118,7 +1008,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/channel_mixer/mlp/" class="md-nav__link">
+      <a href="../../channel_mixer/mlp/" class="md-nav__link">
         
   
   
@@ -1141,7 +1031,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/channel_mixer/glu/" class="md-nav__link">
+      <a href="../../channel_mixer/glu/" class="md-nav__link">
         
   
   
@@ -1164,7 +1054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/channel_mixer/swi_glu/" class="md-nav__link">
+      <a href="../../channel_mixer/swi_glu/" class="md-nav__link">
         
   
   
@@ -1235,7 +1125,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/encoder/embedding/" class="md-nav__link">
+      <a href="../../encoder/embedding/" class="md-nav__link">
         
   
   
@@ -1258,7 +1148,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/encoder/linear/" class="md-nav__link">
+      <a href="../../encoder/linear/" class="md-nav__link">
         
   
   
@@ -1286,6 +1176,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1295,11 +1187,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" checked>
         
           
           <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
@@ -1315,7 +1207,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_7">
             <span class="md-nav__icon md-icon"></span>
             Heads
@@ -1326,10 +1218,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="api/heads/classification/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Classification Head
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1340,6 +1254,83 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#linax.heads.classification.ClassificationHeadConfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ClassificationHeadConfig
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ClassificationHeadConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linax.heads.classification.ClassificationHeadConfig.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;build
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linax.heads.classification.ClassificationHead" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ClassificationHead
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ClassificationHead">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linax.heads.classification.ClassificationHead.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linax.heads.classification.ClassificationHead.__call__" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__call__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1352,7 +1343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/heads/regression/" class="md-nav__link">
+      <a href="../regression/" class="md-nav__link">
         
   
   
@@ -1433,7 +1424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../../../contributing/" class="md-nav__link">
         
   
   
@@ -1472,83 +1463,444 @@
 
 
 
-<h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">¤</a></h1>
-<div align="center">
-  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/main/assets/logo.png" style="padding-bottom: 2rem;" />
+<h1 id="classification-head">Classification Head<a class="headerlink" href="#classification-head" title="Permanent link">¤</a></h1>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="linax.heads.classification.ClassificationHeadConfig" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>linax.heads.classification.ClassificationHeadConfig</code>
+
+
+<a href="#linax.heads.classification.ClassificationHeadConfig" class="headerlink" title="Permanent link">¤</a></h4>
+
+
+    <div class="doc doc-contents first">
+
+
+        <p>Configuration for the classification head.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="linax.heads.classification.ClassificationHeadConfig.out_features">out_features</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Output dimensionality (number of classes).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="linax.heads.classification.ClassificationHeadConfig.build" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="n">build</span><span class="p">(</span><span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClassificationHead</span></code>
+
+<a href="#linax.heads.classification.ClassificationHeadConfig.build" class="headerlink" title="Permanent link">¤</a></h5>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Build head from config.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_features</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input dimensionality (hidden dimension).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>key</code>
+            </td>
+            <td>
+                  <code><span title="builtins.PRNGKeyArray">PRNGKeyArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>JAX random key for initialization.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            linax.heads.classification.ClassificationHead" href="#linax.heads.classification.ClassificationHead">ClassificationHead</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The classification head instance.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
 </div>
 
-<p><a href="https://github.com/camail-official/linax">linax</a> is a collection of state space models implemented in JAX. It is</p>
-<ul>
-<li>easy to use</li>
-<li>lightning-fast</li>
-<li>highly modular</li>
-<li>easily accessible.</li>
-</ul>
-<h2 id="table-of-contents">Table of contents<a class="headerlink" href="#table-of-contents" title="Permanent link">¤</a></h2>
-<ul>
-<li><a href="#just-get-me-going">Just get me Going</a></li>
-<li><a href="#join-the-community">Join the Community</a></li>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#full-library-installation">Full Library Installation</a></li>
-<li><a href="#contributing">Contributing</a></li>
-<li><a href="#core-contributors">Core Contributors</a></li>
-<li><a href="#citation">Citation</a></li>
-</ul>
-<h2 id="just-get-me-going">Just get me Going<a class="headerlink" href="#just-get-me-going" title="Permanent link">¤</a></h2>
-<p>🥱 If you don't care about the details, we provide <a href="examples/01_introduction_%26_classification/">example notebooks</a> that are ready to use.</p>
-<h2 id="join-the-community">Join the Community<a class="headerlink" href="#join-the-community" title="Permanent link">¤</a></h2>
-<p>To join our growing community of JAX and state space model enthusiasts, join our <a href="https://discord.gg/VazrGCxeT7"><img alt="Discord" src="https://img.shields.io/badge/Discord-%235865F2.svg?&amp;logo=discord&amp;logoColor=white&amp;style=flat-square" /></a> server. Feel free to write us a message (either there or to our personal email, see the bottom of this page) if you have any questions, comments, or just want to say hi! 👋</p>
-<p>🤫 Psssst! Rumor has it we are also developing an end-to-end JAX training pipeline. Stay tuned for JAX Lightning. So join the discord server to be the first to hear about our newest project(s)! 🚀</p>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">¤</a></h2>
-<p><a href="https://github.com/camail-official/linax">linax</a> is available as a PyPI package. To install it via uv, just run
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>add<span class="w"> </span>linax
-</code></pre></div>
-or
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>add<span class="w"> </span>linax<span class="o">[</span>cu12<span class="o">]</span>
-</code></pre></div></p>
-<p>If pip is your package manager of choice, run
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>linax
-</code></pre></div>
-or
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>linax<span class="o">[</span>cu12<span class="o">]</span>
-</code></pre></div></p>
-<h2 id="full-library-installation">Full Library Installation<a class="headerlink" href="#full-library-installation" title="Permanent link">¤</a></h2>
-<p>If you want to install the full library, especially if you want to <strong>contribute</strong> to the project, clone the <a href="https://github.com/camail-official/linax">linax</a> repository and cd into it
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/camail-official/linax.git
-<span class="nb">cd</span><span class="w"> </span>linax
-</code></pre></div></p>
-<p>If you want to install dependencies for CPU, run
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>sync
-</code></pre></div>
-for GPU run
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>cu12
-</code></pre></div></p>
-<p>To include development tooling (pre-commit, Ruff), install:
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>dev
-</code></pre></div>
-After installing the development dependencies (activate your environment if needed), enable the git hooks:
-<div class="highlight"><pre><span></span><code>pre-commit<span class="w"> </span>install
-</code></pre></div></p>
-<h2 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">¤</a></h2>
-<p>If you want to contribute to the project, please check out <a href="contributing/">contributing</a></p>
-<h2 id="core-contributors">Core Contributors<a class="headerlink" href="#core-contributors" title="Permanent link">¤</a></h2>
-<p>This repository has been created and is maintained by:</p>
-<ul>
-<li><a href="https://github.com/benedict-armstrong">Benedict Armstrong</a></li>
-<li><a href="https://phnazari.github.io">Philipp Nazari</a></li>
-<li><a href="https://github.com/francescoshox">Francesco Maria Ruscio</a></li>
-</ul>
-<p>This work has been carried out within the <a href="https://camail.org">Computational Applied Mathematics &amp; AI Lab</a>,
-led by <a href="https://github.com/tk-rusch">T. Konstantin Rusch</a>.</p>
-<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">¤</a></h2>
-<p>If you find this repository useful, please consider citing it.</p>
-<div class="highlight"><pre><span></span><code><span class="nc">@software</span><span class="p">{</span><span class="nl">linax2025</span><span class="p">,</span>
-<span class="w">  </span><span class="na">title</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">{Linax: A Lightweight Collection of State Space Models in JAX}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">author</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Armstrong, Benedict and Nazari, Philipp and Ruscio, Francesco Maria}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">url</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{https://github.com/camail-official/linax}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">year</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{2025}</span>
-<span class="p">}</span>
-</code></pre></div>
+
+
+  </div>
+
+    </div>
+
+</div><hr />
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="linax.heads.classification.ClassificationHead" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>linax.heads.classification.ClassificationHead</code>
+
+
+<a href="#linax.heads.classification.ClassificationHead" class="headerlink" title="Permanent link">¤</a></h4>
+
+
+    <div class="doc doc-contents first">
+
+
+        <p>Classification head.</p>
+<p>This classification head takes an input of shape (timesteps, in_features)
+and outputs a logits of shape (out_features).</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_features</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input features.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>out_features</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Output features.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>cfg</code>
+            </td>
+            <td>
+                  <code><span title="linax.heads.classification.ClassificationHead[ConfigType]">ConfigType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Configuration for the classification head.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>key</code>
+            </td>
+            <td>
+                  <code><span title="builtins.PRNGKeyArray">PRNGKeyArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>JAX random key for initialization.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="linax.heads.classification.ClassificationHead.linear">linear</span></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Linear layer.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="linax.heads.classification.ClassificationHead.__init__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">)</span></code>
+
+<a href="#linax.heads.classification.ClassificationHead.__init__" class="headerlink" title="Permanent link">¤</a></h5>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Initialize the classification head.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="linax.heads.classification.ClassificationHead.__call__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">]</span></code>
+
+<a href="#linax.heads.classification.ClassificationHead.__call__" class="headerlink" title="Permanent link">¤</a></h5>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Forward pass of the classification head.</p>
+<p>This forward pass applies the linear layer to the input
+and returns the logits of the output.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>x</code>
+            </td>
+            <td>
+                  <code><span title="builtins.Array">Array</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input tensor.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>state</code>
+            </td>
+            <td>
+                  <code><span title="equinox.nn.State">State</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Current state for stateful layers.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="builtins.Array">Array</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Tuple containing the output tensor and updated state. If reduce is True,</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="equinox.nn.State">State</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>the output tensor is of shape (out_features). If reduce is False,</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tuple">tuple</span>[<span title="builtins.Array">Array</span>, <span title="equinox.nn.State">State</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>the output tensor is of shape (timesteps, out_features).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 
@@ -1597,12 +1949,12 @@ led by <a href="https://github.com/tk-rusch">T. Konstantin Rusch</a>.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.sections", "toc.integrate", "header.autohide", "content.code.copy"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "toc.integrate", "header.autohide", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="_static/mathjax.js"></script>
+        <script src="../../../_static/mathjax.js"></script>
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
