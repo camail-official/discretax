@@ -46,7 +46,7 @@ class LinOSSConfig(SSMConfig):
         ```
 
     Reference:
-        LinOSS: https://arxiv.org/abs/2410.03943
+        LinOSS: https://openreview.net/pdf?id=GRMfXcAAFh
     """
 
     num_blocks: int

@@ -1,6 +1,6 @@
 """Sequence Mixer for LinOSS-IM, LinOSS-IMEX, and Damped LinOSS-IMEX models.
 
-See: https://arxiv.org/pdf/2410.03943
+See: https://openreview.net/pdf?id=GRMfXcAAFh
 """
 
 from __future__ import annotations

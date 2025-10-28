@@ -52,7 +52,7 @@ class S5Config(SSMConfig):
         ```
 
     Reference:
-        S5: https://arxiv.org/abs/2208.04933
+        S5: https://openreview.net/pdf?id=Ai8Hw3AXqks
     """
 
     num_blocks: int

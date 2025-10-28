@@ -93,10 +93,10 @@ pre-commit install
 
 | Year | Model | Paper | Code | Our implementation |
 |------|-------|-------|------|---------------------|
-| 2024 | LinOSS | [Oscillatory State Space Models](https://arxiv.org/abs/2410.03943) | [tk-rusch/linoss](https://github.com/tk-rusch/linoss) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/linoss.py) |
-| 2023 | LRU | [Resurrecting Recurrent Neural Networks for Long Sequences](https://arxiv.org/abs/2303.06349) | N/A | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/lru.py) |
-| 2022 | S5 | [Simplified State Space Layers for Sequence Modeling](https://arxiv.org/abs/2208.04933) | [lindermanlab/S5](https://github.com/lindermanlab/S5) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/s5.py) |
-| 2022 | S4D | [On the Parameterization and Initialization of Diagonal State Space Models](https://arxiv.org/abs/2206.11893) | [state-spaces/s4](https://github.com/state-spaces/s4) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/sequence_mixers/s4d.py) |
+| 2024 | LinOSS | [Oscillatory State Space Models](https://openreview.net/pdf?id=GRMfXcAAFh) | [tk-rusch/linoss](https://github.com/tk-rusch/linoss) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/linoss.py) |
+| 2023 | LRU | [Resurrecting Recurrent Neural Networks for Long Sequences](https://proceedings.mlr.press/v202/orvieto23a/orvieto23a.pdf) | N/A | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/lru.py) |
+| 2022 | S5 | [Simplified State Space Layers for Sequence Modeling](https://openreview.net/pdf?id=Ai8Hw3AXqks) | [lindermanlab/S5](https://github.com/lindermanlab/S5) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/s5.py) |
+| 2022 | S4D | [On the Parameterization and Initialization of Diagonal State Space Models](https://proceedings.neurips.cc/paper_files/paper/2022/file/e9a32fade47b906de908431991440f7c-Paper-Conference.pdf) | [state-spaces/s4](https://github.com/state-spaces/s4) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/sequence_mixers/s4d.py) |
 
 ## Contributing
 If you want to contribute to the project, please check out [contributing](docs/contributing.md)

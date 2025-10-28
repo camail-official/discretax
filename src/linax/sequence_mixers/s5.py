@@ -2,7 +2,7 @@
 
 S5 implementation modified from: https://github.com/lindermanlab/S5/blob/main/s5/ssm_init.py
 
-See: https://arxiv.org/abs/2208.04933
+See: https://openreview.net/pdf?id=Ai8Hw3AXqks
 """
 
 from __future__ import annotations

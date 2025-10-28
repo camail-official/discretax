@@ -2,7 +2,7 @@
 
 Adapted from https://github.com/tk-rusch/linoss/blob/main/models/LRU.py
 
-See: https://arxiv.org/abs/2303.06349
+See: https://proceedings.mlr.press/v202/orvieto23a/orvieto23a.pdf
 """
 
 from __future__ import annotations

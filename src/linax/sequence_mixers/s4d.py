@@ -1,6 +1,6 @@
 """Sequence Mixer for S4D (Structured State Space - Diagonal).
 
-See: https://arxiv.org/abs/2206.11893
+See: https://proceedings.neurips.cc/paper_files/paper/2022/file/e9a32fade47b906de908431991440f7c-Paper-Conference.pdf
 """
 
 from __future__ import annotations

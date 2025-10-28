@@ -51,7 +51,7 @@ class LRUConfig(SSMConfig):
         ```
 
     Reference:
-        LRU: https://arxiv.org/abs/2303.06349
+        LRU: https://proceedings.mlr.press/v202/orvieto23a/orvieto23a.pdf
     """
 
     num_blocks: int
