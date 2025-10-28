@@ -45,9 +45,6 @@ class IdentitySequenceMixer[ConfigType: IdentitySequenceMixerConfig](SequenceMix
     This layer implements a simple identity/pass-through operation that returns
     the input sequence unchanged.
 
-    Attributes:
-        None (stateless pass-through operation).
-
     Args:
         in_features: Input dimensionality.
         cfg: Configuration for the Identity sequence mixer.

@@ -104,7 +104,6 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
         in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
-        **kwargs,
     ):
         """Initialize the S5 sequence mixer layer.
 
@@ -112,7 +111,6 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
             in_features: Input dimensionality.
             cfg: Configuration for the S5 sequence mixer.
             key: JAX random key for initialization.
-            **kwargs: Additional keyword arguments (unused, for compatibility).
         """
         B_key, C_key, D_key, step_key, key = jr.split(key, 5)
 

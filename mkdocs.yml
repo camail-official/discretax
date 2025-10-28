@@ -34,9 +34,26 @@ extra_css: []
 extra_javascript: []
 
 nav:
+  - Getting started: index.md
+  - All of LinAX: reference/linax/index.md
+  - Examples:
+      - Introductory:
+          - Convolutional Neural Network on MNIST: examples/intro/cnn_mnist.md
+          - Train RNN: examples/intro/train_rnn.md
+      - Advanced:
+          - Generative score-based diffusion: examples/advanced/diffusion.md
+          - BERT language model: examples/advanced/bert.md
+          - U-Net implementation: examples/advanced/unet.md
+          - Vision Transformer (ViT): examples/advanced/vit.md
+          - Image GAN: examples/advanced/gan.md
+      - Features:
+          - Freezing parameters: examples/features/freezing_params.md
+          - Compatibility with init-apply libraries: examples/features/init_apply.md
+          - Stateful operations (e.g. BatchNorm): examples/features/stateful_ops.md
+          - Autoparallelism (e.g. multi-GPU): examples/features/autoparallelism.md
+          - Serialisation (with hyperparameters): examples/features/serialisation.md
+      - Awesome list: examples/awesome.md
   - Reference:
-      - Overview: reference/index.md
-      - linax: reference/linax.md
       - Blocks: reference/blocks.md
       - Channel Mixers: reference/channel_mixers.md
       - Encoders: reference/encoder.md
@@ -44,3 +61,8 @@ nav:
       - Models: reference/models.md
       - Sequence Mixers: reference/sequence_mixers.md
       - Utils: reference/utils.md
+  - Misc:
+      - FAQ: misc/faq.md
+      - Tricks (ensembles, surgery, custom initialisations, ...): misc/tricks.md
+      - The abstract/final pattern: misc/abstract_final.md
+      - Citation: misc/citation.md

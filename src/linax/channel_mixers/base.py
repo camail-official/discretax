@@ -54,6 +54,7 @@ class ChannelMixer[ConfigType: ChannelMixerConfig](eqx.Module, ABC):
     ):
         """Initialize the channel mixer."""
 
+    # TODO: right now we are not using this lambda. But we should! Also return is_inexact_array.
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for channel mixer parameters.
 

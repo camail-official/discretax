@@ -65,7 +65,6 @@ class S4DSequenceMixer[ConfigType: S4DSequenceMixerConfig](SequenceMixer):
         in_features: Input dimensionality.
         cfg: Configuration for the S4D sequence mixer.
         key: JAX random key for initialization.
-        **kwargs: Additional keyword arguments (unused, for compatibility).
     """
 
     in_features: int
@@ -78,7 +77,6 @@ class S4DSequenceMixer[ConfigType: S4DSequenceMixerConfig](SequenceMixer):
         in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
-        **kwargs,
     ):
         """Initialize the S4D sequence mixer layer."""
         self.in_features = in_features
@@ -98,8 +96,8 @@ class S4DSequenceMixer[ConfigType: S4DSequenceMixerConfig](SequenceMixer):
 
         Args:
             x: Input sequence of features with shape (L, H) where L is sequence length
-               and H is the number of hidden features.
-            key: JAX random key (unused, for compatibility).
+                and H is the number of hidden features.
+            key: JAX random key for initialization.
 
         Returns:
             The output of the S4D sequence mixer with shape (L, H).

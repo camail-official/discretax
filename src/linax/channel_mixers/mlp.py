@@ -86,9 +86,10 @@ class MLPChannelMixer[ConfigType: MLPChannelMixerConfig](ChannelMixer):
     This channel mixer applies a multi-layer perceptron (MLP) to the input tensor.
 
     Args:
-        input_dim: Dimensionality of the input features.
-        output_dim: Dimensionality of the output features.
+        in_features: The input dimensionality.
+        cfg: Configuration for the MLP channel mixer.
         key: JAX random key for initialization.
+        out_features: Optional output dimensionality. If None, defaults to in_features.
 
     Attributes:
         linear: Linear layer applied to the input.

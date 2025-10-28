@@ -86,7 +86,6 @@ class LRUSequenceMixer[ConfigType: LRUSequenceMixerConfig](SequenceMixer):
         in_features: Input dimensionality.
         cfg: Configuration for the LRU sequence mixer.
         key: JAX random key for initialization.
-        **kwargs: Additional keyword arguments (unused, for compatibility).
     """
 
     nu_log: jax.Array
@@ -103,7 +102,6 @@ class LRUSequenceMixer[ConfigType: LRUSequenceMixerConfig](SequenceMixer):
         in_features: int,
         cfg: ConfigType,
         key: PRNGKeyArray,
-        **kwargs,
     ):
         """Initialize the LRU sequence mixer layer."""
         u1_key, u2_key, B_re_key, B_im_key, C_re_key, C_im_key, D_key = jr.split(key, 7)

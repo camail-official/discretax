@@ -4,7 +4,7 @@ import equinox as eqx
 import jax
 
 
-def count_params(module) -> int:
+def count_params(module: eqx.Module) -> int:
     """Count the number of parameters in a module.
 
     Args:

@@ -37,10 +37,10 @@ class IdentityChannelMixer[ConfigType: IdentityChannelMixerConfig](ChannelMixer)
     This channel mixer simply returns the input unchanged.
 
     Args:
-        x: Input tensor.
-
-    Returns:
-        Output tensor.
+        in_features: The input dimensionality.
+        cfg: Configuration for the identity channel mixer.
+        key: JAX random key for initialization.
+        out_features: Optional output dimensionality. If None, defaults to in_features.
     """
 
     def __init__(

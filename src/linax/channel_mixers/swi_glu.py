@@ -24,6 +24,7 @@ class SwiGLUConfig(ChannelMixerConfig):
     """Configuration for the SwiGLU channel mixer.
 
     Attributes:
+        use_bias: Whether to include a bias term in the linear layers.
         hidden_ratio: Ratio to scale hidden dimension for intermediate size calculation.
         intermediate_dim: Optional explicit intermediate size.
     """
@@ -58,14 +59,16 @@ class SwiGLU[ConfigType: SwiGLUConfig](ChannelMixer):
     - down_proj: Projects intermediate dimension back to hidden dimension
     The computation is: down_proj(swish(gate_proj(x)) * up_proj(x))
 
+    Attributes:
+        gate_proj: Linear layer for the gate projection.
+        up_proj: Linear layer for the up projection.
+        down_proj: Linear layer for the down projection.
+
     Args:
-        in_features: Dimensionality of the input and output features.
-        hidden_ratio: Ratio to scale hidden dimension for intermediate size calculation.
-            If None, defaults to 4.
-        intermediate_dim: Dimensionality of the intermediate projection.
-            If None, calculated as `int(hidden_dim * hidden_ratio * 2/3)`
-            rounded to nearest multiple of 256.
-        key: JAX random key for weight initialization.
+        in_features: The input dimensionality.
+        cfg: Configuration for the SwiGLU channel mixer.
+        key: JAX random key for initialization.
+        out_features: Optional output dimensionality. If None, defaults to in_features.
     """
 
     gate_proj: eqx.nn.Linear

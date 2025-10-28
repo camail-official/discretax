@@ -37,7 +37,7 @@ class SSMConfig:
 
     Attributes:
         encoder_config: Configuration for the encoder that processes input data.
-        Must specify in_features and out_features (hidden_dim).
+            Must specify in_features and out_features (hidden_dim).
         sequence_mixer_configs: List of configurations for sequence mixers, one per block.
             Must be compatible with encoder's out_features (hidden_dim).
         block_configs: List of configurations for blocks, one per sequence mixer.
