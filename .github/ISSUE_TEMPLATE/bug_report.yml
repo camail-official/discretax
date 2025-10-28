@@ -12,8 +12,8 @@ body:
     id: description
     attributes:
       label: Bug Description
-      description: A clear and concise description of what the bug is.
-      placeholder: Tell us what went wrong...
+      description: What happened? What did you expect to happen?
+      placeholder: I tried to... but instead...
     validations:
       required: true
 
@@ -21,30 +21,12 @@ body:
     id: reproduction
     attributes:
       label: Steps to Reproduce
-      description: Steps to reproduce the behavior
+      description: How can we reproduce this issue?
       placeholder: |
         1. Import linax
         2. Create a model with '...'
         3. Run '...'
         4. See error
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected
-    attributes:
-      label: Expected Behavior
-      description: What did you expect to happen?
-      placeholder: I expected...
-    validations:
-      required: true
-
-  - type: textarea
-    id: actual
-    attributes:
-      label: Actual Behavior
-      description: What actually happened?
-      placeholder: Instead, I got...
     validations:
       required: true
 
@@ -72,62 +54,19 @@ body:
     validations:
       required: false
 
-  - type: dropdown
-    id: version
+  - type: textarea
+    id: environment
     attributes:
-      label: Linax Version
-      description: Which version of Linax are you using?
-      options:
-        - main (development)
-        - latest release
-        - other (specify below)
+      label: Environment
+      description: Python version, JAX version, Linax version, OS, hardware (GPU/CPU/TPU)
+      placeholder: |
+        Python 3.12.0
+        JAX 0.4.23
+        Linax main branch
+        macOS 14.0
+        CPU
     validations:
       required: true
-
-  - type: input
-    id: python-version
-    attributes:
-      label: Python Version
-      description: What version of Python are you using?
-      placeholder: "3.12.0"
-    validations:
-      required: true
-
-  - type: input
-    id: jax-version
-    attributes:
-      label: JAX Version
-      description: What version of JAX are you using?
-      placeholder: "0.4.23"
-    validations:
-      required: false
-
-  - type: dropdown
-    id: os
-    attributes:
-      label: Operating System
-      description: What OS are you using?
-      options:
-        - Linux
-        - macOS
-        - Windows
-        - Other (please specify below)
-    validations:
-      required: true
-
-  - type: dropdown
-    id: hardware
-    attributes:
-      label: Hardware Accelerator
-      description: Are you using CPU, GPU, or TPU?
-      options:
-        - CPU
-        - CUDA GPU
-        - ROCm GPU
-        - TPU
-        - Other
-    validations:
-      required: false
 
   - type: textarea
     id: additional-context
@@ -142,11 +81,6 @@ body:
     id: terms
     attributes:
       label: Checklist
-      description: Please confirm the following
       options:
         - label: I have searched existing issues to ensure this is not a duplicate
-          required: true
-        - label: I have provided a minimal code example that reproduces the issue
-          required: false
-        - label: I have included version information
           required: true
