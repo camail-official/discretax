@@ -59,7 +59,7 @@ class SequenceMixer[ConfigType: SequenceMixerConfig](eqx.Module, ABC):
         Returns:
             A lambda function that filters the sequence mixer parameters.
         """
-        return lambda _: True
+        return lambda x: eqx.is_inexact_array(x)
 
     @abstractmethod
     def __call__(self, x: Array, key: PRNGKeyArray) -> Array:

@@ -21,7 +21,7 @@ Before contributing, please:
 
 1. **Check existing issues** to see if someone is already working on it
 2. **Open an issue** to discuss major changes before implementing them
-3. **Read our [Code of Conduct](CODE_OF_CONDUCT.md)** and follow community standards
+3. **Read our [Code of Conduct](https://github.com/camail-official/linax/blob/main/.github/CONTRIBUTING.md)** and follow community standards
 
 ## Development Setup
 
@@ -35,14 +35,14 @@ Before contributing, please:
 1. **Fork and clone the repository:**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/linax.git
+git clone git@github.com:camail-official/linax.git
 cd linax
 ```
 
 2. **Install dependencies (including dev tools):**
 
 ```bash
-uv sync --dev
+uv sync --extra dev
 ```
 
 3. **Install pre-commit hooks:**
@@ -55,10 +55,10 @@ This will automatically run linters and formatters before each commit.
 
 ### Optional: CUDA Support
 
-If you have a CUDA-enabled GPU:
+If you have a CUDA capable GPU:
 
 ```bash
-uv sync --extra cu12 --dev
+uv sync --extra cu12 --extra dev
 ```
 
 ---

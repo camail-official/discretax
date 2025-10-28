@@ -1,4 +1,4 @@
-Linax - A Lightweight Collection of State Space Models written in JAX
+# Linax - State Space Models in JAX
 
 <div align="center">
   <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/main/assets/logo.png" style="padding-bottom: 2rem;" />
@@ -24,12 +24,12 @@ Linax - A Lightweight Collection of State Space Models written in JAX
 - easily accessible.
 
 ## Table of contents
+- [News](#news)
 - [Just get me Going](#just-get-me-going)
 - [Join the Community](#join-the-community)
 - [Installation](#installation)
 - [Full Library Installation](#full-library-installation)
 - [Supported Models](#supported-models)
-- [News](#news)
 - [Contributing](#contributing)
 - [Core Contributors](#core-contributors)
 - [Citation](#citation)

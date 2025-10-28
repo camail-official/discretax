@@ -84,8 +84,8 @@ plugins:
 
 nav:
   - "index.md"
-  - Examples:
-      - "examples/example.md"
+  #- Examples:
+  #    - "examples/example.md"
   - API:
       - Base:
           - "api/base/heads.md"

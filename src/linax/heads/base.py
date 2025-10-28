@@ -74,4 +74,4 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
 
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for head parameters."""
-        return lambda _: True
+        return lambda x: eqx.is_inexact_array(x)
