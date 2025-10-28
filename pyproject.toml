@@ -51,7 +51,6 @@ docs = [
     "mkdocstrings-python>=1.18.2",
     "hippogriffe>=0.2.2",
     "mkdocs-ipynb>=0.1.1",
-    "mkdocstrings-python>=1.18.2",
     "pymdown-extensions==10.14.3"
 ]
 
