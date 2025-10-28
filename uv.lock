@@ -309,6 +309,21 @@ wheels = [
 ]
 
 [[package]]
+name = "hippogriffe"
+version = "0.2.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "griffe" },
+    { name = "mkdocs" },
+    { name = "mkdocstrings", extra = ["python"] },
+    { name = "wadler-lindig" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fd/e9/12cf378552b8ec916901bd3e04910bc4fceb1a8f94cfddc61ad1f9afc51e/hippogriffe-0.2.2.tar.gz", hash = "sha256:9bb59c1277959bedc94baadc8a2933121c4e838dc3237b81f95864f2b509068d", size = 13988, upload-time = "2025-04-21T16:13:49.941Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f7/d6/c087b990a3299d5d4c46a26f7b927bff000f7ec11a0dd607b8334b0ee2d1/hippogriffe-0.2.2-py3-none-any.whl", hash = "sha256:61f38bad68eeefcf175fb5436070519b1dcda7bef52e49c0d69f0723b4de07d9", size = 19454, upload-time = "2025-04-21T16:13:48.657Z" },
+]
+
+[[package]]
 name = "identify"
 version = "2.6.15"
 source = { registry = "https://pypi.org/simple" }
@@ -568,6 +583,7 @@ cu12 = [
     { name = "jax", extra = ["cuda12"] },
 ]
 dev = [
+    { name = "hippogriffe" },
     { name = "ipykernel" },
     { name = "mkdocs-material" },
     { name = "mkdocstrings-python" },
@@ -587,6 +603,7 @@ examples = [
 [package.metadata]
 requires-dist = [
     { name = "equinox", specifier = ">=0.13.2" },
+    { name = "hippogriffe", marker = "extra == 'dev'", specifier = ">=0.2.2" },
     { name = "ipykernel", marker = "extra == 'dev'", specifier = ">=6.30.1" },
     { name = "ipykernel", marker = "extra == 'examples'", specifier = ">=7.0.1" },
     { name = "jax", specifier = ">=0.7.2" },
@@ -778,6 +795,11 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c5/33/2fa3243439f794e685d3e694590d28469a9b8ea733af4b48c250a3ffc9a0/mkdocstrings-0.30.1.tar.gz", hash = "sha256:84a007aae9b707fb0aebfc9da23db4b26fc9ab562eb56e335e9ec480cb19744f", size = 106350, upload-time = "2025-09-19T10:49:26.446Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7b/2c/f0dc4e1ee7f618f5bff7e05898d20bf8b6e7fa612038f768bfa295f136a4/mkdocstrings-0.30.1-py3-none-any.whl", hash = "sha256:41bd71f284ca4d44a668816193e4025c950b002252081e387433656ae9a70a82", size = 36704, upload-time = "2025-09-19T10:49:24.805Z" },
+]
+
+[package.optional-dependencies]
+python = [
+    { name = "mkdocstrings-python" },
 ]
 
 [[package]]

@@ -1,68 +1,115 @@
-site_name: LinAX
+site_name: LinaX
+site_description: The documentation for the LinaX software package.
+site_author: Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong
 repo_url: https://github.com/camail-official/linax
+repo_name: camail-official/linax
+edit_uri: ""
 site_url: https://camail.org/linax/
+
+extra_javascript:
+  # The below two make MathJax work, see https://squidfunk.github.io/mkdocs-material/reference/mathjax/
+  - _static/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - _static/custom_css.css
+
+# strict: true
+
+markdown_extensions:
+  - pymdownx.arithmatex: # Render LaTeX via MathJax
+      generic: true
+  - pymdownx.superfences # Seems to enable syntax highlighting when used with the Material theme.
+  - pymdownx.details # Allowing hidden expandable regions denoted by ???
+  - pymdownx.snippets: # Include one Markdown file into another
+      base_path: docs
+  - admonition
+  - toc:
+      permalink: "¤" # Adds a clickable permalink to each section heading
+      toc_depth: 6
+
 theme:
   name: material
   features:
-    - navigation.top
+    - navigation.sections # Sections are included in the navigation on the left.
+    - toc.integrate # Table of contents is integrated on the left; does not appear separately on the right.
+    - header.autohide # header disappears as you scroll
     - content.code.copy
-
   palette:
-    - scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
-
+    # Light mode / dark mode
+    # We deliberately don't automatically use `media` to check a user's preferences. We default to light mode as
+    # (a) it looks more professional, and (b) is more obvious about the fact that it offers a (dark mode) toggle.
     - scheme: default
-      primary: indigo
-      accent: indigo
+      primary: white
+      accent: amber
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github # GitHub logo in top right
 
 plugins:
-  - search
+  - search:
+      # See https://github.com/squidfunk/mkdocs-material/discussions/8116#discussioncomment-12632752
+      # and https://github.com/patrick-kidger/equinox/issues/984
+      # In particular this allows for searching e.g. 'filter_grad' and to match 'equinox.filter_grad'.
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  #- ipynb
+  - hippogriffe:
+      show_bases: true
+      show_source_links: all
+
   - mkdocstrings:
       handlers:
         python:
-          paths: ["src"] # or "." if your package is in the root
-
-# Include additional directories for static files
-extra_css: []
-extra_javascript: []
+          options:
+            force_inspection: true
+            heading_level: 4
+            inherited_members: true
+            members_order: source
+            show_bases: false
+            show_if_no_docstring: true
+            show_overloads: false
+            show_root_heading: true
+            show_signature_annotations: true
+            show_source: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
 
 nav:
-  - Getting started: index.md
-  - All of LinAX: reference/linax/index.md
-  - Examples:
-      - Introductory:
-          - Convolutional Neural Network on MNIST: examples/intro/cnn_mnist.md
-          - Train RNN: examples/intro/train_rnn.md
-      - Advanced:
-          - Generative score-based diffusion: examples/advanced/diffusion.md
-          - BERT language model: examples/advanced/bert.md
-          - U-Net implementation: examples/advanced/unet.md
-          - Vision Transformer (ViT): examples/advanced/vit.md
-          - Image GAN: examples/advanced/gan.md
-      - Features:
-          - Freezing parameters: examples/features/freezing_params.md
-          - Compatibility with init-apply libraries: examples/features/init_apply.md
-          - Stateful operations (e.g. BatchNorm): examples/features/stateful_ops.md
-          - Autoparallelism (e.g. multi-GPU): examples/features/autoparallelism.md
-          - Serialisation (with hyperparameters): examples/features/serialisation.md
-      - Awesome list: examples/awesome.md
-  - Reference:
-      - Blocks: reference/blocks.md
-      - Channel Mixers: reference/channel_mixers.md
-      - Encoders: reference/encoder.md
-      - Heads: reference/heads.md
-      - Models: reference/models.md
-      - Sequence Mixers: reference/sequence_mixers.md
-      - Utils: reference/utils.md
-  - Misc:
-      - FAQ: misc/faq.md
-      - Tricks (ensembles, surgery, custom initialisations, ...): misc/tricks.md
-      - The abstract/final pattern: misc/abstract_final.md
-      - Citation: misc/citation.md
+  - Getting started:
+      - "index.md"
+  - API:
+      - Base:
+          - "api/base/heads.md"
+          - "api/base/encoder.md"
+          - "api/base/blocks.md"
+          - "api/base/sequence_mixer.md"
+          - "api/base/channel_mixer.md"
+      - Blocks:
+          - "api/blocks/standard.md"
+      - Sequence Mixers:
+          - "api/sequence_mixer/identity.md"
+          - "api/sequence_mixer/lru.md"
+          - "api/sequence_mixer/s4d.md"
+          - "api/sequence_mixer/s5.md"
+          - "api/sequence_mixer/linoss.md"
+      - Channel Mixers:
+          - "api/channel_mixer/identity.md"
+          - "api/channel_mixer/mlp.md"
+          - "api/channel_mixer/glu.md"
+          - "api/channel_mixer/swi_glu.md"
+      - Encoders:
+          - "api/encoder/embedding.md"
+          - "api/encoder/linear.md"
+      - Heads:
+          - "api/heads/classification.md"
+          - "api/heads/regression.md"
+  - Contributing:
+      - "contributing.md"

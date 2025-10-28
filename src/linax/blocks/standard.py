@@ -58,16 +58,16 @@ class StandardBlock[ConfigType: StandardBlockConfig](Block):
 
     This block implements a sequence mixer, BatchNorm normalization, and a channel mixer.
 
-    .. warning::
+    !!! warning
         This block uses BatchNorm for normalization. When training with vmap, ensure you
-        name the batch axis as 'batch' for compatibility. Example:
+        name the batch axis as "batch" for compatibility. Example:
 
-        .. code-block:: python
-
-            # Correct usage with axis naming
-            jax.vmap(model, axis_name="batch")
-            # or
-            jax.vmap(model, in_axes=(0, None, 0), axis_name="batch")
+        ```python
+        # Correct usage with axis naming
+        jax.vmap(model, axis_name="batch")
+        # or
+        jax.vmap(model, in_axes=(0, None, 0), axis_name="batch")
+        ```
 
         This ensures BatchNorm can properly compute batch statistics across the named axis.
 
