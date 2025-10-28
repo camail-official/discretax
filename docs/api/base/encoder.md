@@ -1,4 +1,4 @@
-# Heads
+# Encoder
 
 
 ::: linax.encoder.base.EncoderConfig
