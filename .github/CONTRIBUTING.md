@@ -189,11 +189,6 @@ wip
 changes
 ```
 
-**Tips:**
-- Use the imperative mood ("Add feature" not "Added feature")
-- Be specific about what changed
-- Reference issue numbers if applicable (e.g., "Fix #123")
-
 ---
 
 ## Community
