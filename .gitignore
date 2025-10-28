@@ -79,4 +79,4 @@ target/
 
 # Miscellaneous
 *.DS_Store
-*data_dir/
+*/data_dir/

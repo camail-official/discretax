@@ -16,20 +16,19 @@
 - [Join the Community](#join-the-community)
 - [Installation](#installation)
 - [Full Library Installation](#full-library-installation)
-- [Supported Models](#supported-models)
 - [Contributing](#contributing)
 - [Core Contributors](#core-contributors)
 - [Citation](#citation)
 
 ## Just get me Going
-🥱 If you don't care about the details, we provide [example notebooks](examples/) that are ready to use.
+If you don't care about the details, we provide [example notebooks](examples/01_introduction_%26_classification.ipynb) that are ready to use.
 
 
 ## Join the Community
 
-To join our growing community of JAX and state space model enthusiasts, join our [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white&style=flat-square)](https://discord.gg/VazrGCxeT7) server. Feel free to write us a message (either there or to our personal email, see the bottom of this page) if you have any questions, comments, or just want to say hi! 👋
+To join our growing community of JAX and state space model enthusiasts, join our [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white&style=flat-square)](https://discord.gg/VazrGCxeT7) server. Feel free to write us a message (either there or to our personal email, see the bottom of this page) if you have any questions, comments, or just want to say hi!
 
-🤫 Psssst! Rumor has it we are also developing an end-to-end JAX training pipeline. Stay tuned for JAX Lightning. So join the discord server to be the first to hear about our newest project(s)! 🚀
+🤫 Psssst! Rumor has it we are also developing an end-to-end JAX training pipeline. Stay tuned for JAX Lightning. So join the discord server to be the first to hear about our newest project(s)!
 
 ## Installation
 [linax](https://github.com/camail-official/linax) is available as a PyPI package. To install it via uv, just run
@@ -75,17 +74,8 @@ After installing the development dependencies (activate your environment if need
 pre-commit install
 ```
 
-## Supported Models
-
-| Year | Venue | Model | Paper | Code | Our implementation |
-|------|-------|-------|-------|------|---------------------|
-| 2024 | arXiv | LinOSS | [Oscillatory State Space Models](https://arxiv.org/abs/2410.03943) | [tk-rusch/linoss](https://github.com/tk-rusch/linoss) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/linoss.py) |
-| 2023 | arXiv | LRU | [Resurrecting Recurrent Neural Networks for Long Sequences](https://arxiv.org/abs/2303.06349) | N/A | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/lru.py) |
-| 2022 | arXiv | S5 | [Simplified State Space Layers for Sequence Modeling](https://arxiv.org/abs/2208.04933) | [lindermanlab/S5](https://github.com/lindermanlab/S5) | [linax](https://github.com/camail-official/linax/blob/main/src/linax/models/s5.py) |
-| 2022 | arXiv | S4D | [On the Parameterization and Initialization of Diagonal State Space Models](https://arxiv.org/abs/2206.11893) | N/A | [linax](https://github.com/camail-official/linax/blob/main/src/linax/sequence_mixers/s4d.py) |
-
 ## Contributing
-If you want to contribute to the project, please check out [contributing](docs/contributing.md)
+If you want to contribute to the project, please check out [contributing](contributing.md)
 
 ## Core Contributors
 
@@ -106,7 +96,6 @@ If you find this repository useful, please consider citing it.
   title  = {Linax: A Lightweight Collection of State Space Models in JAX},
   author = {Armstrong, Benedict and Nazari, Philipp and Ruscio, Francesco Maria},
   url    = {https://github.com/camail-official/linax},
-  month  = oct,
   year   = {2025}
 }
 ```

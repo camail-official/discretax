@@ -14,7 +14,7 @@ extra_javascript:
 extra_css:
   - _static/custom_css.css
 
-# strict: true
+strict: true
 
 markdown_extensions:
   - pymdownx.arithmatex: # Render LaTeX via MathJax
@@ -84,8 +84,8 @@ plugins:
 
 nav:
   - "index.md"
-  #- Examples:
-  #    - "examples/example.md"
+  - Examples:
+      - "examples/01_introduction_&_classification.ipynb"
   - API:
       - Base:
           - "api/base/heads.md"
@@ -118,5 +118,4 @@ nav:
           - "api/heads/classification.md"
           - "api/heads/regression.md"
   - Contributing:
-      - "contributing.md"
       - "contributing.md"
