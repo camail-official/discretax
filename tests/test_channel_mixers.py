@@ -3,12 +3,12 @@
 import jax.numpy as jnp
 import jax.random as jr
 
-from linax.channel_mixers.glu import GLU, GLUConfig
-from linax.channel_mixers.identity import (
+from discretax.channel_mixers.glu import GLU, GLUConfig
+from discretax.channel_mixers.identity import (
     IdentityChannelMixer,
     IdentityChannelMixerConfig,
 )
-from linax.channel_mixers.mlp import MLPChannelMixer, MLPChannelMixerConfig
+from discretax.channel_mixers.mlp import MLPChannelMixer, MLPChannelMixerConfig
 
 
 def test_glu_build_and_call_shapes():

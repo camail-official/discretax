@@ -1,13 +1,13 @@
 # Standard Block
 
-::: linax.blocks.standard.StandardBlockConfig
+::: discretax.blocks.standard.StandardBlockConfig
     options:
         members:
             - build
 
 ---
 
-::: linax.blocks.standard.StandardBlock
+::: discretax.blocks.standard.StandardBlock
     options:
         members:
             - __init__

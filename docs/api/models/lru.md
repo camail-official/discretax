@@ -1,6 +1,6 @@
 # LRU Model
 
-::: linax.models.lru.LRUConfig
+::: discretax.models.lru.LRUConfig
     options:
       members:
         - __post_init__

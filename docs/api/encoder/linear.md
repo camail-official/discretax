@@ -1,13 +1,13 @@
 # Linear Encoder
 
-::: linax.encoder.linear.LinearEncoderConfig
+::: discretax.encoder.linear.LinearEncoderConfig
     options:
       members:
         - build
 
 ---
 
-::: linax.encoder.linear.LinearEncoder
+::: discretax.encoder.linear.LinearEncoder
     options:
       members:
         - __init__

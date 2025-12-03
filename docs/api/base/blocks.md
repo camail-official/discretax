@@ -1,14 +1,14 @@
 # Blocks
 
 
-::: linax.blocks.base.BlockConfig
+::: discretax.blocks.base.BlockConfig
     options:
         members:
             - build
 
 ---
 
-::: linax.blocks.base.Block
+::: discretax.blocks.base.Block
     options:
         members:
             - __init__

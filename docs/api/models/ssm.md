@@ -1,13 +1,13 @@
 # General SSM
 
-::: linax.models.ssm.SSMConfig
+::: discretax.models.ssm.SSMConfig
     options:
       members:
         - build
 
 ---
 
-::: linax.models.ssm.SSM
+::: discretax.models.ssm.SSM
     options:
       members:
         - __init__

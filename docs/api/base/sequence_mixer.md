@@ -1,14 +1,14 @@
 # Sequence Mixer
 
 
-::: linax.sequence_mixers.base.SequenceMixerConfig
+::: discretax.sequence_mixers.base.SequenceMixerConfig
     options:
         members:
             - build
 
 ---
 
-::: linax.sequence_mixers.base.SequenceMixer
+::: discretax.sequence_mixers.base.SequenceMixer
     options:
         members:
             - __init__

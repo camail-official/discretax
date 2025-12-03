@@ -1,13 +1,13 @@
 # Identity Channel Mixer
 
-::: linax.channel_mixers.identity.IdentityChannelMixerConfig
+::: discretax.channel_mixers.identity.IdentityChannelMixerConfig
     options:
       members:
         - build
 
 ---
 
-::: linax.channel_mixers.identity.IdentityChannelMixer
+::: discretax.channel_mixers.identity.IdentityChannelMixer
     options:
       members:
         - __init__

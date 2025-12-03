@@ -4,17 +4,17 @@ import equinox as eqx
 import jax
 import jax.random as jr
 
-from linax.blocks.standard import StandardBlockConfig
-from linax.channel_mixers.glu import GLUConfig
-from linax.encoder import LinearEncoderConfig
-from linax.heads.classification import ClassificationHeadConfig
-from linax.models.linoss import LinOSSConfig
-from linax.models.lru import LRUConfig
-from linax.models.s5 import S5Config
-from linax.models.ssm import SSM
-from linax.sequence_mixers.linoss import LinOSSSequenceMixerConfig
-from linax.sequence_mixers.lru import LRUSequenceMixerConfig
-from linax.sequence_mixers.s5 import S5SequenceMixerConfig
+from discretax.blocks.standard import StandardBlockConfig
+from discretax.channel_mixers.glu import GLUConfig
+from discretax.encoder import LinearEncoderConfig
+from discretax.heads.classification import ClassificationHeadConfig
+from discretax.models.linoss import LinOSSConfig
+from discretax.models.lru import LRUConfig
+from discretax.models.s5 import S5Config
+from discretax.models.ssm import SSM
+from discretax.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+from discretax.sequence_mixers.lru import LRUSequenceMixerConfig
+from discretax.sequence_mixers.s5 import S5SequenceMixerConfig
 
 
 def _dummy_input(batch_size: int, timesteps: int, in_features: int):

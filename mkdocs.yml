@@ -1,10 +1,10 @@
-site_name: linax
-site_description: The documentation for the linax software package.
+site_name: discretax
+site_description: The documentation for the discretax software package.
 site_author: Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong
-repo_url: https://github.com/camail-official/linax
-repo_name: camail-official/linax
+repo_url: https://github.com/camail-official/discretax
+repo_name: camail-official/discretax
 edit_uri: ""
-site_url: https://camail.org/linax/
+site_url: https://camail.org/discretax/
 
 extra_javascript:
   # The below two make MathJax work, see https://squidfunk.github.io/mkdocs-material/reference/mathjax/

@@ -1,13 +1,13 @@
 # LinOSS Sequence Mixer
 
-::: linax.sequence_mixers.linoss.LinOSSSequenceMixerConfig
+::: discretax.sequence_mixers.linoss.LinOSSSequenceMixerConfig
     options:
         members:
             - build
 
 ---
 
-::: linax.sequence_mixers.linoss.LinOSSSequenceMixer
+::: discretax.sequence_mixers.linoss.LinOSSSequenceMixer
     options:
         members:
             - __init__

@@ -1,5 +1,5 @@
 [project]
-name = "linax"
+name = "discretax"
 dynamic = ["version"]
 description = "State Space Models in Jax"
 readme = "README.md"
@@ -64,9 +64,9 @@ examples = [
 cu12 = ["jax[cuda12]>=0.7.2"]
 
 [project.urls]
-Homepage = "https://camail.org/linax/"
+Homepage = "https://camail.org/discretax/"
 Discord = "https://discord.gg/VazrGCxeT7"
-Repository = "https://github.com/camail-official/linax"
+Repository = "https://github.com/camail-official/discretax"
 
 [build-system]
 requires = ["hatchling>=1.27.0", "hatch-vcs"]
@@ -78,7 +78,7 @@ raw-options = { local_scheme = "no-local-version", version_scheme = "only-versio
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/linax"]
+packages = ["src/discretax"]
 
 [tool.ruff]
 target-version = "py312"

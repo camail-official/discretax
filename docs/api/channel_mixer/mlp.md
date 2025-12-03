@@ -1,13 +1,13 @@
 # MLP Channel Mixer
 
-::: linax.channel_mixers.mlp.MLPChannelMixerConfig
+::: discretax.channel_mixers.mlp.MLPChannelMixerConfig
     options:
       members:
         - build
 
 ---
 
-::: linax.channel_mixers.mlp.MLPChannelMixer
+::: discretax.channel_mixers.mlp.MLPChannelMixer
     options:
       members:
         - __init__
