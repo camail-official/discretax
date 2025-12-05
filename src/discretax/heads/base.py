@@ -4,46 +4,24 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Callable
-from dataclasses import dataclass
 
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-
-@dataclass(frozen=True)
-class HeadConfig(ABC):
-    """Configuration for heads.
-
-    Attributes:
-        out_features: Output dimensionality (e.g., number of classes).
-        reduce: Whether to reduce the time dimension by averaging.
-    """
-
-    out_features: int
-    reduce: bool = True
-
-    @abstractmethod
-    def build(self, in_features: int, key: PRNGKeyArray) -> Head:
-        """Build head from config.
-
-        Args:
-            in_features: Input dimensionality (from encoder's hidden dimension).
-            key: JAX random key for initialization.
-
-        Returns:
-            The head instance.
-        """
+from discretax.utils.config_mixin import PartialLoaderMixin
 
 
-class Head[ConfigType: HeadConfig](eqx.Module, ABC):
+class Head(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     """Abstract base class for all heads.
 
     This is the base class for all heads in Discretax.
 
     Args:
         in_features: Input dimensionality.
-        cfg: Configuration for the head.
+        out_features: Output dimensionality.
         key: JAX random key for initialization.
+        *args: Additional arguments for the head.
+        **kwargs: Additional keyword arguments for the head.
     """
 
     @abstractmethod
@@ -51,22 +29,22 @@ class Head[ConfigType: HeadConfig](eqx.Module, ABC):
         self,
         in_features: int,
         out_features: int,
-        cfg: ConfigType,
         key: PRNGKeyArray,
+        *args,
+        **kwargs,
     ):
         """Initialize the head."""
 
     @abstractmethod
     def __call__(
-        self,
-        x: Array,
-        state: eqx.nn.State,
+        self, x: Array, state: eqx.nn.State, *, key: PRNGKeyArray | None = None
     ) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the head.
 
         Args:
             x: Input tensor.
             state: Current state for stateful layers.
+            key: Optional JAX random key (unused by heads, for Sequential compatibility).
 
         Returns:
             Tuple containing the output tensor and updated state.

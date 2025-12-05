@@ -2,63 +2,52 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import equinox as eqx
 import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.heads.base import Head, HeadConfig
+from discretax.heads.base import Head
+from discretax.utils.config_mixin import Cfg
 
 
-@dataclass(frozen=True)
-class RegressionHeadConfig(HeadConfig):
-    """Configuration for the regression head.
-
-    Attributes:
-        out_features: Output dimensionality (prediction dimension).
-    """
-
-    def build(self, in_features: int, key: PRNGKeyArray) -> RegressionHead:
-        """Build head from config.
-
-        Args:
-            in_features: Input dimensionality (hidden dimension).
-            key: JAX random key for initialization.
-
-        Returns:
-            The regression head instance.
-        """
-        return RegressionHead(
-            in_features=in_features, out_features=self.out_features, cfg=self, key=key
-        )
-
-
-class RegressionHead[ConfigType: RegressionHeadConfig](Head):
+class RegressionHead(Head):
     """Regression head.
 
     This regression head takes an input of shape (timesteps, in_features)
     and outputs a regression of shape (out_features).
 
-    Args:
-        in_features: Input features.
-        out_features: Output features.
-        cfg: Configuration for the regression head.
-        key: JAX random key for initialization.
-
     Attributes:
         linear: Linear layer.
+        reduce: Whether to reduce the time dimension by averaging.
     """
 
     linear: eqx.nn.Linear
     reduce: bool
 
-    def __init__(self, in_features: int, out_features: int, cfg: ConfigType, key: PRNGKeyArray):
-        """Initialize the regression head."""
-        self.linear = eqx.nn.Linear(in_features=in_features, out_features=out_features, key=key)
-        self.reduce = cfg.reduce
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        key: PRNGKeyArray,
+        *,
+        reduce: Cfg[bool] = True,
+        **kwargs,
+    ):
+        """Initialize the regression head.
 
-    def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
+        Args:
+            in_features: input features.
+            out_features: output features (prediction dimension).
+            key: JAX random key for initialization.
+            reduce: whether to reduce the time dimension by averaging.
+            **kwargs: Additional keyword arguments for the head.
+        """
+        self.linear = eqx.nn.Linear(in_features=in_features, out_features=out_features, key=key)
+        self.reduce = reduce
+
+    def __call__(
+        self, x: Array, state: eqx.nn.State, *, key: PRNGKeyArray | None = None
+    ) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the regression head.
 
         This forward pass applies the linear layer to the input
@@ -67,6 +56,7 @@ class RegressionHead[ConfigType: RegressionHeadConfig](Head):
         Args:
             x: Input tensor.
             state: Current state for stateful layers.
+            key: JAX random key for stochastic operations (unused).
 
         Returns:
             Tuple containing the output tensor and updated state. If reduce is True,

@@ -6,49 +6,17 @@ See: https://proceedings.neurips.cc/paper_files/paper/2022/file/e9a32fade47b906d
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
 
 import equinox as eqx
 import jax
 import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer, SequenceMixerConfig
+from discretax.sequence_mixers.base import SequenceMixer
+from discretax.utils.config_mixin import Cfg
 
 
-@dataclass(frozen=True)
-class S4DSequenceMixerConfig(SequenceMixerConfig):
-    """Configuration for the S4D sequence mixer.
-
-    This configuration class defines the hyperparameters for the S4D sequence mixer.
-    S4D uses diagonal structured state space models with efficient FFT-based convolutions.
-
-    Attributes:
-        state_dim: Dimensionality of the state space.
-        transposed: Whether input is in transposed format (H, L) vs (L, H).
-        dt_min: Minimum discretization step size.
-        dt_max: Maximum discretization step size.
-    """
-
-    state_dim: int = 64
-    transposed: bool = False
-    dt_min: float = 0.001
-    dt_max: float = 0.1
-
-    def build(self, in_features: int, key: PRNGKeyArray) -> S4DSequenceMixer:
-        """Build sequence mixer from config.
-
-        Args:
-            in_features: Input dimensionality.
-            key: JAX random key for initialization.
-
-        Returns:
-            The sequence mixer instance.
-        """
-        return S4DSequenceMixer(in_features=in_features, cfg=self, key=key)
-
-
-class S4DSequenceMixer[ConfigType: S4DSequenceMixerConfig](SequenceMixer):
+class S4DSequenceMixer(SequenceMixer):
     """S4D sequence mixer layer.
 
     This layer implements the Structured State Space - Diagonal (S4D) sequence mixer,
@@ -60,11 +28,6 @@ class S4DSequenceMixer[ConfigType: S4DSequenceMixerConfig](SequenceMixer):
         state_dim: State space dimensionality.
         transposed: Whether input is in transposed format.
         kernel: The S4D kernel for generating convolution kernels.
-
-    Args:
-        in_features: Input dimensionality.
-        cfg: Configuration for the S4D sequence mixer.
-        key: JAX random key for initialization.
     """
 
     in_features: int
@@ -75,19 +38,34 @@ class S4DSequenceMixer[ConfigType: S4DSequenceMixerConfig](SequenceMixer):
     def __init__(
         self,
         in_features: int,
-        cfg: ConfigType,
         key: PRNGKeyArray,
+        *,
+        state_dim: Cfg[int] = 64,
+        transposed: Cfg[bool] = False,
+        dt_min: Cfg[float] = 0.001,
+        dt_max: Cfg[float] = 0.1,
+        **kwargs,
     ):
-        """Initialize the S4D sequence mixer layer."""
+        """Initialize the S4D sequence mixer layer.
+
+        Args:
+            in_features: dimension of the input features.
+            key: JAX random key for initialization.
+            state_dim: dimension of the state space.
+            transposed: whether input is in transposed format (H, L) vs (L, H).
+            dt_min: minimum discretization step size.
+            dt_max: maximum discretization step size.
+            **kwargs: Additional keyword arguments for the sequence mixer.
+        """
         self.in_features = in_features
-        self.state_dim = cfg.state_dim
-        self.transposed = cfg.transposed
+        self.state_dim = state_dim
+        self.transposed = transposed
         (k_kernel,) = jax.random.split(key, 1)
         self.kernel = _S4DKernel(
             self.in_features,
             N=self.state_dim,
-            dt_min=cfg.dt_min,
-            dt_max=cfg.dt_max,
+            dt_min=dt_min,
+            dt_max=dt_max,
             key=k_kernel,
         )
 

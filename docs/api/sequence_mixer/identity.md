@@ -1,12 +1,5 @@
 # Identity Sequence Mixer
 
-::: discretax.sequence_mixers.identity.IdentitySequenceMixerConfig
-    options:
-      members:
-        - build
-
----
-
 ::: discretax.sequence_mixers.identity.IdentitySequenceMixer
     options:
       members:

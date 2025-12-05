@@ -2,58 +2,18 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import equinox as eqx
 import jax
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.blocks.base import Block, BlockConfig
+from discretax.blocks.base import Block
 from discretax.channel_mixers.base import ChannelMixer
 from discretax.sequence_mixers.base import SequenceMixer
+from discretax.utils.config_mixin import Cfg
 
 
-@dataclass(frozen=True)
-class StandardBlockConfig(BlockConfig):
-    """Configuration for the Standard block.
-
-    Attributes:
-        drop_rate: Dropout rate for the channel mixer.
-        prenorm: Whether to apply the normalization at the beginning or the end of the block.
-    """
-
-    drop_rate: float = 0.1
-    prenorm: bool = True
-
-    def build(
-        self,
-        in_features: int,
-        sequence_mixer: SequenceMixer,
-        channel_mixer: ChannelMixer,
-        key: PRNGKeyArray,
-    ) -> StandardBlock:
-        """Build block from config.
-
-        Args:
-            in_features: Input features.
-            sequence_mixer: The sequence mixer instance for this block.
-            channel_mixer: The channel mixer instance for this block.
-            key: JAX random key for initialization of layers.
-
-        Returns:
-            The Standard block instance.
-        """
-        return StandardBlock(
-            in_features=in_features,
-            cfg=self,
-            sequence_mixer=sequence_mixer,
-            channel_mixer=channel_mixer,
-            key=key,
-        )
-
-
-class StandardBlock[ConfigType: StandardBlockConfig](Block):
+class StandardBlock(Block):
     """A single block in the Standard backbone.
 
     This block implements a sequence mixer, BatchNorm normalization, and a channel mixer.
@@ -77,13 +37,6 @@ class StandardBlock[ConfigType: StandardBlockConfig](Block):
         channel_mixer: The channel mixing mechanism for channel processing.
         drop: Dropout layer applied after the channel mixer.
         prenorm: Whether to apply the normalization at the beginning or the end of the block.
-
-    Args:
-        in_features: Input features.
-        cfg: Configuration for the Standard block.
-        sequence_mixer: The sequence mixer instance for this block.
-        channel_mixer: The channel mixer instance for this block.
-        key: JAX random key for initialization of layers.
     """
 
     norm: eqx.nn.BatchNorm
@@ -95,20 +48,33 @@ class StandardBlock[ConfigType: StandardBlockConfig](Block):
     def __init__(
         self,
         in_features: int,
-        cfg: ConfigType,
         sequence_mixer: SequenceMixer,
         channel_mixer: ChannelMixer,
         key: PRNGKeyArray,
+        *,
+        drop_rate: Cfg[float] = 0.1,
+        prenorm: Cfg[bool] = True,
+        **kwargs,
     ):
-        """Initialize the Standard block."""
+        """Initialize the Standard block.
+
+        Args:
+            in_features: input features.
+            sequence_mixer: the sequence mixer instance for this block.
+            channel_mixer: the channel mixer instance for this block.
+            key: JAX random key for initialization of layers.
+            drop_rate: dropout rate for the channel mixer.
+            prenorm: whether to apply the normalization at the beginning or the end of the block.
+            **kwargs: Additional keyword arguments for the block.
+        """
         self.norm = eqx.nn.BatchNorm(
             input_size=in_features, axis_name="batch", channelwise_affine=False, mode="ema"
         )
 
         self.sequence_mixer = sequence_mixer
         self.channel_mixer = channel_mixer
-        self.drop = eqx.nn.Dropout(p=cfg.drop_rate)
-        self.prenorm = cfg.prenorm
+        self.drop = eqx.nn.Dropout(p=drop_rate)
+        self.prenorm = prenorm
 
     def __call__(
         self,

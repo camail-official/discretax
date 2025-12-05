@@ -1,105 +1,167 @@
-"""S5 model configuration."""
+"""S5 model."""
 
-from dataclasses import dataclass, field
+from typing import Literal
 
-from discretax.blocks.standard import StandardBlockConfig
-from discretax.channel_mixers.glu import GLUConfig
-from discretax.encoder.base import EncoderConfig
-from discretax.heads.base import HeadConfig
-from discretax.models.ssm import SSMConfig
-from discretax.sequence_mixers.s5 import S5SequenceMixerConfig
+import equinox as eqx
+import jax.random as jr
+from jaxtyping import Array, PRNGKeyArray
+
+from discretax.blocks.standard import StandardBlock
+from discretax.channel_mixers.glu import GLU
+from discretax.sequence_mixers.s5 import S5SequenceMixer
+from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
 
 
-@dataclass(frozen=True)
-class S5Config(SSMConfig):
-    """Configuration for S5 models.
+class S5(eqx.nn.StatefulLayer, PartialLoaderMixin):
+    """S5 model.
 
-    This is a modular configuration that allows building an S5 model with different components.
+    This model implements stacked blocks with S5 sequence mixers and GLU channel mixers.
+    Use with eqx.nn.Sequential to compose with encoder and head.
 
     Attributes:
-        num_blocks: Number of S5 blocks to stack.
-        encoder_config: Configuration for the encoder.
-        head_config: Configuration for the output head.
-        sequence_mixer_config: Optional S5 sequence mixer config that will be replicated
-            for each block. If not provided, defaults to S5SequenceMixerConfig().
-        block_config: Optional S5 block config that will be replicated for each block.
-            If not provided, defaults to StandardBlockConfig.
+        blocks: List of standard blocks with S5 sequence mixers.
 
     Example:
         ```python
-        # With explicit configs
-        config = S5Config(
-            num_blocks=4,
-            encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-            sequence_mixer_config=S5SequenceMixerConfig(
-                state_dim=64,
-                ssm_blocks=1,
-                conj_sym=True,
-                clip_eigs=True,
-                discretization="zoh",
-            ),
-            block_config=StandardBlockConfig(drop_rate=0.05),
-            head_config=ClassificationHeadConfig(out_features=10),
-        )
+        import equinox as eqx
+        import jax.random as jr
+        from discretax.encoder import LinearEncoder
+        from discretax.heads import ClassificationHead
+        from discretax.models import S5
 
-        # With defaults (simpler)
-        config = S5Config(
-            num_blocks=4,
-            encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-            head_config=ClassificationHeadConfig(out_features=10),
-        )
-        model = config.build(key=key)
+        key = jr.PRNGKey(0)
+        keys = jr.split(key, 3)
+
+        encoder = LinearEncoder(in_features=784, out_features=64, key=keys[0])
+        model = S5(hidden_dim=64, num_blocks=4, key=keys[1])
+        head = ClassificationHead(in_features=64, out_features=10, key=keys[2])
+
+        # Compose with Sequential
+        full_model = eqx.nn.Sequential([encoder, model, head])
         ```
 
     Reference:
         S5: https://openreview.net/pdf?id=Ai8Hw3AXqks
     """
 
-    num_blocks: int
-    encoder_config: EncoderConfig
-    head_config: HeadConfig
-    sequence_mixer_config: S5SequenceMixerConfig = field(default_factory=S5SequenceMixerConfig)
-    block_config: StandardBlockConfig = field(default_factory=StandardBlockConfig)
-    channel_mixer_config: GLUConfig = field(default_factory=GLUConfig)
+    blocks: list[StandardBlock]
 
-    # These will be auto-populated from the single configs
-    sequence_mixer_configs: list[S5SequenceMixerConfig] = field(init=False)
-    block_configs: list[StandardBlockConfig] = field(init=False)
-    channel_mixer_configs: list[GLUConfig] = field(init=False)
+    def __init__(
+        self,
+        key: PRNGKeyArray,
+        *,
+        hidden_dim: Cfg[int],
+        num_blocks: Cfg[int] = 4,
+        state_dim: Cfg[int] = 64,
+        ssm_blocks: Cfg[int] = 1,
+        C_init: Cfg[
+            Literal["trunc_standard_normal", "lecun_normal", "complex_normal"]
+        ] = "lecun_normal",
+        conj_sym: Cfg[bool] = True,
+        clip_eigs: Cfg[bool] = True,
+        discretization: Cfg[Literal["zoh", "bilinear"]] = "zoh",
+        dt_min: Cfg[float] = 0.001,
+        dt_max: Cfg[float] = 1.0,
+        step_rescale: Cfg[float] = 1.0,
+        drop_rate: Cfg[float] = 0.1,
+        prenorm: Cfg[bool] = True,
+        use_bias: Cfg[bool] = True,
+        **kwargs,
+    ):
+        """Initialize the S5 model.
 
-    def __post_init__(self):
-        """Replicates configs for each block and validates."""
-        # Use object.__setattr__ because dataclass is frozen
-        object.__setattr__(
-            self, "sequence_mixer_configs", [self.sequence_mixer_config] * self.num_blocks
-        )
-        object.__setattr__(self, "block_configs", [self.block_config] * self.num_blocks)
-        object.__setattr__(
-            self, "channel_mixer_configs", [self.channel_mixer_config] * self.num_blocks
-        )
+        Args:
+            key: JAX random key for initialization.
+            hidden_dim: hidden dimension for the model.
+            num_blocks: number of S5 blocks to stack.
+            state_dim: state space dimension for S5 sequence mixers.
+            ssm_blocks: number of SSM blocks (for block-diagonal structure).
+            C_init: initialization method for output matrix C.
+            conj_sym: whether to enforce conjugate symmetry.
+            clip_eigs: whether to clip eigenvalues to ensure stability.
+            discretization: discretization method to use.
+            dt_min: minimum discretization step size.
+            dt_max: maximum discretization step size.
+            step_rescale: rescaling factor for the discretization step.
+            drop_rate: dropout rate for blocks.
+            prenorm: whether to apply prenorm in blocks.
+            use_bias: whether to use bias in GLU channel mixers.
+            **kwargs: additional keyword arguments.
+        """
+        keys = jr.split(key, 3 * num_blocks)
 
-        super().__post_init__()
+        # Build blocks with sequence mixers and channel mixers
+        self.blocks = []
+        for i in range(num_blocks):
+            # Build sequence mixer
+            seq_mixer = S5SequenceMixer(
+                in_features=hidden_dim,
+                key=keys[i],
+                state_dim=state_dim,
+                ssm_blocks=ssm_blocks,
+                C_init=C_init,
+                conj_sym=conj_sym,
+                clip_eigs=clip_eigs,
+                discretization=discretization,
+                dt_min=dt_min,
+                dt_max=dt_max,
+                step_rescale=step_rescale,
+            )
+
+            # Build channel mixer
+            chan_mixer = GLU(
+                in_features=hidden_dim,
+                key=keys[num_blocks + i],
+                out_features=None,
+                use_bias=use_bias,
+            )
+
+            # Build block
+            block = StandardBlock(
+                in_features=hidden_dim,
+                sequence_mixer=seq_mixer,
+                channel_mixer=chan_mixer,
+                key=keys[2 * num_blocks + i],
+                drop_rate=drop_rate,
+                prenorm=prenorm,
+            )
+            self.blocks.append(block)
+
+    def __call__(
+        self, x: Array, state: eqx.nn.State, key: PRNGKeyArray
+    ) -> tuple[Array, eqx.nn.State]:
+        """Forward pass through the S5 blocks.
+
+        Args:
+            x: Input tensor.
+            state: Current state for stateful layers.
+            key: JAX random key for operations.
+
+        Returns:
+            Tuple containing the output tensor and updated state.
+        """
+        # Prepare the keys
+        block_keys = jr.split(key, len(self.blocks))
+
+        # Apply the blocks
+        for block, block_key in zip(self.blocks, block_keys):
+            x, state = block(x, state, key=block_key)
+
+        return x, state
 
 
 if __name__ == "__main__":
     import jax.random as jr
 
-    from discretax.encoder import LinearEncoderConfig
-    from discretax.heads.classification import ClassificationHeadConfig
+    from discretax.encoder import LinearEncoder
+    from discretax.heads import ClassificationHead
 
-    cfg = S5Config(
-        num_blocks=4,
-        encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-        head_config=ClassificationHeadConfig(out_features=10),
-    )
-    print("S5 Config:")
-    print(f"  Num blocks: {cfg.num_blocks}")
-    print(f"  Auto state_dim: {cfg.sequence_mixer_config.state_dim}")
-    print(f"  Auto ssm_blocks: {cfg.sequence_mixer_config.ssm_blocks}")
-    print(f"  Auto conj_sym: {cfg.sequence_mixer_config.conj_sym}")
-    print(f"  Auto clip_eigs: {cfg.sequence_mixer_config.clip_eigs}")
-    print(f"  Auto discretization: {cfg.sequence_mixer_config.discretization}")
-    print(f"  Auto drop_rate: {cfg.block_config.drop_rate}\n")
+    key = jr.PRNGKey(0)
+    keys = jr.split(key, 3)
 
-    s5 = cfg.build(key=jr.PRNGKey(0))
-    print(s5)
+    encoder = LinearEncoder(in_features=784, out_features=64, key=keys[0])
+    model = S5(hidden_dim=64, num_blocks=4, key=keys[1])
+    head = ClassificationHead(in_features=64, out_features=10, key=keys[2])
+
+    full_model = eqx.nn.Sequential([encoder, model, head])
+    print(full_model)

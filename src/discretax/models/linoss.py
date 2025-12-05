@@ -1,97 +1,153 @@
-"""LinOSS model configuration."""
+"""LinOSS model."""
 
-from dataclasses import dataclass, field
+from typing import Literal
 
-from discretax.blocks.standard import StandardBlockConfig
-from discretax.channel_mixers.glu import GLUConfig
-from discretax.encoder.base import EncoderConfig
-from discretax.heads.base import HeadConfig
-from discretax.models.ssm import SSMConfig
-from discretax.sequence_mixers.linoss import LinOSSSequenceMixerConfig
+import equinox as eqx
+import jax.random as jr
+from jaxtyping import Array, PRNGKeyArray
+
+from discretax.blocks.standard import StandardBlock
+from discretax.channel_mixers.glu import GLU
+from discretax.sequence_mixers.linoss import LinOSSSequenceMixer
+from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
 
 
-@dataclass(frozen=True)
-class LinOSSConfig(SSMConfig):
-    """Configuration for LinOSS models.
+class LinOSS(eqx.nn.StatefulLayer, PartialLoaderMixin):
+    """LinOSS model.
 
-    This is a modular configuration that allows building a LinOSS model with different components.
+    This model implements stacked blocks with LinOSS sequence mixers and GLU channel mixers.
+    Use with eqx.nn.Sequential to compose with encoder and head.
 
     Attributes:
-        num_blocks: Number of LinOSS blocks to stack.
-        encoder_config: Configuration for the encoder (contains in_features and out_features).
-        head_config: Configuration for the output head (contains out_features).
-        sequence_mixer_config: Optional linoss sequence mixer config that will be replicated
-            for each block. If not provided, defaults to LinOSSSequenceMixerConfig().
-        block_config: Optional linoss block config that will be replicated for each block.
-            If not provided, defaults to StandardBlockConfig.
+        blocks: List of standard blocks with LinOSS sequence mixers.
 
     Example:
         ```python
-        # With explicit configs
-        config = LinOSSConfig(
-            num_blocks=4,
-            encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-            sequence_mixer_config=LinOSSSequenceMixerConfig(state_dim=64),
-            block_config=StandardBlockConfig(drop_rate=0.1),
-            head_config=ClassificationHeadConfig(out_features=10),
-        )
+        import equinox as eqx
+        import jax.random as jr
+        from discretax.encoder import LinearEncoder
+        from discretax.heads import ClassificationHead
+        from discretax.models import LinOSS
 
-        # With defaults (simpler)
-        config = LinOSSConfig(
-            num_blocks=4,
-            encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-            head_config=ClassificationHeadConfig(out_features=10),
-        )
-        model = config.build(key=key)
+        key = jr.PRNGKey(0)
+        keys = jr.split(key, 3)
+
+        encoder = LinearEncoder(in_features=784, out_features=64, key=keys[0])
+        model = LinOSS(hidden_dim=64, num_blocks=4, key=keys[1])
+        head = ClassificationHead(in_features=64, out_features=10, key=keys[2])
+
+        # Compose with Sequential
+        full_model = eqx.nn.Sequential([encoder, model, head])
         ```
 
     Reference:
         LinOSS: https://openreview.net/pdf?id=GRMfXcAAFh
     """
 
-    num_blocks: int
-    encoder_config: EncoderConfig
-    head_config: HeadConfig
-    sequence_mixer_config: LinOSSSequenceMixerConfig = field(
-        default_factory=LinOSSSequenceMixerConfig
-    )
-    block_config: StandardBlockConfig = field(default_factory=StandardBlockConfig)
-    channel_mixer_config: GLUConfig = field(default_factory=GLUConfig)
+    blocks: list[StandardBlock]
 
-    # These will be auto-populated from the single configs
-    sequence_mixer_configs: list[LinOSSSequenceMixerConfig] = field(init=False)
-    block_configs: list[StandardBlockConfig] = field(init=False)
-    channel_mixer_configs: list[GLUConfig] = field(init=False)
+    def __init__(
+        self,
+        key: PRNGKeyArray,
+        *,
+        hidden_dim: Cfg[int],
+        num_blocks: Cfg[int] = 4,
+        state_dim: Cfg[int] = 64,
+        discretization: Cfg[Literal["IM", "IMEX"]] = "IMEX",
+        damping: Cfg[bool] = True,
+        r_min: Cfg[float] = 0.9,
+        theta_max: Cfg[float] = 3.14159265359,
+        drop_rate: Cfg[float] = 0.1,
+        prenorm: Cfg[bool] = True,
+        use_bias: Cfg[bool] = True,
+        **kwargs,
+    ):
+        """Initialize the LinOSS model.
 
-    def __post_init__(self):
-        """Replicates configs for each block and validates."""
-        # Use object.__setattr__ because dataclass is frozen
-        object.__setattr__(
-            self,
-            "sequence_mixer_configs",
-            [self.sequence_mixer_config] * self.num_blocks,
-        )
-        object.__setattr__(self, "block_configs", [self.block_config] * self.num_blocks)
-        object.__setattr__(
-            self, "channel_mixer_configs", [self.channel_mixer_config] * self.num_blocks
-        )
+        Args:
+            key: JAX random key for initialization.
+            hidden_dim: hidden dimension for the model.
+            num_blocks: number of LinOSS blocks to stack.
+            state_dim: state space dimension for LinOSS sequence mixers.
+            discretization: discretization method ("IM" or "IMEX").
+            damping: whether to use damping in LinOSS.
+            r_min: minimum value for the radius in LinOSS.
+            theta_max: maximum value for theta parameter in LinOSS.
+            drop_rate: dropout rate for blocks.
+            prenorm: whether to apply prenorm in blocks.
+            use_bias: whether to use bias in GLU channel mixers.
+            **kwargs: additional keyword arguments.
+        """
+        keys = jr.split(key, 3 * num_blocks)
 
-        super().__post_init__()
+        # Build blocks with sequence mixers and channel mixers
+        self.blocks = []
+        for i in range(num_blocks):
+            # Build sequence mixer
+            seq_mixer = LinOSSSequenceMixer(
+                in_features=hidden_dim,
+                key=keys[i],
+                state_dim=state_dim,
+                discretization=discretization,
+                damping=damping,
+                r_min=r_min,
+                theta_max=theta_max,
+            )
+
+            # Build channel mixer
+            chan_mixer = GLU(
+                in_features=hidden_dim,
+                key=keys[num_blocks + i],
+                out_features=None,
+                use_bias=use_bias,
+            )
+
+            # Build block
+            block = StandardBlock(
+                in_features=hidden_dim,
+                sequence_mixer=seq_mixer,
+                channel_mixer=chan_mixer,
+                key=keys[2 * num_blocks + i],
+                drop_rate=drop_rate,
+                prenorm=prenorm,
+            )
+            self.blocks.append(block)
+
+    def __call__(
+        self, x: Array, state: eqx.nn.State, key: PRNGKeyArray
+    ) -> tuple[Array, eqx.nn.State]:
+        """Forward pass through the LinOSS blocks.
+
+        Args:
+            x: Input tensor.
+            state: Current state for stateful layers.
+            key: JAX random key for operations.
+
+        Returns:
+            Tuple containing the output tensor and updated state.
+        """
+        # Prepare the keys
+        block_keys = jr.split(key, len(self.blocks))
+
+        # Apply the blocks
+        for block, block_key in zip(self.blocks, block_keys):
+            x, state = block(x, state, key=block_key)
+
+        return x, state
 
 
 if __name__ == "__main__":
     import jax.random as jr
 
-    from discretax.encoder import LinearEncoderConfig
-    from discretax.heads.classification import ClassificationHeadConfig
+    from discretax.encoder import LinearEncoder
+    from discretax.heads import ClassificationHead
 
-    cfg = LinOSSConfig(
-        num_blocks=4,
-        encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-        head_config=ClassificationHeadConfig(out_features=10),
-    )
-    print(f"  Auto state_dim: {cfg.sequence_mixer_config.state_dim}")
-    print(f"  Auto drop_rate: {cfg.block_config.drop_rate}\n")
+    key = jr.PRNGKey(0)
+    keys = jr.split(key, 3)
 
-    linoss = cfg.build(key=jr.PRNGKey(0))
-    print(linoss)
+    encoder = LinearEncoder(in_features=784, out_features=64, key=keys[0])
+    model = LinOSS(hidden_dim=64, num_blocks=4, key=keys[1])
+    head = ClassificationHead(in_features=64, out_features=10, key=keys[2])
+
+    full_model = eqx.nn.Sequential([encoder, model, head])
+    print(full_model)

@@ -1,13 +1,6 @@
 # Encoder
 
 
-::: discretax.encoder.base.EncoderConfig
-    options:
-        members:
-            - build
-
----
-
 ::: discretax.encoder.base.Encoder
     options:
         members:

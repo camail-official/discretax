@@ -3,59 +3,34 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.channel_mixers.base import ChannelMixer
 from discretax.sequence_mixers.base import SequenceMixer
+from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
 
 
-@dataclass(frozen=True)
-class BlockConfig(ABC):
-    """Configuration for blocks."""
-
-    @abstractmethod
-    def build(
-        self,
-        in_features: int,
-        sequence_mixer: SequenceMixer,
-        channel_mixer: ChannelMixer,
-        key: PRNGKeyArray,
-    ) -> Block:
-        """Build block from config.
-
-        Args:
-            in_features: Input features.
-            sequence_mixer: The sequence mixer instance for this block.
-            channel_mixer: The channel mixer instance for this block.
-            key: JAX random key for initialization.
-
-        Returns:
-            The block instance.
-        """
-
-
-class Block[ConfigType: BlockConfig](eqx.Module, ABC):
+class Block(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     """Abstract base class for all blocks.
 
     Args:
         in_features: Input features.
-        cfg: Configuration for the block.
         sequence_mixer: The sequence mixer instance for this block.
         channel_mixer: The channel mixer instance for this block.
         key: JAX random key for initialization.
+        **kwargs: Additional keyword arguments for the block.
     """
 
     @abstractmethod
     def __init__(
         self,
         in_features: int,
-        cfg: ConfigType,
-        sequence_mixer: SequenceMixer,
-        channel_mixer: ChannelMixer,
+        sequence_mixer: Cfg[SequenceMixer],
+        channel_mixer: Cfg[ChannelMixer],
         key: PRNGKeyArray,
+        **kwargs,
     ):
         """Initialize the block."""
 

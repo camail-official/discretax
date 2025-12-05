@@ -1,7 +1,7 @@
 # LinOSS Model
 
-::: discretax.models.linoss.LinOSSConfig
+::: discretax.models.linoss.LinOSS
     options:
       members:
-        - __post_init__
-        - build
+        - __init__
+        - __call__

@@ -7,9 +7,9 @@ See: https://openreview.net/pdf?id=Ai8Hw3AXqks
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Literal
 
+import equinox as eqx
 import jax
 import jax.numpy as jnp
 import jax.random as jr
@@ -17,53 +17,11 @@ from jax.nn.initializers import lecun_normal, normal
 from jax.scipy.linalg import block_diag
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer, SequenceMixerConfig
+from discretax.sequence_mixers.base import SequenceMixer
+from discretax.utils.config_mixin import Cfg
 
 
-@dataclass(frozen=True)
-class S5SequenceMixerConfig(SequenceMixerConfig):
-    """Configuration for the S5 sequence mixer.
-
-    This configuration class defines the hyperparameters for the S5 sequence mixer.
-    S5 uses structured state space models with HiPPO initialization for efficient
-    sequence modeling.
-
-    Attributes:
-        state_dim: Dimensionality of the state space (total SSM size).
-        ssm_blocks: Number of SSM blocks (for block-diagonal structure).
-        C_init: Initialization method for output matrix C.
-        conj_sym: Whether to enforce conjugate symmetry (reduces parameters by half).
-        clip_eigs: Whether to clip eigenvalues to ensure stability.
-        discretization: Discretization method to use.
-        dt_min: Minimum discretization step size.
-        dt_max: Maximum discretization step size.
-        step_rescale: Rescaling factor for the discretization step.
-    """
-
-    state_dim: int = 64
-    ssm_blocks: int = 1
-    C_init: Literal["trunc_standard_normal", "lecun_normal", "complex_normal"] = "lecun_normal"
-    conj_sym: bool = True
-    clip_eigs: bool = True
-    discretization: Literal["zoh", "bilinear"] = "zoh"
-    dt_min: float = 0.001
-    dt_max: float = 1.0
-    step_rescale: float = 1.0
-
-    def build(self, in_features: int, key: PRNGKeyArray) -> S5SequenceMixer:
-        """Build sequence mixer from config.
-
-        Args:
-            in_features: Input dimensionality.
-            key: JAX random key for initialization.
-
-        Returns:
-            The sequence mixer instance.
-        """
-        return S5SequenceMixer(in_features=in_features, cfg=self, key=key)
-
-
-class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
+class S5SequenceMixer(SequenceMixer):
     """S5 sequence mixer layer.
 
     This layer implements the Simplified State Space Layers (S5) sequence mixer,
@@ -77,7 +35,7 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
         C: Output projection matrix (parameterized as CV).
         D: Skip connection weights.
         log_step: Log of discretization step sizes.
-        H: Number of hidden channels (input features).
+        in_features: Number of hidden channels (input features).
         P: Effective state dimensionality.
         conj_sym: Whether conjugate symmetry is enforced.
         clip_eigs: Whether to clip eigenvalues for stability.
@@ -94,35 +52,49 @@ class S5SequenceMixer[ConfigType: S5SequenceMixerConfig](SequenceMixer):
 
     in_features: int
     P: int
-    conj_sym: bool
-    clip_eigs: bool
-    discretization: str
-    step_rescale: float
+    conj_sym: bool = eqx.field(static=True)
+    clip_eigs: bool = eqx.field(static=True)
+    discretization: str = eqx.field(static=True)
+    step_rescale: float = eqx.field(static=True)
 
     def __init__(
         self,
         in_features: int,
-        cfg: ConfigType,
         key: PRNGKeyArray,
+        *,
+        state_dim: Cfg[int] = 64,
+        ssm_blocks: Cfg[int] = 1,
+        C_init: Cfg[
+            Literal["trunc_standard_normal", "lecun_normal", "complex_normal"]
+        ] = "lecun_normal",
+        conj_sym: Cfg[bool] = True,
+        clip_eigs: Cfg[bool] = True,
+        discretization: Cfg[Literal["zoh", "bilinear"]] = "zoh",
+        dt_min: Cfg[float] = 0.001,
+        dt_max: Cfg[float] = 1.0,
+        step_rescale: Cfg[float] = 1.0,
+        **kwargs,
     ):
         """Initialize the S5 sequence mixer layer.
 
         Args:
-            in_features: Input dimensionality.
-            cfg: Configuration for the S5 sequence mixer.
+            in_features: dimension of the input features.
             key: JAX random key for initialization.
+            state_dim: dimension of the state space (total SSM size).
+            ssm_blocks: number of SSM blocks (for block-diagonal structure).
+            C_init: initialization method for output matrix C.
+            conj_sym: whether to enforce conjugate symmetry (reduces parameters by half).
+            clip_eigs: whether to clip eigenvalues to ensure stability.
+            discretization: discretization method to use.
+            dt_min: minimum discretization step size.
+            dt_max: maximum discretization step size.
+            step_rescale: rescaling factor for the discretization step.
+            **kwargs: Additional keyword arguments for the sequence mixer.
         """
         B_key, C_key, D_key, step_key, key = jr.split(key, 5)
 
-        ssm_size = cfg.state_dim
-        blocks = cfg.ssm_blocks
-        C_init = cfg.C_init
-        conj_sym = cfg.conj_sym
-        clip_eigs = cfg.clip_eigs
-        discretization = cfg.discretization
-        dt_min = cfg.dt_min
-        dt_max = cfg.dt_max
-        step_rescale = cfg.step_rescale
+        ssm_size = state_dim
+        blocks = ssm_blocks
 
         block_size = int(ssm_size / blocks)
         # Initialize state matrix A using approximation to HiPPO-LegS matrix

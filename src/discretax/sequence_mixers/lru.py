@@ -7,14 +7,13 @@ See: https://proceedings.mlr.press/v202/orvieto23a/orvieto23a.pdf
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import jax
 import jax.numpy as jnp
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer, SequenceMixerConfig
+from discretax.sequence_mixers.base import SequenceMixer
+from discretax.utils.config_mixin import Cfg
 
 
 def _binary_operator_diag(element_i, element_j):
@@ -34,39 +33,7 @@ def _binary_operator_diag(element_i, element_j):
     return a_j * a_i, a_j * bu_i + bu_j
 
 
-@dataclass(frozen=True)
-class LRUSequenceMixerConfig(SequenceMixerConfig):
-    """Configuration for the LRU sequence mixer.
-
-    This configuration class defines the hyperparameters for the LRU sequence mixer.
-    LRU uses complex-valued diagonal state matrices for efficient sequence modeling.
-
-    Attributes:
-        state_dim: Dimensionality of the state space.
-        r_min: Minimum radius for the complex-valued eigenvalues.
-        r_max: Maximum radius for the complex-valued eigenvalues.
-        max_phase: Maximum phase angle for the complex-valued eigenvalues.
-    """
-
-    state_dim: int = 64
-    r_min: float = 0.0
-    r_max: float = 1.0
-    max_phase: float = 6.28
-
-    def build(self, in_features: int, key: PRNGKeyArray) -> LRUSequenceMixer:
-        """Build sequence mixer from config.
-
-        Args:
-            in_features: Input dimensionality.
-            key: JAX random key for initialization.
-
-        Returns:
-            The sequence mixer instance.
-        """
-        return LRUSequenceMixer(in_features=in_features, cfg=self, key=key)
-
-
-class LRUSequenceMixer[ConfigType: LRUSequenceMixerConfig](SequenceMixer):
+class LRUSequenceMixer(SequenceMixer):
     """LRU sequence mixer layer.
 
     This layer implements the Linear Recurrent Unit (LRU) sequence mixer using
@@ -81,11 +48,6 @@ class LRUSequenceMixer[ConfigType: LRUSequenceMixerConfig](SequenceMixer):
         C_im: Imaginary part of output projection matrix.
         D: Skip connection weights.
         gamma_log: Log of normalization factor.
-
-    Args:
-        in_features: Input dimensionality.
-        cfg: Configuration for the LRU sequence mixer.
-        key: JAX random key for initialization.
     """
 
     nu_log: jax.Array
@@ -100,17 +62,29 @@ class LRUSequenceMixer[ConfigType: LRUSequenceMixerConfig](SequenceMixer):
     def __init__(
         self,
         in_features: int,
-        cfg: ConfigType,
         key: PRNGKeyArray,
+        *,
+        state_dim: Cfg[int] = 64,
+        r_min: Cfg[float] = 0.0,
+        r_max: Cfg[float] = 1.0,
+        max_phase: Cfg[float] = 6.28,
+        **kwargs,
     ):
-        """Initialize the LRU sequence mixer layer."""
+        """Initialize the LRU sequence mixer layer.
+
+        Args:
+            in_features: dimension of the input features.
+            key: JAX random key for initialization.
+            state_dim: dimension of the state space.
+            r_min: minimum radius for the complex-valued eigenvalues.
+            r_max: maximum radius for the complex-valued eigenvalues.
+            max_phase: maximum phase angle for the complex-valued eigenvalues.
+            **kwargs: Additional keyword arguments for the sequence mixer.
+        """
         u1_key, u2_key, B_re_key, B_im_key, C_re_key, C_im_key, D_key = jr.split(key, 7)
 
-        N = cfg.state_dim
+        N = state_dim
         H = in_features
-        r_max = cfg.r_max
-        r_min = cfg.r_min
-        max_phase = cfg.max_phase
 
         # N: state dimension, H: model dimension
         # Initialization of Lambda is complex valued distributed uniformly on ring

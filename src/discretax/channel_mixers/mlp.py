@@ -3,14 +3,14 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from dataclasses import dataclass
 from typing import Literal
 
 import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.channel_mixers.base import ChannelMixer, ChannelMixerConfig
+from discretax.channel_mixers.base import ChannelMixer
+from discretax.utils.config_mixin import Cfg
 
 # the available activations
 activation = Literal["relu", "gelu", "swish", "silu", "tanh"]
@@ -50,46 +50,10 @@ def _get_activation(
         )
 
 
-@dataclass(frozen=True)
-class MLPChannelMixerConfig(ChannelMixerConfig):
-    """Configuration for the MLP channel mixer.
-
-    Attributes:
-        non_linearity: Name of the activation function to apply after the linear layer.
-        use_bias: Whether to include a bias term in the linear layer.
-    """
-
-    non_linearity: activation = "gelu"
-    use_bias: bool = False
-
-    def build(
-        self, in_features: int, out_features: int | None, key: PRNGKeyArray
-    ) -> MLPChannelMixer:
-        """Build MLPChannelMixer from config.
-
-        Args:
-            in_features: Input dimensionality.
-            out_features: Optional output dimensionality. If None, defaults to in_features.
-            key: JAX random key for initialization.
-
-        Returns:
-            The MLPChannelMixer instance.
-        """
-        return MLPChannelMixer(
-            in_features=in_features, cfg=self, key=key, out_features=out_features
-        )
-
-
-class MLPChannelMixer[ConfigType: MLPChannelMixerConfig](ChannelMixer):
+class MLPChannelMixer(ChannelMixer):
     """MLP channel mixer.
 
     This channel mixer applies a multi-layer perceptron (MLP) to the input tensor.
-
-    Args:
-        in_features: The input dimensionality.
-        cfg: Configuration for the MLP channel mixer.
-        key: JAX random key for initialization.
-        out_features: Optional output dimensionality. If None, defaults to in_features.
 
     Attributes:
         linear: Linear layer applied to the input.
@@ -102,16 +66,27 @@ class MLPChannelMixer[ConfigType: MLPChannelMixerConfig](ChannelMixer):
     def __init__(
         self,
         in_features: int,
-        cfg: ConfigType,
         key: PRNGKeyArray,
         *,
-        out_features: int | None = None,
+        out_features: Cfg[int | None] = None,
+        non_linearity: Cfg[activation] = "gelu",
+        use_bias: Cfg[bool] = False,
+        **kwargs,
     ):
-        """Initialize the MLP channel mixer."""
-        out_dim = out_features if out_features is not None else in_features
-        self.linear = eqx.nn.Linear(in_features, out_dim, use_bias=cfg.use_bias, key=key)
+        """Initialize the MLP channel mixer.
 
-        self.non_linearity = cfg.non_linearity
+        Args:
+            in_features: the input dimensionality.
+            key: JAX random key for initialization.
+            out_features: optional output dimensionality. If None, defaults to in_features.
+            non_linearity: name of the activation function to apply after the linear layer.
+            use_bias: whether to include a bias term in the linear layer.
+            **kwargs: Additional keyword arguments for the channel mixer.
+        """
+        out_dim = out_features if out_features is not None else in_features
+        self.linear = eqx.nn.Linear(in_features, out_dim, use_bias=use_bias, key=key)
+
+        self.non_linearity = non_linearity
 
     def __call__(self, x: Array) -> Array:
         """Forward pass of the MLP channel mixer.

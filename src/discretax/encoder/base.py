@@ -4,61 +4,44 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Callable
-from dataclasses import dataclass
 
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-
-@dataclass(frozen=True)
-class EncoderConfig(ABC):
-    """Configuration for encoders.
-
-    Attributes:
-        out_features: Output dimensionality (hidden dimension).
-    """
-
-    out_features: int
-
-    @abstractmethod
-    def build(self, key: PRNGKeyArray) -> Encoder:
-        """Build encoder from config.
-
-        Args:
-            key: JAX random key for initialization.
-
-        Returns:
-            The encoder instance.
-        """
+from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
 
 
-class Encoder[ConfigType: EncoderConfig](eqx.Module, ABC):
+class Encoder(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     """Abstract base class for all encoders.
 
     This is the base class for all encoders.
 
     Args:
-        out_features: Output dimensionality.
-        cfg: Configuration for the encoder.
         key: JAX random key for initialization.
+        *args: Additional arguments for the encoder.
+        **kwargs: Additional keyword arguments for the encoder.
     """
 
     @abstractmethod
     def __init__(
         self,
-        out_features: int,
-        cfg: ConfigType,
         key: PRNGKeyArray,
+        *,
+        out_features: Cfg[int],
+        **kwargs,
     ):
         """Initialize the encoder."""
 
     @abstractmethod
-    def __call__(self, x: Array, state: eqx.nn.State) -> tuple[Array, eqx.nn.State]:
+    def __call__(
+        self, x: Array, state: eqx.nn.State, *, key: PRNGKeyArray | None = None
+    ) -> tuple[Array, eqx.nn.State]:
         """Forward pass of the encoder.
 
         Args:
             x: Input tensor.
             state: Current state for stateful layers.
+            key: Optional JAX random key (unused by encoders, for Sequential compatibility).
 
         Returns:
             Tuple containing the output tensor and updated state.

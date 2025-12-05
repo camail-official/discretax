@@ -14,7 +14,7 @@ extra_javascript:
 extra_css:
   - _static/custom_css.css
 
-strict: true
+strict: false
 
 markdown_extensions:
   - pymdownx.arithmatex: # Render LaTeX via MathJax
@@ -96,7 +96,6 @@ nav:
       - Blocks:
           - "api/blocks/standard.md"
       - Models:
-          - "api/models/ssm.md"
           - "api/models/linoss.md"
           - "api/models/lru.md"
           - "api/models/s5.md"

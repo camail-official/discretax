@@ -55,3 +55,6 @@ clean-env: ## Remove virtual environment and lockfile
 remake-lockfile: clean-env ## Recreate lockfile and environment from scratch
 	uv sync --extra dev --extra examples --extra docs
 	@echo "✅ Fresh environment created with new lockfile"
+
+build-docs: ## Build docs
+	uv run mkdocs build

@@ -1,103 +1,148 @@
-"""LRU model configuration."""
+"""LRU model."""
 
-from dataclasses import dataclass, field
+import equinox as eqx
+import jax.random as jr
+from jaxtyping import Array, PRNGKeyArray
 
-from discretax.blocks.standard import StandardBlockConfig
-from discretax.channel_mixers.glu import GLUConfig
-from discretax.encoder.base import EncoderConfig
-from discretax.heads.base import HeadConfig
-from discretax.models.ssm import SSMConfig
-from discretax.sequence_mixers.lru import LRUSequenceMixerConfig
+from discretax.blocks.standard import StandardBlock
+from discretax.channel_mixers.glu import GLU
+from discretax.sequence_mixers.lru import LRUSequenceMixer
+from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
 
 
-@dataclass(frozen=True)
-class LRUConfig(SSMConfig):
-    """Configuration for LRU models.
+class LRU(eqx.nn.StatefulLayer, PartialLoaderMixin):
+    """LRU model.
 
-    This is a modular configuration that allows building an LRU model with different components.
+    This model implements stacked blocks with LRU sequence mixers and GLU channel mixers.
+    Use with eqx.nn.Sequential to compose with encoder and head.
 
     Attributes:
-        num_blocks: Number of LRU blocks to stack.
-        encoder_config: Configuration for the encoder.
-        head_config: Configuration for the output head.
-        sequence_mixer_config: Optional LRU sequence mixer config that will be replicated
-            for each block. If not provided, defaults to LRUSequenceMixerConfig().
-        block_config: Optional LRU block config that will be replicated for each block.
-            If not provided, defaults to StandardBlockConfig.
+        blocks: List of standard blocks with LRU sequence mixers.
 
     Example:
         ```python
-        # With explicit configs
-        config = LRUConfig(
-            num_blocks=4,
-            encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-            sequence_mixer_config=LRUSequenceMixerConfig(
-                state_dim=64,
-                r_min=0.0,
-                r_max=1.0,
-                max_phase=6.28,
-            ),
-            block_config=StandardBlockConfig(drop_rate=0.1),
-            head_config=ClassificationHeadConfig(out_features=10),
-        )
+        import equinox as eqx
+        import jax.random as jr
+        from discretax.encoder import LinearEncoder
+        from discretax.heads import ClassificationHead
+        from discretax.models import LRU
 
-        # With defaults (simpler)
-        config = LRUConfig(
-            num_blocks=4,
-            encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-            head_config=ClassificationHeadConfig(out_features=10),
-        )
-        model = config.build(key=key)
+        key = jr.PRNGKey(0)
+        keys = jr.split(key, 3)
+
+        encoder = LinearEncoder(in_features=784, out_features=64, key=keys[0])
+        model = LRU(hidden_dim=64, num_blocks=4, key=keys[1])
+        head = ClassificationHead(in_features=64, out_features=10, key=keys[2])
+
+        # Compose with Sequential
+        full_model = eqx.nn.Sequential([encoder, model, head])
         ```
 
     Reference:
         LRU: https://proceedings.mlr.press/v202/orvieto23a/orvieto23a.pdf
     """
 
-    num_blocks: int
-    encoder_config: EncoderConfig
-    head_config: HeadConfig
-    sequence_mixer_config: LRUSequenceMixerConfig = field(default_factory=LRUSequenceMixerConfig)
-    block_config: StandardBlockConfig = field(default_factory=StandardBlockConfig)
-    channel_mixer_config: GLUConfig = field(default_factory=GLUConfig)
+    blocks: list[StandardBlock]
 
-    # These will be auto-populated from the single configs
-    sequence_mixer_configs: list[LRUSequenceMixerConfig] = field(init=False)
-    block_configs: list[StandardBlockConfig] = field(init=False)
-    channel_mixer_configs: list[GLUConfig] = field(init=False)
+    def __init__(
+        self,
+        key: PRNGKeyArray,
+        *,
+        hidden_dim: Cfg[int],
+        num_blocks: Cfg[int] = 4,
+        state_dim: Cfg[int] = 64,
+        r_min: Cfg[float] = 0.0,
+        r_max: Cfg[float] = 1.0,
+        max_phase: Cfg[float] = 6.28,
+        drop_rate: Cfg[float] = 0.1,
+        prenorm: Cfg[bool] = True,
+        use_bias: Cfg[bool] = True,
+        **kwargs,
+    ):
+        """Initialize the LRU model.
 
-    def __post_init__(self):
-        """Replicates configs for each block and validates."""
-        # Use object.__setattr__ because dataclass is frozen
-        object.__setattr__(
-            self, "sequence_mixer_configs", [self.sequence_mixer_config] * self.num_blocks
-        )
-        object.__setattr__(self, "block_configs", [self.block_config] * self.num_blocks)
-        object.__setattr__(
-            self, "channel_mixer_configs", [self.channel_mixer_config] * self.num_blocks
-        )
+        Args:
+            key: JAX random key for initialization.
+            hidden_dim: hidden dimension for the model.
+            num_blocks: number of LRU blocks to stack.
+            state_dim: state space dimension for LRU sequence mixers.
+            r_min: minimum radius for complex-valued eigenvalues.
+            r_max: maximum radius for complex-valued eigenvalues.
+            max_phase: maximum phase angle for complex-valued eigenvalues.
+            drop_rate: dropout rate for blocks.
+            prenorm: whether to apply prenorm in blocks.
+            use_bias: whether to use bias in GLU channel mixers.
+            **kwargs: additional keyword arguments.
+        """
+        keys = jr.split(key, 3 * num_blocks)
 
-        super().__post_init__()
+        # Build blocks with sequence mixers and channel mixers
+        self.blocks = []
+        for i in range(num_blocks):
+            # Build sequence mixer
+            seq_mixer = LRUSequenceMixer(
+                in_features=hidden_dim,
+                key=keys[i],
+                state_dim=state_dim,
+                r_min=r_min,
+                r_max=r_max,
+                max_phase=max_phase,
+            )
+
+            # Build channel mixer
+            chan_mixer = GLU(
+                in_features=hidden_dim,
+                key=keys[num_blocks + i],
+                out_features=None,
+                use_bias=use_bias,
+            )
+
+            # Build block
+            block = StandardBlock(
+                in_features=hidden_dim,
+                sequence_mixer=seq_mixer,
+                channel_mixer=chan_mixer,
+                key=keys[2 * num_blocks + i],
+                drop_rate=drop_rate,
+                prenorm=prenorm,
+            )
+            self.blocks.append(block)
+
+    def __call__(
+        self, x: Array, state: eqx.nn.State, key: PRNGKeyArray
+    ) -> tuple[Array, eqx.nn.State]:
+        """Forward pass through the LRU blocks.
+
+        Args:
+            x: Input tensor.
+            state: Current state for stateful layers.
+            key: JAX random key for operations.
+
+        Returns:
+            Tuple containing the output tensor and updated state.
+        """
+        # Prepare the keys
+        block_keys = jr.split(key, len(self.blocks))
+
+        # Apply the blocks
+        for block, block_key in zip(self.blocks, block_keys):
+            x, state = block(x, state, key=block_key)
+
+        return x, state
 
 
 if __name__ == "__main__":
     import jax.random as jr
 
-    from discretax.encoder import LinearEncoderConfig
-    from discretax.heads.classification import ClassificationHeadConfig
+    from discretax.encoder import LinearEncoder
+    from discretax.heads import ClassificationHead
 
-    cfg = LRUConfig(
-        num_blocks=4,
-        encoder_config=LinearEncoderConfig(in_features=784, out_features=64),
-        head_config=ClassificationHeadConfig(out_features=10),
-    )
-    print("LRU Config:")
-    print(f"  Num blocks: {cfg.num_blocks}")
-    print(f"  Auto state_dim: {cfg.sequence_mixer_config.state_dim}")
-    print(f"  Auto r_min: {cfg.sequence_mixer_config.r_min}")
-    print(f"  Auto r_max: {cfg.sequence_mixer_config.r_max}")
-    print(f"  Auto max_phase: {cfg.sequence_mixer_config.max_phase}")
-    print(f"  Auto drop_rate: {cfg.block_config.drop_rate}\n")
+    key = jr.PRNGKey(0)
+    keys = jr.split(key, 3)
 
-    lru = cfg.build(key=jr.PRNGKey(0))
-    print(lru)
+    encoder = LinearEncoder(in_features=784, out_features=64, key=keys[0])
+    model = LRU(hidden_dim=64, num_blocks=4, key=keys[1])
+    head = ClassificationHead(in_features=64, out_features=10, key=keys[2])
+
+    full_model = eqx.nn.Sequential([encoder, model, head])
+    print(full_model)

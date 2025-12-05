@@ -1,12 +1,5 @@
 # Standard Block
 
-::: discretax.blocks.standard.StandardBlockConfig
-    options:
-        members:
-            - build
-
----
-
 ::: discretax.blocks.standard.StandardBlock
     options:
         members:

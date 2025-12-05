@@ -1,12 +1,5 @@
 # LRU Sequence Mixer
 
-::: discretax.sequence_mixers.lru.LRUSequenceMixerConfig
-    options:
-      members:
-        - build
-
----
-
 ::: discretax.sequence_mixers.lru.LRUSequenceMixer
     options:
       members:

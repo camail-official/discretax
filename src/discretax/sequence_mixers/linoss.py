@@ -6,7 +6,6 @@ See: https://openreview.net/pdf?id=GRMfXcAAFh
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
 from typing import Literal
 
 import equinox as eqx
@@ -17,45 +16,11 @@ from jax import nn, random
 from jax.nn.initializers import normal
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixerConfig
+from discretax.sequence_mixers.base import SequenceMixer
+from discretax.utils.config_mixin import Cfg
 
 
-@dataclass(frozen=True)
-class LinOSSSequenceMixerConfig(SequenceMixerConfig):
-    """Configuration for the LinOSS sequence mixer.
-
-    This configuration class defines the hyperparameters for the LinOSS sequence mixer.
-    It includes options for the model's architecture, training parameters, and behavior.
-
-    Attributes:
-        state_dim: Dimensionality of the state space.
-        discretization: Discretization method to use.
-        damping: Whether to use damping.
-        r_min: Minimum value for the radius.
-        theta_max: Maximum value for the theta parameter.
-    """
-
-    state_dim: int = 64
-
-    discretization: Literal["IM", "IMEX"] = "IMEX"
-    damping: bool = True
-    r_min: float = 0.9
-    theta_max: float = jnp.pi
-
-    def build(self, in_features: int, key: PRNGKeyArray) -> LinOSSSequenceMixer:
-        """Build sequence mixer from config.
-
-        Args:
-            in_features: Input dimensionality.
-            key: JAX random key for initialization.
-
-        Returns:
-            The sequence mixer instance.
-        """
-        return LinOSSSequenceMixer(in_features=in_features, cfg=self, key=key)
-
-
-class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
+class LinOSSSequenceMixer(SequenceMixer):
     """LinOSS sequence mixer layer.
 
     This layer implements the LinOSS sequence mixer.
@@ -77,56 +42,68 @@ class LinOSSSequenceMixer[ConfigType: LinOSSSequenceMixerConfig](eqx.Module):
     C: jax.Array
     D: jax.Array
     steps: jax.Array
-    discretization: Literal["IM", "IMEX"]
-    damping: bool
+
+    # non learnable static fields
+    discretization: Literal["IM", "IMEX"] = eqx.field(static=True)
+    damping: bool = eqx.field(static=True)
 
     def __init__(
         self,
         in_features: int,
-        cfg: ConfigType,
         key: PRNGKeyArray,
+        *,
+        state_dim: Cfg[int] = 64,
+        discretization: Cfg[Literal["IM", "IMEX"]] = "IMEX",
+        damping: Cfg[bool] = True,
+        r_min: Cfg[float] = 0.9,
+        theta_max: Cfg[float] = jnp.pi,
+        **kwargs,
     ):
         """Initialize the LinOSS sequence mixer layer.
 
         Args:
-            in_features: Input dimensionality.
-            cfg: Configuration for the LinOSS sequence mixer.
+            in_features: dimension of the input features.
             key: JAX random key for initialization.
+            state_dim: dimension of the state space.
+            discretization: discretization method to use.
+            damping: whether to use damping.
+            r_min: minimum value for the radius.
+            theta_max: maximum value for the theta parameter.
+            **kwargs: Additional keyword arguments for the sequence mixer.
         """
         A_key, G_key, B_key, C_key, D_key, step_key, key = jr.split(key, 7)
 
-        self.steps = normal(stddev=0.5)(step_key, (cfg.state_dim,))
+        self.steps = normal(stddev=0.5)(step_key, (state_dim,))
         steps = nn.sigmoid(self.steps)
 
-        if cfg.discretization == "IMEX" and cfg.damping:
+        if discretization == "IMEX" and damping:
             r_max = 1.0
             mags = jnp.sqrt(
-                random.uniform(G_key, shape=(cfg.state_dim,)) * (r_max**2 - cfg.r_min**2)
-                + cfg.r_min**2
+                random.uniform(G_key, shape=(state_dim,)) * (r_max**2 - r_min**2) + r_min**2
             )
             self.G_diag = (1 - mags**2) / (steps * mags**2)
             G_diag = nn.relu(self.G_diag)
 
-            theta = random.uniform(A_key, shape=(cfg.state_dim,)) * cfg.theta_max
+            theta = random.uniform(A_key, shape=(state_dim,)) * theta_max
             self.A_diag = _map_theta_to_A(theta, G_diag, steps)
         else:
             self.G_diag = None
-            self.A_diag = random.uniform(A_key, shape=(cfg.state_dim,))
+            self.A_diag = random.uniform(A_key, shape=(state_dim,))
 
         self.B = _simple_uniform_init(
             B_key,
-            shape=(cfg.state_dim, in_features, 2),
+            shape=(state_dim, in_features, 2),
             std=1.0 / math.sqrt(in_features),
         )
         self.C = _simple_uniform_init(
             C_key,
-            shape=(in_features, cfg.state_dim, 2),
-            std=1.0 / math.sqrt(cfg.state_dim),
+            shape=(in_features, state_dim, 2),
+            std=1.0 / math.sqrt(state_dim),
         )
         self.D = normal(stddev=1.0)(D_key, (in_features,))
 
-        self.discretization = cfg.discretization
-        self.damping = cfg.damping
+        self.discretization = discretization
+        self.damping = damping
 
     def __call__(self, x: Array, key: PRNGKeyArray) -> Array:
         """Forward pass of the LinOSS sequence mixer layer.
@@ -282,77 +259,6 @@ def _binary_operator(q_i, q_j):  # noqa: N802
     new_b = jnp.concatenate([new_b1, new_b2])
 
     return Anew, new_b + b_j
-
-
-def _make_linoss_im_recurrence(A_diag, step):  # noqa: N802
-    """Compute the state transition for LinOSS-IM.
-
-    This function computes the state transition matrix for LinOSS-IM.
-
-    Args:
-        A_diag: Diagonal state matrix.
-        step: Discretization time-step.
-
-    Returns:
-        The state transition matrix for LinOSS-IM.
-    """
-    S = 1.0 / (1.0 + step**2.0 * A_diag)
-    M_11 = jnp.diag(1.0 - step**2.0 * A_diag * S)
-    M_12 = jnp.diag(-1.0 * step * A_diag * S)
-    M_21 = jnp.diag(step * S)
-    M_22 = jnp.diag(S)
-
-    M = jnp.block([[M_11, M_12], [M_21, M_22]])
-
-    return M
-
-
-# TODO why is this never used?!?! And neither are a lot of the other functions in this file?!
-def _make_linoss_imex_recurrence(A_diag, step):  # noqa: N802
-    """Compute the state transition for LinOSS-IMEX.
-
-    This function computes the state transition matrix for LinOSS-IMEX.
-
-    Args:
-        A_diag: Diagonal state matrix.
-        step: Discretization time-step.
-
-    Returns:
-        The state transition matrix for LinOSS-IMEX.
-    """
-    M_11 = jnp.diag(jnp.ones_like(A_diag))
-    M_12 = jnp.diag(-1.0 * step * A_diag)
-    M_21 = jnp.diag(step)
-    M_22 = jnp.diag(1.0 - (step**2.0) * A_diag)
-
-    M = jnp.block([[M_11, M_12], [M_21, M_22]])
-
-    return M
-
-
-def _make_damped_linoss_imex_recurrence(A_diag, G_diag, step):  # noqa: N802
-    """Compute the state transition for Damped LinOSS-IMEX.
-
-    This function computes the state transition matrix for Damped LinOSS-IMEX.
-
-    Args:
-        A_diag: Diagonal state matrix.
-        G_diag: Diagonal damping matrix.
-        step: Discretization time-step.
-
-    Returns:
-        The state transition matrix for Damped LinOSS-IMEX.
-    """
-    I = jnp.ones_like(A_diag)
-    S = I + step * G_diag
-    M_11 = jnp.diag(1.0 / S)
-    M_12 = jnp.diag(-step / S * A_diag)
-    M_21 = jnp.diag(step / S)
-    M_22 = jnp.diag(I - step**2 / S * A_diag)
-
-    M = jnp.block([[M_11, M_12], [M_21, M_22]])
-
-    return M
 
 
 def _apply_linoss_im(A_diag, B, x, step):  # noqa: N802
