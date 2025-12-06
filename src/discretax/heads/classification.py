@@ -7,11 +7,11 @@ import jax
 import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.heads.base import Head
+from discretax.heads.base import AbstractHead
 from discretax.utils.config_mixin import Cfg
 
 
-class ClassificationHead(Head):
+class ClassificationHead(AbstractHead):
     """Classification head.
 
     This classification head takes an input of shape (timesteps, in_features)

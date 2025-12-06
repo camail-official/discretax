@@ -17,11 +17,11 @@ from jax.nn.initializers import lecun_normal, normal
 from jax.scipy.linalg import block_diag
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer
+from discretax.sequence_mixers.base import AbstractSequenceMixer
 from discretax.utils.config_mixin import Cfg
 
 
-class S5SequenceMixer(SequenceMixer):
+class S5SequenceMixer(AbstractSequenceMixer):
     """S5 sequence mixer layer.
 
     This layer implements the Simplified State Space Layers (S5) sequence mixer,

@@ -7,13 +7,13 @@ import jax
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.blocks.base import Block
-from discretax.channel_mixers.base import ChannelMixer
-from discretax.sequence_mixers.base import SequenceMixer
+from discretax.blocks.base import AbstractBlock
+from discretax.channel_mixers.base import AbstractChannelMixer
+from discretax.sequence_mixers.base import AbstractSequenceMixer
 from discretax.utils.config_mixin import Cfg
 
 
-class StandardBlock(Block):
+class StandardBlock(AbstractBlock):
     """A single block in the Standard backbone.
 
     This block implements a sequence mixer, BatchNorm normalization, and a channel mixer.
@@ -40,16 +40,16 @@ class StandardBlock(Block):
     """
 
     norm: eqx.nn.BatchNorm
-    sequence_mixer: SequenceMixer
-    channel_mixer: ChannelMixer
+    sequence_mixer: AbstractSequenceMixer
+    channel_mixer: AbstractChannelMixer
     drop: eqx.nn.Dropout
     prenorm: bool
 
     def __init__(
         self,
         in_features: int,
-        sequence_mixer: SequenceMixer,
-        channel_mixer: ChannelMixer,
+        sequence_mixer: AbstractSequenceMixer,
+        channel_mixer: AbstractChannelMixer,
         key: PRNGKeyArray,
         *,
         drop_rate: Cfg[float] = 0.1,

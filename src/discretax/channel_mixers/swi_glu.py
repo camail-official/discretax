@@ -14,11 +14,11 @@ import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.channel_mixers.base import ChannelMixer
+from discretax.channel_mixers.base import AbstractChannelMixer
 from discretax.utils.config_mixin import Cfg
 
 
-class SwiGLU(ChannelMixer):
+class SwiGLU(AbstractChannelMixer):
     """Swish Gated Linear Unit (SwiGLU) layer.
 
     Adapted from https://huggingface.co/blog/sachithgunasekara/nanojaxgpt .

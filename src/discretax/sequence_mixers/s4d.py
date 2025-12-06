@@ -12,11 +12,11 @@ import jax
 import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer
+from discretax.sequence_mixers.base import AbstractSequenceMixer
 from discretax.utils.config_mixin import Cfg
 
 
-class S4DSequenceMixer(SequenceMixer):
+class S4DSequenceMixer(AbstractSequenceMixer):
     """S4D sequence mixer layer.
 
     This layer implements the Structured State Space - Diagonal (S4D) sequence mixer,

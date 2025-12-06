@@ -7,10 +7,10 @@ from __future__ import annotations
 
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer
+from discretax.sequence_mixers.base import AbstractSequenceMixer
 
 
-class IdentitySequenceMixer(SequenceMixer):
+class IdentitySequenceMixer(AbstractSequenceMixer):
     """Identity sequence mixer layer.
 
     This layer implements a simple identity/pass-through operation that returns

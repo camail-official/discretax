@@ -6,11 +6,11 @@ import equinox as eqx
 import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.heads.base import Head
+from discretax.heads.base import AbstractHead
 from discretax.utils.config_mixin import Cfg
 
 
-class RegressionHead(Head):
+class RegressionHead(AbstractHead):
     """Regression head.
 
     This regression head takes an input of shape (timesteps, in_features)

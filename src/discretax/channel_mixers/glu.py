@@ -10,11 +10,11 @@ import jax
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.channel_mixers.base import ChannelMixer
+from discretax.channel_mixers.base import AbstractChannelMixer
 from discretax.utils.config_mixin import Cfg
 
 
-class GLU(ChannelMixer):
+class GLU(AbstractChannelMixer):
     """Gated Linear Unit (GLU) layer.
 
     Attributes:

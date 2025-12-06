@@ -12,7 +12,7 @@ import jax.numpy as jnp
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer
+from discretax.sequence_mixers.base import AbstractSequenceMixer
 from discretax.utils.config_mixin import Cfg
 
 
@@ -33,7 +33,7 @@ def _binary_operator_diag(element_i, element_j):
     return a_j * a_i, a_j * bu_i + bu_j
 
 
-class LRUSequenceMixer(SequenceMixer):
+class LRUSequenceMixer(AbstractSequenceMixer):
     """LRU sequence mixer layer.
 
     This layer implements the Linear Recurrent Unit (LRU) sequence mixer using

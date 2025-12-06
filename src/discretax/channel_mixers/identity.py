@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.channel_mixers.base import ChannelMixer
+from discretax.channel_mixers.base import AbstractChannelMixer
 
 
-class IdentityChannelMixer(ChannelMixer):
+class IdentityChannelMixer(AbstractChannelMixer):
     """Identity channel mixer.
 
     This channel mixer simply returns the input unchanged.

@@ -11,7 +11,7 @@ from jaxtyping import Array, PRNGKeyArray
 from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
 
 
-class Encoder(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
+class AbstractEncoder(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     """Abstract base class for all encoders.
 
     This is the base class for all encoders.
@@ -31,6 +31,7 @@ class Encoder(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
         **kwargs,
     ):
         """Initialize the encoder."""
+        raise NotImplementedError("Subclasses must implement __init__")
 
     @abstractmethod
     def __call__(

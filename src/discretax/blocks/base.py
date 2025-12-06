@@ -7,12 +7,12 @@ from abc import ABC, abstractmethod
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.channel_mixers.base import ChannelMixer
-from discretax.sequence_mixers.base import SequenceMixer
+from discretax.channel_mixers.base import AbstractChannelMixer
+from discretax.sequence_mixers.base import AbstractSequenceMixer
 from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
 
 
-class Block(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
+class AbstractBlock(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     """Abstract base class for all blocks.
 
     Args:
@@ -27,12 +27,13 @@ class Block(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     def __init__(
         self,
         in_features: int,
-        sequence_mixer: Cfg[SequenceMixer],
-        channel_mixer: Cfg[ChannelMixer],
+        sequence_mixer: Cfg[AbstractSequenceMixer],
+        channel_mixer: Cfg[AbstractChannelMixer],
         key: PRNGKeyArray,
         **kwargs,
     ):
         """Initialize the block."""
+        raise NotImplementedError("Subclasses must implement __init__")
 
     @abstractmethod
     def __call__(

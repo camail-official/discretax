@@ -6,11 +6,11 @@ import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.encoder.base import Encoder
+from discretax.encoder.base import AbstractEncoder
 from discretax.utils.config_mixin import Cfg
 
 
-class LinearEncoder(Encoder):
+class LinearEncoder(AbstractEncoder):
     """Linear encoder.
 
     This encoder takes an input of shape (timesteps, in_features)

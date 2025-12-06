@@ -11,7 +11,7 @@ from jaxtyping import Array, PRNGKeyArray
 from discretax.utils.config_mixin import PartialLoaderMixin
 
 
-class ChannelMixer(eqx.Module, ABC, PartialLoaderMixin):
+class AbstractChannelMixer(eqx.Module, ABC, PartialLoaderMixin):
     """Abstract base class for all channel mixers.
 
     This class defines the interface for all channel mixers.
@@ -34,6 +34,7 @@ class ChannelMixer(eqx.Module, ABC, PartialLoaderMixin):
         **kwargs,
     ):
         """Initialize the channel mixer."""
+        raise NotImplementedError("Subclasses must implement __init__")
 
     # TODO: right now we are not using this lambda. But we should! Also return is_inexact_array.
     def filter_spec_lambda(self) -> Callable[..., bool]:

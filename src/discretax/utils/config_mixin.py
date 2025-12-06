@@ -17,7 +17,14 @@ MODULE_REGISTRY = {}
 
 
 def register(name: str):
-    """Register a class in the registry."""
+    """Register a class in the registry.
+
+    Args:
+        name: Name of the class to register.
+
+    Returns:
+        Decorator to register the class.
+    """
 
     def decorator(cls):
         MODULE_REGISTRY[name] = cls

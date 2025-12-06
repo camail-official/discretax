@@ -16,11 +16,11 @@ from jax import nn, random
 from jax.nn.initializers import normal
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.sequence_mixers.base import SequenceMixer
+from discretax.sequence_mixers.base import AbstractSequenceMixer
 from discretax.utils.config_mixin import Cfg
 
 
-class LinOSSSequenceMixer(SequenceMixer):
+class LinOSSSequenceMixer(AbstractSequenceMixer):
     """LinOSS sequence mixer layer.
 
     This layer implements the LinOSS sequence mixer.

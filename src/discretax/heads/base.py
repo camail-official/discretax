@@ -11,7 +11,7 @@ from jaxtyping import Array, PRNGKeyArray
 from discretax.utils.config_mixin import PartialLoaderMixin
 
 
-class Head(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
+class AbstractHead(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     """Abstract base class for all heads.
 
     This is the base class for all heads in Discretax.
@@ -34,6 +34,7 @@ class Head(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
         **kwargs,
     ):
         """Initialize the head."""
+        raise NotImplementedError("Subclasses must implement __init__")
 
     @abstractmethod
     def __call__(

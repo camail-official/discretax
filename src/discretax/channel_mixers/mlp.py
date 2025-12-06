@@ -9,7 +9,7 @@ import equinox as eqx
 import jax
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.channel_mixers.base import ChannelMixer
+from discretax.channel_mixers.base import AbstractChannelMixer
 from discretax.utils.config_mixin import Cfg
 
 # the available activations
@@ -50,7 +50,7 @@ def _get_activation(
         )
 
 
-class MLPChannelMixer(ChannelMixer):
+class MLPChannelMixer(AbstractChannelMixer):
     """MLP channel mixer.
 
     This channel mixer applies a multi-layer perceptron (MLP) to the input tensor.

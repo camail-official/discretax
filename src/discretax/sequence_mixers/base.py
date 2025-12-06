@@ -11,7 +11,7 @@ from jaxtyping import Array, PRNGKeyArray
 from discretax.utils.config_mixin import PartialLoaderMixin
 
 
-class SequenceMixer(eqx.Module, ABC, PartialLoaderMixin):
+class AbstractSequenceMixer(eqx.Module, ABC, PartialLoaderMixin):
     """Abstract base class for all sequence mixers.
 
     This class is used to define the interface for all sequence mixers.
@@ -32,6 +32,7 @@ class SequenceMixer(eqx.Module, ABC, PartialLoaderMixin):
         **kwargs,
     ):
         """Initialize the sequence mixer."""
+        raise NotImplementedError("Subclasses must implement __init__")
 
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for sequence mixer parameters.
