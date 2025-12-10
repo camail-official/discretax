@@ -10,7 +10,6 @@ import jax
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.channel_mixers.base import AbstractChannelMixer
-from discretax.utils.config_mixin import Cfg
 
 # the available activations
 activation = Literal["relu", "gelu", "swish", "silu", "tanh"]
@@ -68,9 +67,9 @@ class MLPChannelMixer(AbstractChannelMixer):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        out_features: Cfg[int | None] = None,
-        non_linearity: Cfg[activation] = "gelu",
-        use_bias: Cfg[bool] = False,
+        out_features: int | None = None,
+        non_linearity: activation = "gelu",
+        use_bias: bool = False,
         **kwargs,
     ):
         """Initialize the MLP channel mixer.

@@ -13,7 +13,6 @@ import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.sequence_mixers.base import AbstractSequenceMixer
-from discretax.utils.config_mixin import Cfg
 
 
 class S4DSequenceMixer(AbstractSequenceMixer):
@@ -40,10 +39,10 @@ class S4DSequenceMixer(AbstractSequenceMixer):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        state_dim: Cfg[int] = 64,
-        transposed: Cfg[bool] = False,
-        dt_min: Cfg[float] = 0.001,
-        dt_max: Cfg[float] = 0.1,
+        state_dim: int = 64,
+        transposed: bool = False,
+        dt_min: float = 0.001,
+        dt_max: float = 0.1,
         **kwargs,
     ):
         """Initialize the S4D sequence mixer layer.

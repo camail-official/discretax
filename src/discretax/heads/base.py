@@ -8,10 +8,10 @@ from collections.abc import Callable
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.utils.config_mixin import PartialLoaderMixin
+from discretax.utils.config_mixin import PartialModule
 
 
-class AbstractHead(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
+class AbstractHead(eqx.nn.StatefulLayer, ABC, PartialModule):
     """Abstract base class for all heads.
 
     This is the base class for all heads in Discretax.

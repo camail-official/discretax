@@ -8,10 +8,10 @@ from collections.abc import Callable
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
+from discretax.utils.config_mixin import PartialModule
 
 
-class AbstractEncoder(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
+class AbstractEncoder(eqx.nn.StatefulLayer, ABC, PartialModule):
     """Abstract base class for all encoders.
 
     This is the base class for all encoders.
@@ -27,7 +27,7 @@ class AbstractEncoder(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
         self,
         key: PRNGKeyArray,
         *,
-        out_features: Cfg[int],
+        out_features: int,
         **kwargs,
     ):
         """Initialize the encoder."""

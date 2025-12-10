@@ -7,10 +7,10 @@ from jaxtyping import Array, PRNGKeyArray
 from discretax.blocks.standard import StandardBlock
 from discretax.channel_mixers.glu import GLU
 from discretax.sequence_mixers.lru import LRUSequenceMixer
-from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
+from discretax.utils.config_mixin import PartialModule
 
 
-class LRU(eqx.nn.StatefulLayer, PartialLoaderMixin):
+class LRU(eqx.nn.StatefulLayer, PartialModule):
     """LRU model.
 
     This model implements stacked blocks with LRU sequence mixers and GLU channel mixers.
@@ -48,15 +48,15 @@ class LRU(eqx.nn.StatefulLayer, PartialLoaderMixin):
         self,
         key: PRNGKeyArray,
         *,
-        hidden_dim: Cfg[int],
-        num_blocks: Cfg[int] = 4,
-        state_dim: Cfg[int] = 64,
-        r_min: Cfg[float] = 0.0,
-        r_max: Cfg[float] = 1.0,
-        max_phase: Cfg[float] = 6.28,
-        drop_rate: Cfg[float] = 0.1,
-        prenorm: Cfg[bool] = True,
-        use_bias: Cfg[bool] = True,
+        hidden_dim: int,
+        num_blocks: int = 4,
+        state_dim: int = 64,
+        r_min: float = 0.0,
+        r_max: float = 1.0,
+        max_phase: float = 6.28,
+        drop_rate: float = 0.1,
+        prenorm: bool = True,
+        use_bias: bool = True,
         **kwargs,
     ):
         """Initialize the LRU model.

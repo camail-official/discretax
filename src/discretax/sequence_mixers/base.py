@@ -8,10 +8,10 @@ from collections.abc import Callable
 import equinox as eqx
 from jaxtyping import Array, PRNGKeyArray
 
-from discretax.utils.config_mixin import PartialLoaderMixin
+from discretax.utils.config_mixin import PartialModule
 
 
-class AbstractSequenceMixer(eqx.Module, ABC, PartialLoaderMixin):
+class AbstractSequenceMixer(eqx.Module, ABC, PartialModule):
     """Abstract base class for all sequence mixers.
 
     This class is used to define the interface for all sequence mixers.

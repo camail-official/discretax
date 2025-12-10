@@ -8,7 +8,6 @@ import jax.numpy as jnp
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.heads.base import AbstractHead
-from discretax.utils.config_mixin import Cfg
 
 
 class ClassificationHead(AbstractHead):
@@ -31,7 +30,7 @@ class ClassificationHead(AbstractHead):
         out_features: int,
         key: PRNGKeyArray,
         *,
-        reduce: Cfg[bool] = True,
+        reduce: bool = True,
         **kwargs,
     ):
         """Initialize the classification head.

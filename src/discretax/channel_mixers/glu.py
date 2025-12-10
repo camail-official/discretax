@@ -11,7 +11,6 @@ import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.channel_mixers.base import AbstractChannelMixer
-from discretax.utils.config_mixin import Cfg
 
 
 class GLU(AbstractChannelMixer):
@@ -33,8 +32,8 @@ class GLU(AbstractChannelMixer):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        out_features: Cfg[int | None] = None,
-        use_bias: Cfg[bool] = True,
+        out_features: int | None = None,
+        use_bias: bool = True,
         **kwargs,
     ):
         """Initialize the GLU layer.

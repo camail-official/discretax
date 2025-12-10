@@ -7,7 +7,6 @@ import jax
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.encoder.base import AbstractEncoder
-from discretax.utils.config_mixin import Cfg
 
 
 class EmbeddingEncoder(AbstractEncoder):
@@ -26,8 +25,8 @@ class EmbeddingEncoder(AbstractEncoder):
         self,
         key: PRNGKeyArray,
         *,
-        out_features: Cfg[int],
-        num_classes: Cfg[int],
+        out_features: int,
+        num_classes: int,
         **kwargs,
     ):
         """Initialize the embedding encoder.

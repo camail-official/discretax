@@ -13,7 +13,6 @@ import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.sequence_mixers.base import AbstractSequenceMixer
-from discretax.utils.config_mixin import Cfg
 
 
 def _binary_operator_diag(element_i, element_j):
@@ -64,10 +63,10 @@ class LRUSequenceMixer(AbstractSequenceMixer):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        state_dim: Cfg[int] = 64,
-        r_min: Cfg[float] = 0.0,
-        r_max: Cfg[float] = 1.0,
-        max_phase: Cfg[float] = 6.28,
+        state_dim: int = 64,
+        r_min: float = 0.0,
+        r_max: float = 1.0,
+        max_phase: float = 6.28,
         **kwargs,
     ):
         """Initialize the LRU sequence mixer layer.

@@ -9,10 +9,10 @@ from jaxtyping import Array, PRNGKeyArray
 from discretax.blocks.standard import StandardBlock
 from discretax.channel_mixers.glu import GLU
 from discretax.sequence_mixers.s5 import S5SequenceMixer
-from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
+from discretax.utils.config_mixin import PartialModule
 
 
-class S5(eqx.nn.StatefulLayer, PartialLoaderMixin):
+class S5(eqx.nn.StatefulLayer, PartialModule):
     """S5 model.
 
     This model implements stacked blocks with S5 sequence mixers and GLU channel mixers.
@@ -50,22 +50,22 @@ class S5(eqx.nn.StatefulLayer, PartialLoaderMixin):
         self,
         key: PRNGKeyArray,
         *,
-        hidden_dim: Cfg[int],
-        num_blocks: Cfg[int] = 4,
-        state_dim: Cfg[int] = 64,
-        ssm_blocks: Cfg[int] = 1,
-        C_init: Cfg[
-            Literal["trunc_standard_normal", "lecun_normal", "complex_normal"]
+        hidden_dim: int,
+        num_blocks: int = 4,
+        state_dim: int = 64,
+        ssm_blocks: int = 1,
+        C_init: Literal[
+            "trunc_standard_normal", "lecun_normal", "complex_normal"
         ] = "lecun_normal",
-        conj_sym: Cfg[bool] = True,
-        clip_eigs: Cfg[bool] = True,
-        discretization: Cfg[Literal["zoh", "bilinear"]] = "zoh",
-        dt_min: Cfg[float] = 0.001,
-        dt_max: Cfg[float] = 1.0,
-        step_rescale: Cfg[float] = 1.0,
-        drop_rate: Cfg[float] = 0.1,
-        prenorm: Cfg[bool] = True,
-        use_bias: Cfg[bool] = True,
+        conj_sym: bool = True,
+        clip_eigs: bool = True,
+        discretization: Literal["zoh", "bilinear"] = "zoh",
+        dt_min: float = 0.001,
+        dt_max: float = 1.0,
+        step_rescale: float = 1.0,
+        drop_rate: float = 0.1,
+        prenorm: bool = True,
+        use_bias: bool = True,
         **kwargs,
     ):
         """Initialize the S5 model.

@@ -18,7 +18,6 @@ from jax.scipy.linalg import block_diag
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.sequence_mixers.base import AbstractSequenceMixer
-from discretax.utils.config_mixin import Cfg
 
 
 class S5SequenceMixer(AbstractSequenceMixer):
@@ -62,17 +61,17 @@ class S5SequenceMixer(AbstractSequenceMixer):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        state_dim: Cfg[int] = 64,
-        ssm_blocks: Cfg[int] = 1,
-        C_init: Cfg[
-            Literal["trunc_standard_normal", "lecun_normal", "complex_normal"]
+        state_dim: int = 64,
+        ssm_blocks: int = 1,
+        C_init: Literal[
+            "trunc_standard_normal", "lecun_normal", "complex_normal"
         ] = "lecun_normal",
-        conj_sym: Cfg[bool] = True,
-        clip_eigs: Cfg[bool] = True,
-        discretization: Cfg[Literal["zoh", "bilinear"]] = "zoh",
-        dt_min: Cfg[float] = 0.001,
-        dt_max: Cfg[float] = 1.0,
-        step_rescale: Cfg[float] = 1.0,
+        conj_sym: bool = True,
+        clip_eigs: bool = True,
+        discretization: Literal["zoh", "bilinear"] = "zoh",
+        dt_min: float = 0.001,
+        dt_max: float = 1.0,
+        step_rescale: float = 1.0,
         **kwargs,
     ):
         """Initialize the S5 sequence mixer layer.

@@ -1,85 +1,68 @@
-"""This module contains a mixin to load a class from a config.
+"""Config mixin."""
 
-This is useful for loading a class from a config file.
-"""
-
-import functools
-import inspect
-from typing import Annotated, Any, TypeVar, get_type_hints
+import warnings
+from collections.abc import Callable
+from typing import Any, Generic, ParamSpec, Self, TypeVar, Union
 
 ConfigVar = object()
 
+P = ParamSpec("P")
 T = TypeVar("T")
-Cfg = Annotated[T, ConfigVar]
 
 
-MODULE_REGISTRY = {}
+class Partial(Generic[P, T]):
+    """Wrapper holding a class + config kwargs, resolved with runtime kwargs.
 
-
-def register(name: str):
-    """Register a class in the registry.
-
-    Args:
-        name: Name of the class to register.
-
-    Returns:
-        Decorator to register the class.
+    Runtime kwargs can override config kwargs (with a warning).
+    Uses ParamSpec to preserve the __init__ signature for IDE autocomplete.
     """
 
-    def decorator(cls):
-        MODULE_REGISTRY[name] = cls
-        return cls
+    cls: Callable[P, T]
+    kwargs: dict[str, Any]
 
-    return decorator
+    def __init__(self, cls: Callable[P, T], **kwargs: Any):
+        self.cls = cls
+        self.kwargs = kwargs
+
+    def resolve(self, *args: P.args, **kwargs: P.kwargs) -> T:
+        """Instantiate the class with config + runtime kwargs.
+
+        Args:
+            *args: Positional args for __init__
+            **kwargs: Keyword args for __init__. Config params can be
+                overridden (issues warning).
+
+        Returns:
+            Fully instantiated object of type T.
+        """
+        # Check for overrides and warn
+        overridden = set(self.kwargs.keys()) & set(kwargs.keys())
+        for key in overridden:
+            warnings.warn(
+                f"Config param '{key}' is being overridden: {self.kwargs[key]} -> {kwargs[key]}",
+                stacklevel=2,
+            )
+
+        # Merge: runtime kwargs override config kwargs
+        merged = {**self.kwargs, **kwargs}
+        return self.cls(*args, **merged)
+
+    def __repr__(self) -> str:
+        """Representation of the Partial object."""
+        cls_name = getattr(self.cls, "__name__", str(self.cls))
+        return f"Partial({cls_name}, {self.kwargs})"
 
 
-def build_from_config(cfg: Any) -> Any:
-    """Recursively transforms a config dict into a generic Class Factory (partial)."""
-    if isinstance(cfg, list):
-        return [build_from_config(item) for item in cfg]
-
-    if not isinstance(cfg, dict):
-        return cfg
-
-    if "name" in cfg and cfg["name"] in MODULE_REGISTRY:
-        cls = MODULE_REGISTRY[cfg["name"]]
-
-        processed_kwargs = {k: build_from_config(v) for k, v in cfg.items() if k != "name"}
-
-        return functools.partial(cls, **processed_kwargs)
-
-    return cfg
+# Type alias for parameters that can be either a Partial or already resolved
+Resolvable = Union[Partial[..., T], T]
 
 
-class PartialLoaderMixin:
-    """Mixin to load a class from a config."""
+class PartialModule:
+    """Mixin for classes that can be partially initialized.
 
-    @classmethod
-    def from_config(cls, cfg: dict | Any) -> functools.partial:
-        """Returns a partial(cls, ...) with only the ConfigVars filled."""
-        # Unwrap generic configs (like Hydra/Omegaconf) to dict
-        if hasattr(cfg, "items"):
-            cfg = dict(cfg)
-        else:
-            # Assume it's an object (dataclass/Namespace)
-            cfg = vars(cfg)
+    Subclasses get a .resolve() method that returns self (already resolved).
+    """
 
-        type_hints = get_type_hints(cls.__init__, include_extras=True)
-        signature = inspect.signature(cls.__init__)
-
-        config_args = {}
-
-        for name, param in signature.parameters.items():
-            if name == "self":
-                continue
-            # Look up the resolved hint
-            hint = type_hints.get(name)
-
-            # Check metadata
-            if hasattr(hint, "__metadata__") and ConfigVar in hint.__metadata__:
-                if name in cfg:
-                    config_args[name] = cfg[name]
-                elif param.default == inspect.Parameter.empty:
-                    raise ValueError(f"Missing required config parameter: '{name}'")
-
-        return functools.partial(cls, **config_args)
+    def resolve(self, *args: Any, **kwargs: Any) -> Self:
+        """If called on an instance, return self (already resolved)."""
+        return self

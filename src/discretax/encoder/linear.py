@@ -7,7 +7,6 @@ import jax
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.encoder.base import AbstractEncoder
-from discretax.utils.config_mixin import Cfg
 
 
 class LinearEncoder(AbstractEncoder):
@@ -27,8 +26,8 @@ class LinearEncoder(AbstractEncoder):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        out_features: Cfg[int],
-        use_bias: Cfg[bool] = False,
+        out_features: int,
+        use_bias: bool = False,
         **kwargs,
     ):
         """Initialize the linear encoder.

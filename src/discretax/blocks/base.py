@@ -9,10 +9,10 @@ from jaxtyping import Array, PRNGKeyArray
 
 from discretax.channel_mixers.base import AbstractChannelMixer
 from discretax.sequence_mixers.base import AbstractSequenceMixer
-from discretax.utils.config_mixin import Cfg, PartialLoaderMixin
+from discretax.utils.config_mixin import PartialModule
 
 
-class AbstractBlock(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
+class AbstractBlock(eqx.nn.StatefulLayer, ABC, PartialModule):
     """Abstract base class for all blocks.
 
     Args:
@@ -27,9 +27,10 @@ class AbstractBlock(eqx.nn.StatefulLayer, ABC, PartialLoaderMixin):
     def __init__(
         self,
         in_features: int,
-        sequence_mixer: Cfg[AbstractSequenceMixer],
-        channel_mixer: Cfg[AbstractChannelMixer],
         key: PRNGKeyArray,
+        *,
+        sequence_mixer: AbstractSequenceMixer,
+        channel_mixer: AbstractChannelMixer,
         **kwargs,
     ):
         """Initialize the block."""

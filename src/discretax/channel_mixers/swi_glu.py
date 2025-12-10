@@ -15,7 +15,6 @@ import jax
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.channel_mixers.base import AbstractChannelMixer
-from discretax.utils.config_mixin import Cfg
 
 
 class SwiGLU(AbstractChannelMixer):
@@ -44,10 +43,10 @@ class SwiGLU(AbstractChannelMixer):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        out_features: Cfg[int | None] = None,
-        hidden_ratio: Cfg[int | float | None] = None,
-        intermediate_dim: Cfg[int | None] = None,
-        use_bias: Cfg[bool] = False,
+        out_features: int | None = None,
+        hidden_ratio: int | float | None = None,
+        intermediate_dim: int | None = None,
+        use_bias: bool = False,
         **kwargs,
     ) -> None:
         """Initialize the SwiGLU layer.

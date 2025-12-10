@@ -17,7 +17,6 @@ from jax.nn.initializers import normal
 from jaxtyping import Array, PRNGKeyArray
 
 from discretax.sequence_mixers.base import AbstractSequenceMixer
-from discretax.utils.config_mixin import Cfg
 
 
 class LinOSSSequenceMixer(AbstractSequenceMixer):
@@ -52,11 +51,11 @@ class LinOSSSequenceMixer(AbstractSequenceMixer):
         in_features: int,
         key: PRNGKeyArray,
         *,
-        state_dim: Cfg[int] = 64,
-        discretization: Cfg[Literal["IM", "IMEX"]] = "IMEX",
-        damping: Cfg[bool] = True,
-        r_min: Cfg[float] = 0.9,
-        theta_max: Cfg[float] = jnp.pi,
+        state_dim: int = 64,
+        discretization: Literal["IM", "IMEX"] = "IMEX",
+        damping: bool = True,
+        r_min: float = 0.9,
+        theta_max: float = jnp.pi,
         **kwargs,
     ):
         """Initialize the LinOSS sequence mixer layer.

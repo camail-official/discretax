@@ -10,7 +10,7 @@ from jaxtyping import Array, PRNGKeyArray
 from discretax.blocks.base import AbstractBlock
 from discretax.channel_mixers.base import AbstractChannelMixer
 from discretax.sequence_mixers.base import AbstractSequenceMixer
-from discretax.utils.config_mixin import Cfg
+from discretax.utils.config_mixin import Resolvable
 
 
 class StandardBlock(AbstractBlock):
@@ -48,21 +48,21 @@ class StandardBlock(AbstractBlock):
     def __init__(
         self,
         in_features: int,
-        sequence_mixer: AbstractSequenceMixer,
-        channel_mixer: AbstractChannelMixer,
         key: PRNGKeyArray,
         *,
-        drop_rate: Cfg[float] = 0.1,
-        prenorm: Cfg[bool] = True,
+        sequence_mixer: Resolvable[AbstractSequenceMixer],
+        channel_mixer: Resolvable[AbstractChannelMixer],
+        drop_rate: float = 0.1,
+        prenorm: bool = True,
         **kwargs,
     ):
         """Initialize the Standard block.
 
         Args:
             in_features: input features.
+            key: JAX random key for initialization of layers.
             sequence_mixer: the sequence mixer instance for this block.
             channel_mixer: the channel mixer instance for this block.
-            key: JAX random key for initialization of layers.
             drop_rate: dropout rate for the channel mixer.
             prenorm: whether to apply the normalization at the beginning or the end of the block.
             **kwargs: Additional keyword arguments for the block.
@@ -71,8 +71,10 @@ class StandardBlock(AbstractBlock):
             input_size=in_features, axis_name="batch", channelwise_affine=False, mode="ema"
         )
 
-        self.sequence_mixer = sequence_mixer
-        self.channel_mixer = channel_mixer
+        # Build the sequence mixer and channel mixer from the config or an instance.
+        self.sequence_mixer = sequence_mixer.resolve(in_features=in_features, key=key, **kwargs)
+        self.channel_mixer = channel_mixer.resolve(in_features=in_features, key=key, **kwargs)
+
         self.drop = eqx.nn.Dropout(p=drop_rate)
         self.prenorm = prenorm
 
