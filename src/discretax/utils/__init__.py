@@ -1,5 +1,5 @@
 """Utility functions and mixins for discretax."""
 
-from discretax.utils.config_mixin import Cfg
+from discretax.utils.param_count import print_param_tree
 
-__all__ = ["Cfg"]
+__all__ = ["print_param_tree"]

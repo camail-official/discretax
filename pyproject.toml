@@ -15,7 +15,17 @@ maintainers = [
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
-keywords = ["jax", "equinox", "ssm", "state-space-models", "sequence-modeling", "neural-networks", "deep-learning", "machine-learning", "ml"]
+keywords = [
+    "jax",
+    "equinox",
+    "ssm",
+    "state-space-models",
+    "sequence-modeling",
+    "neural-networks",
+    "deep-learning",
+    "machine-learning",
+    "ml",
+]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
@@ -40,7 +50,7 @@ dev = [
     "ruff>=0.12.11",
     "pandas>=2.3.2",
     "ipykernel>=6.30.1",
-    "pytest>=8.3.3"
+    "pytest>=8.3.3",
 ]
 
 docs = [
@@ -49,7 +59,7 @@ docs = [
     "mkdocstrings-python>=1.18.2",
     "hippogriffe>=0.2.2",
     "mkdocs-ipynb>=0.1.1",
-    "pymdown-extensions==10.14.3"
+    "pymdown-extensions==10.14.3",
 ]
 
 examples = [
