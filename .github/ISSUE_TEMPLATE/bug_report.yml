@@ -1,12 +1,12 @@
 name: 🐛 Bug Report
-description: File a bug report to help us improve Linax
+description: File a bug report to help us improve Discretax
 title: "[Bug]: "
 labels: ["bug", "triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report! 🙏
+        Thanks for taking the time to fill out this bug report!
 
   - type: textarea
     id: description
@@ -23,7 +23,7 @@ body:
       label: Steps to Reproduce
       description: How can we reproduce this issue?
       placeholder: |
-        1. Import linax
+        1. Import discretax
         2. Create a model with '...'
         3. Run '...'
         4. See error
@@ -38,7 +38,7 @@ body:
       render: python
       placeholder: |
         import jax
-        import linax
+        import discretax
 
         # Your code here...
     validations:
@@ -58,11 +58,11 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Python version, JAX version, Linax version, OS, hardware (GPU/CPU/TPU)
+      description: Python version, JAX version, Discretax version, OS, hardware (GPU/CPU/TPU)
       placeholder: |
         Python 3.12.0
         JAX 0.4.23
-        Linax main branch
+        Discretax main branch
         macOS 14.0
         CPU
     validations:
