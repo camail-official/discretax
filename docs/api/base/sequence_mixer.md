@@ -1,7 +1,7 @@
 # Sequence Mixer
 
 
-::: discretax.sequence_mixers.base.SequenceMixer
+::: discretax.sequence_mixers.base.AbstractSequenceMixer
     options:
         members:
             - __init__

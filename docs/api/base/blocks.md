@@ -1,7 +1,7 @@
 # Blocks
 
 
-::: discretax.blocks.base.Block
+::: discretax.blocks.base.AbstractBlock
     options:
         members:
             - __init__

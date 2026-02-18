@@ -1,7 +1,7 @@
 # Encoder
 
 
-::: discretax.encoder.base.Encoder
+::: discretax.encoder.base.AbstractEncoder
     options:
         members:
             - __init__

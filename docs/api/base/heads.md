@@ -1,6 +1,6 @@
 # Heads
 
-::: discretax.heads.base.Head
+::: discretax.heads.base.AbstractHead
     options:
         members:
             - __init__
