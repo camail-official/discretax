@@ -1,6 +1,6 @@
-# Discretax - State Space Models in JAX
-
 <div align="center">
+
+# Discretax - State Space Models in JAX
 
 [![pre-commit](https://img.shields.io/badge/Pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![tests](https://github.com/camail-official/discretax/actions/workflows/tests.yml/badge.svg)](https://github.com/camail-official/discretax/actions/workflows/test.yaml)
