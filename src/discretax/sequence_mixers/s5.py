@@ -80,7 +80,7 @@ class S5SequenceMixer(AbstractSequenceMixer):
             in_features: dimension of the input features.
             key: JAX random key for initialization.
             state_dim: dimension of the state space (total SSM size).
-            ssm_blocks: number of SSM blocks (for block-diagonal structure).
+            ssm_blocks: number of blocks in the block-diagonal HiPPO initialization.
             C_init: initialization method for output matrix C.
             conj_sym: whether to enforce conjugate symmetry (reduces parameters by half).
             clip_eigs: whether to clip eigenvalues to ensure stability.

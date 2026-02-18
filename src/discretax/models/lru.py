@@ -1,6 +1,7 @@
 """LRU model."""
 
 import equinox as eqx
+import jax.numpy as jnp
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
@@ -53,7 +54,7 @@ class LRU(eqx.nn.StatefulLayer, PartialModule):
         state_dim: int = 64,
         r_min: float = 0.0,
         r_max: float = 1.0,
-        max_phase: float = 6.28,
+        max_phase: float = 2 * jnp.pi,
         drop_rate: float = 0.1,
         prenorm: bool = True,
         use_bias: bool = True,

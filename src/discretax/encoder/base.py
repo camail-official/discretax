@@ -31,7 +31,6 @@ class AbstractEncoder(eqx.nn.StatefulLayer, ABC, PartialModule):
         **kwargs,
     ):
         """Initialize the encoder."""
-        raise NotImplementedError("Subclasses must implement __init__")
 
     @abstractmethod
     def __call__(

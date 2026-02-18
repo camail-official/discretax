@@ -1,6 +1,6 @@
 # Contributing to Discretax
 
-Thank you for your interest in contributing to Discretax! 🎉
+Thank you for your interest in contributing to Discretax.
 
 We welcome contributions of all kinds: bug reports, feature requests, documentation improvements, and code contributions.
 
@@ -214,4 +214,4 @@ If you have questions about contributing, feel free to:
 
 ---
 
-Thank you for contributing to Discretax! 🚀
+Thank you for contributing to Discretax.

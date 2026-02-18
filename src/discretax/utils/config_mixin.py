@@ -1,4 +1,18 @@
-"""Config mixin."""
+"""Config mixin.
+
+This module provides utilities for partial initialization of classes,
+allowing arguments to be pre-configured and resolved later.
+
+Example usage::
+
+    from discretax.utils.config_mixin import Partial
+
+    # Pre-configure a class with some arguments
+    partial_mlp = Partial(MLPChannelMixer, non_linearity="relu", use_bias=True)
+
+    # Later, resolve with runtime arguments
+    mlp = partial_mlp.resolve(in_features=64, key=jr.PRNGKey(0))
+"""
 
 import warnings
 from collections.abc import Callable
@@ -15,12 +29,23 @@ class Partial(Generic[P, T]):
 
     Runtime kwargs can override config kwargs (with a warning).
     Uses ParamSpec to preserve the __init__ signature for IDE autocomplete.
+
+    Example::
+
+        partial_glu = Partial(GLU, use_bias=False)
+        glu = partial_glu.resolve(in_features=64, key=jr.PRNGKey(0))
     """
 
     cls: Callable[P, T]
     kwargs: dict[str, Any]
 
     def __init__(self, cls: Callable[P, T], **kwargs: Any):
+        """Initialize the Partial wrapper.
+
+        Args:
+            cls: The class to partially initialize.
+            **kwargs: Pre-configured keyword arguments for the class constructor.
+        """
         self.cls = cls
         self.kwargs = kwargs
 
@@ -28,9 +53,9 @@ class Partial(Generic[P, T]):
         """Instantiate the class with config + runtime kwargs.
 
         Args:
-            *args: Positional args for __init__
+            *args: Positional args for __init__.
             **kwargs: Keyword args for __init__. Config params can be
-                overridden (issues warning).
+                overridden (issues a warning).
 
         Returns:
             Fully instantiated object of type T.
@@ -64,5 +89,13 @@ class PartialModule:
     """
 
     def resolve(self, *args: Any, **kwargs: Any) -> Self:
-        """If called on an instance, return self (already resolved)."""
+        """If called on an instance, return self (already resolved).
+
+        Args:
+            *args: Ignored positional arguments.
+            **kwargs: Ignored keyword arguments.
+
+        Returns:
+            Self (the already-instantiated object).
+        """
         return self

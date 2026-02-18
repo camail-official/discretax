@@ -3,6 +3,7 @@
 from typing import Literal
 
 import equinox as eqx
+import jax.numpy as jnp
 import jax.random as jr
 from jaxtyping import Array, PRNGKeyArray
 
@@ -56,7 +57,7 @@ class LinOSS(eqx.nn.StatefulLayer, PartialModule):
         discretization: Literal["IM", "IMEX"] = "IMEX",
         damping: bool = True,
         r_min: float = 0.9,
-        theta_max: float = 3.14159265359,
+        theta_max: float = jnp.pi,
         drop_rate: float = 0.1,
         prenorm: bool = True,
         use_bias: bool = True,

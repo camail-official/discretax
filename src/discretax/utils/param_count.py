@@ -3,8 +3,6 @@
 import equinox as eqx
 import jax
 
-from discretax.models import LinOSS
-
 _COLORS = {
     "red": "\033[91m",
     "green": "\033[92m",
@@ -17,20 +15,40 @@ _RESET = "\033[0m"
 
 
 def _colorize(text: str, color: str | None) -> str:
+    """Wrap text in ANSI color codes.
+
+    Args:
+        text: The string to colorize.
+        color: Color name (one of red, green, yellow, blue, magenta, cyan). None for no color.
+
+    Returns:
+        The colorized string, or the original string if color is None or invalid.
+    """
     if color is None or color not in _COLORS:
         return text
     return f"{_COLORS[color]}{text}{_RESET}"
 
 
 def _print_tree(
-    node,
-    prefix="",
-    path=(),
-    current_depth=1,
+    node: dict,
+    prefix: str = "",
+    path: tuple = (),
+    current_depth: int = 1,
     depth: int | None = None,
     class_names: dict[tuple[str, ...], str] = {},
     color: str | None = None,
 ) -> None:
+    """Recursively print a nested parameter tree.
+
+    Args:
+        node: Nested dict representing the parameter tree.
+        prefix: Current line prefix (branch characters).
+        path: Tuple of keys representing the current path in the tree.
+        current_depth: Current recursion depth (1-indexed).
+        depth: Maximum depth to print. None for unlimited.
+        class_names: Mapping from path tuples to class name strings.
+        color: Color name for class labels. None for no color.
+    """
     if depth is not None and current_depth > depth:
         return
     children = node["__children__"] if "__children__" in node else node
@@ -69,10 +87,29 @@ def _get_key(p) -> str:
     return str(p.idx)
 
 
+def count_params(module: eqx.Module) -> int:
+    """Count the total number of trainable (inexact array) parameters in a module.
+
+    Args:
+        module: An Equinox module (or any JAX PyTree).
+
+    Returns:
+        Total number of floating-point parameters.
+
+    Example:
+        ```python
+        model = LinOSS(hidden_dim=64, key=jax.random.PRNGKey(0))
+        print(count_params(model))  # e.g. 123456
+        ```
+    """
+    leaves = jax.tree_util.tree_leaves(eqx.filter(module, eqx.is_array))
+    return sum(x.size for x in leaves)
+
+
 def print_param_tree(
     model: eqx.Module, depth: int | None = None, color: str | None = None
 ) -> None:
-    """Prints a (file) tree-like structure of an Equinox model's parameters.
+    """Print a file-tree-like structure of an Equinox model's parameters.
 
     Args:
         model: The Equinox model (or any PyTree).
@@ -115,8 +152,12 @@ def print_param_tree(
 
 
 if __name__ == "__main__":
+    import jax.random as jr
+
+    from discretax.models import LinOSS
+
     model = LinOSS(
         hidden_dim=10,
-        key=jax.random.PRNGKey(0),
+        key=jr.PRNGKey(0),
     )
     print_param_tree(model, color="red")

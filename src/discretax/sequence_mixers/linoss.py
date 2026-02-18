@@ -30,7 +30,7 @@ class LinOSSSequenceMixer(AbstractSequenceMixer):
         B: Input matrix.
         C: Output matrix.
         D: Output matrix.
-        steps: Step sizes for the sequence mixer.
+        steps: Learnable step sizes for the sequence mixer (parameterized via sigmoid).
         discretization: Discretization method to use.
         damping: Whether to use damping.
     """

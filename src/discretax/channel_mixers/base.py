@@ -34,7 +34,6 @@ class AbstractChannelMixer(eqx.Module, ABC, PartialModule):
         **kwargs,
     ):
         """Initialize the channel mixer."""
-        raise NotImplementedError("Subclasses must implement __init__")
 
     # TODO: right now we are not using this lambda. But we should! Also return is_inexact_array.
     def filter_spec_lambda(self) -> Callable[..., bool]:
