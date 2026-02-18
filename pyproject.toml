@@ -4,14 +4,14 @@ dynamic = ["version"]
 description = "State Space Models in Jax"
 readme = "README.md"
 authors = [
-    { name = "Benedict Armstrong", email = "benedict.armstrong@inf.ethz.ch" },
     { name = "Francesco Maria Ruscio", email = "franciruscio@gmail.com" },
     { name = "Philipp Nazari", email = "philipp.nazari@tuebingen.mpg.de" },
+    { name = "Benedict Armstrong", email = "benedict.armstrong@inf.ethz.ch" },
 ]
 maintainers = [
-    { name = "Benedict Armstrong" },
     { name = "Francesco Maria Ruscio" },
     { name = "Philipp Nazari" },
+    { name = "Benedict Armstrong" },
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
