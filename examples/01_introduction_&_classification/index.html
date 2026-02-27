@@ -6,13 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The documentation for the linax software package.">
+        <meta name="description" content="The documentation for the discretax software package.">
       
       
         <meta name="author" content="Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong">
       
       
-        <link rel="canonical" href="https://camail.org/linax/examples/01_introduction_%26_classification/">
+        <link rel="canonical" href="https://camail.org/discretax/examples/01_introduction_%26_classification/">
       
       
         <link rel="prev" href="../..">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Sequence Classification with linax - linax</title>
+        <title>Sequence Classification with discretax - discretax</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sequence-classification-with-linax" class="md-skip">
+        <a href="#sequence-classification-with-discretax" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="linax" class="md-header__button md-logo" aria-label="linax" data-md-component="logo">
+    <a href="../.." title="discretax" class="md-header__button md-logo" aria-label="discretax" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,13 +114,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            linax
+            discretax
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Sequence Classification with linax
+              Sequence Classification with discretax
             
           </span>
         </div>
@@ -200,13 +200,13 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/camail-official/linax" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/camail-official/discretax" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
-    camail-official/linax
+    camail-official/discretax
   </div>
 </a>
       </div>
@@ -238,23 +238,23 @@
 
 <nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="linax" class="md-nav__button md-logo" aria-label="linax" data-md-component="logo">
+    <a href="../.." title="discretax" class="md-nav__button md-logo" aria-label="discretax" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    linax
+    discretax
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/camail-official/linax" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/camail-official/discretax" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
-    camail-official/linax
+    camail-official/discretax
   </div>
 </a>
     </div>
@@ -349,7 +349,7 @@
   
   
   <span class="md-ellipsis">
-    Sequence Classification with linax
+    Sequence Classification with discretax
     
   </span>
   
@@ -362,7 +362,7 @@
   
   
   <span class="md-ellipsis">
-    Sequence Classification with linax
+    Sequence Classification with discretax
     
   </span>
   
@@ -385,9 +385,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#about-linax" class="md-nav__link">
+  <a href="#about-discretax" class="md-nav__link">
     <span class="md-ellipsis">
-      About Linax
+      About Discretax
     </span>
   </a>
   
@@ -497,9 +497,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#configuration-parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration Parameters:
+      Parameters:
     </span>
   </a>
   
@@ -950,29 +950,6 @@
             Models
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../api/models/ssm/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    General SSM
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -1604,7 +1581,7 @@
   
   
   <span class="md-ellipsis">
-    Contributing to Linax
+    Contributing to Discretax
     
   </span>
   
@@ -1638,10 +1615,10 @@
 
 
 
-<h1 id="sequence-classification-with-linax">Sequence Classification with linax<a class="headerlink" href="#sequence-classification-with-linax" title="Permanent link">¤</a></h1>
-<p>This notebook demonstrates how to train LinOSS[2] on the <a href="https://edwin-de-jong.github.io/blog/mnist-sequence-data/">MNIST SEQUENCE</a> dataset using <a href="https://github.com/google/jax"><code>JAX</code></a>, <a href="https://github.com/patrick-kidger/equinox"><code>Equinox</code></a> and <strong><a href="https://github.com/tk-rusch/linoss"><code>Linax</code></a></strong>.</p>
-<h3 id="about-linax">About Linax<a class="headerlink" href="#about-linax" title="Permanent link">¤</a></h3>
-<p><strong>Linax</strong> is a library for state-space sequence modeling built on JAX and Equinox. It provides:</p>
+<h1 id="sequence-classification-with-discretax">Sequence Classification with discretax<a class="headerlink" href="#sequence-classification-with-discretax" title="Permanent link">¤</a></h1>
+<p>This notebook demonstrates how to train LinOSS[2] on the <a href="https://edwin-de-jong.github.io/blog/mnist-sequence-data/">MNIST SEQUENCE</a> dataset using <a href="https://github.com/google/jax"><code>JAX</code></a>, <a href="https://github.com/patrick-kidger/equinox"><code>Equinox</code></a> and <strong><a href="https://github.com/camail-official/discretax"><code>Discretax</code></a></strong>.</p>
+<h3 id="about-discretax">About Discretax<a class="headerlink" href="#about-discretax" title="Permanent link">¤</a></h3>
+<p><strong>Discretax</strong> is a library for state-space sequence modeling built on JAX and Equinox. It provides:</p>
 <ul>
 <li><strong>Modern SSM architectures</strong>: LRU, LinOSS and other state-of-the-art models</li>
 <li><strong>JAX-native</strong>: JIT compilation and automatic differentiation</li>
@@ -1659,7 +1636,7 @@
 <p>This encoding captures the <strong>temporal dynamics</strong> of how each digit was drawn, treating handwriting as a sequential process rather than a static image.</p>
 <h2 id="imports">Imports<a class="headerlink" href="#imports" title="Permanent link">¤</a></h2>
 <p>We use:
-- <strong>Linax</strong> - Our SSM library providing the core building blocks
+- <strong>Discretax</strong> - Our SSM library providing the core building blocks
 - <strong>JAX/Equinox</strong> - Foundation libraries for the model definition and training loop
 - <strong>PyTorch</strong> - For efficient data loading via DataLoader (converted to NumPy for JAX)
 - <strong>Optax</strong> - For optimization
@@ -1673,10 +1650,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">jaxtyping</span><span class="w"> </span><span class="kn">import</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">PRNGKeyArray</span><span class="p">,</span> <span class="n">PyTree</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">linax.encoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearEncoderConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">linax.heads.classification</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassificationHeadConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">linax.models.linoss</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinOSSConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">linax.models.ssm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SSM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.encoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.heads.classification</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassificationHead</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinOSS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_param_tree</span>
 </code></pre></div>
 <h2 id="hyperparameters">Hyperparameters<a class="headerlink" href="#hyperparameters" title="Permanent link">¤</a></h2>
 <p>We define our training configuration. These values have been chosen for effective training:</p>
@@ -1740,69 +1717,103 @@
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>Input shape: (32, 128, 4)
 Label shape: (32,)
-Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
+Sample labels: [3 3 2 1 0 1 5 8 4 0 6 4 4 1 5 6 7 2 8 9 2 8 5 9 9 3 5 4 2 0 1 6]
 </code></pre></div>
 <h3 id="visualizing-mnist-sequences">Visualizing MNIST Sequences<a class="headerlink" href="#visualizing-mnist-sequences" title="Permanent link">¤</a></h3>
 <p>Let's visualize some samples from the training set to see what our model will be learning from. Each visualization shows how the pen strokes form the digit:</p>
 <div class="highlight"><pre><span></span><code><span class="n">train_dataset</span><span class="o">.</span><span class="n">plot_samples</span><span class="p">(</span><span class="n">num_samples</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 </code></pre></div>
-<p><img alt="img" src="../_data/e194a5753993465aa029b06954dc3f81.png" /></p>
+<p><img alt="img" src="../_data/f78f22a31a5c4510851468712454978d.png" /></p>
 <h2 id="model-architecture">Model Architecture<a class="headerlink" href="#model-architecture" title="Permanent link">¤</a></h2>
-<p>We'll build a LinOSS model using Linax's configuration system. The model consists of three main components:</p>
+<p>We'll build a LinOSS model using Discretax. The model consists of three main components composed with <code>eqx.nn.Sequential</code>:</p>
 <ol>
 <li><strong>Encoder</strong>: Transforms input sequences (4 features) to a higher-dimensional space (64 features)</li>
-<li><strong>SSM Blocks</strong>: Stacked LinOSS blocks that process the sequences using oscillatory dynamics</li>
+<li><strong>LinOSS Model</strong>: Stacked LinOSS blocks that process the sequences using oscillatory dynamics</li>
 <li><strong>Classification Head</strong>: Maps the final representation to class probabilities (10 digits)</li>
 </ol>
-<h3 id="configuration-parameters">Configuration Parameters:<a class="headerlink" href="#configuration-parameters" title="Permanent link">¤</a></h3>
+<h3 id="parameters">Parameters:<a class="headerlink" href="#parameters" title="Permanent link">¤</a></h3>
 <ul>
 <li><code>num_blocks</code>: Number of stacked LinOSS layers (configurable via <code>NUM_BLOCKS</code>)</li>
-<li><code>encoder_config</code>: Defines the input projection (4 → 64 dimensions)</li>
-<li><code>head_config</code>: Defines the output layer (64 → 10 classes)</li>
+<li><code>hidden_dim</code>: Hidden dimension for the LinOSS blocks (64)</li>
+<li>Encoder: Input projection (4 → 64 dimensions)</li>
+<li>Head: Output layer (64 → 10 classes)</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="n">linoss_cfg</span> <span class="o">=</span> <span class="n">LinOSSConfig</span><span class="p">(</span>
-    <span class="n">num_blocks</span><span class="o">=</span><span class="n">NUM_BLOCKS</span><span class="p">,</span>
-    <span class="n">encoder_config</span><span class="o">=</span><span class="n">LinearEncoderConfig</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
-    <span class="n">head_config</span><span class="o">=</span><span class="n">ClassificationHeadConfig</span><span class="p">(</span><span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
-<span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Split keys for encoder, model, and head initialization</span>
+<span class="n">key</span><span class="p">,</span> <span class="n">encoder_key</span><span class="p">,</span> <span class="n">model_key</span><span class="p">,</span> <span class="n">head_key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Build model components</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">LinearEncoder</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">encoder_key</span><span class="p">)</span>
+<span class="n">linoss_model</span> <span class="o">=</span> <span class="n">LinOSS</span><span class="p">(</span><span class="n">hidden_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">num_blocks</span><span class="o">=</span><span class="n">NUM_BLOCKS</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">model_key</span><span class="p">)</span>
+<span class="n">head</span> <span class="o">=</span> <span class="n">ClassificationHead</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">head_key</span><span class="p">)</span>
 </code></pre></div>
-<p>Next, we build the model from the config</p>
-<div class="highlight"><pre><span></span><code><span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">linoss_cfg</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">subkey</span><span class="p">)</span>
-
+<p>Next, we compose the components into a full model using <code>eqx.nn.Sequential</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Compose with Sequential - it automatically handles state and key passing</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">encoder</span><span class="p">,</span>
+        <span class="n">linoss_model</span><span class="p">,</span>
+        <span class="n">head</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 <span class="n">state</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="model-summary">Model Summary<a class="headerlink" href="#model-summary" title="Permanent link">¤</a></h3>
-<p>Let's inspect the model to see its architecture and parameter count. </p>
-<p><strong>What to look for:</strong>
-- Total parameters (scales with <code>NUM_BLOCKS</code> - lightweight for sequence modeling!)
-- Each block has ~25K parameters
-- IMEX discretization scheme for numerical stability
-- Dropout rate of 0.1 for regularization
-- With <code>NUM_BLOCKS=10</code>, total is ~250K parameters</p>
-<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<p>Let's inspect the model to see its architecture</p>
+<div class="highlight"><pre><span></span><code><span class="n">print_param_tree</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>╔════════════════════════════════════════════════════════════════════════╗
-║                           SSM Model Summary                            ║
-╠════════════════════════════════════════════════════════════════════════╣
-║ Components:                                                            ║
-║   Encoder:  LinearEncoder (256 params)                                 ║
-║   Blocks:   10× LinOSSBlock (total 250,880 params)                     ║
-║     [0] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [1] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [2] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [3] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [4] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [5] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [6] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [7] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [8] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║     [9] 25,088 params | IMEX | damp:✓ | GLU(64→64) | drop:0.10         ║
-║   Head:     ClassificationHead (650 params)                            ║
-╠════════════════════════════════════════════════════════════════════════╣
-║ Total Parameters: 251,786                                              ║
-╚════════════════════════════════════════════════════════════════════════╝
+<div class="highlight"><pre><span></span><code>model/ [Sequential] (251,786)
+└── layers/ (251,786)
+    ├── 0/ [LinearEncoder] (256)
+    │   └── linear/ [Linear] (256)
+    │       └── weight: (64, 4) (256)
+    ├── 1/ [LinOSS] (250,880)
+    │   └── blocks/ (250,880)
+    │       ├── 0/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 1/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 2/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 3/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 4/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 5/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 6/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 7/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       ├── 8/ [StandardBlock] (25,088)
+    │       │   ├── norm/ [BatchNorm] (128)
+    │       │   ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │       │   └── channel_mixer/ [GLU] (8,320)
+    │       └── 9/ [StandardBlock] (25,088)
+    │           ├── norm/ [BatchNorm] (128)
+    │           ├── sequence_mixer/ [LinOSSSequenceMixer] (16,640)
+    │           └── channel_mixer/ [GLU] (8,320)
+    └── 2/ [ClassificationHead] (650)
+        └── linear/ [Linear] (650)
+            ├── weight: (10, 64) (640)
+            └── bias: (10,) (10)
+
+Total: 251,786
 </code></pre></div>
 <h2 id="loss-function">Loss Function<a class="headerlink" href="#loss-function" title="Permanent link">¤</a></h2>
 <p>We train our model using the <strong>cross-entropy loss</strong> for multi-class classification.</p>
@@ -1814,7 +1825,7 @@ Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
 </ul>
 <p><strong>Expected initial loss:</strong> ~2.3 = log(10), which corresponds to random guessing among 10 classes.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">loss</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="s2">&quot;batch 128 4&quot;</span><span class="p">],</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="s2">&quot; batch&quot;</span><span class="p">],</span>
     <span class="n">state</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">,</span>
@@ -1827,12 +1838,17 @@ Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
     <span class="n">batch_keys</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="c1"># this vmap parallelizes the model over the batch dimension (which is the first dimension).</span>
+    <span class="c1"># Note: Sequential expects key as a keyword argument, so we wrap it</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_call</span><span class="p">(</span><span class="n">x_single</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key_single</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">model</span><span class="p">(</span><span class="n">x_single</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key_single</span><span class="p">)</span>
+
     <span class="n">pred_y</span><span class="p">,</span> <span class="n">model_state</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span>
-        <span class="n">model</span><span class="p">,</span>
+        <span class="n">model_call</span><span class="p">,</span>
         <span class="n">axis_name</span><span class="o">=</span><span class="s2">&quot;batch&quot;</span><span class="p">,</span>
         <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
         <span class="n">out_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
     <span class="p">)(</span><span class="n">x</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">batch_keys</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pred_y</span><span class="p">),</span> <span class="n">model_state</span>
 
 
@@ -1849,7 +1865,7 @@ Sample labels: [7 2 2 4 2 9 7 1 6 3 2 2 9 1 3 4 7 3 1 0 2 1 3 2 7 1 0 7 1 4 0 2]
 <span class="c1"># Should be around log(10) ≈ 2.3 for random predictions</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>Loss shape: ()
-Initial loss value: 2.3367
+Initial loss value: 2.5167
 </code></pre></div>
 <h3 id="testing-gradient-computation">Testing Gradient Computation<a class="headerlink" href="#testing-gradient-computation" title="Permanent link">¤</a></h3>
 <p>Before training, let's verify that gradients flow correctly through the model. We use <code>eqx.filter_value_and_grad</code> with <code>has_aux=True</code> to compute gradients while also getting the updated model state.</p>
@@ -1858,12 +1874,12 @@ Initial loss value: 2.3367
     <span class="n">model</span><span class="p">,</span> <span class="n">dummy_x</span><span class="p">,</span> <span class="n">dummy_y</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key</span>
 <span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>/Users/shox/dev/phd/ssm_dir/linax/.venv/lib/python3.12/site-packages/jax/_src/lax/lax.py:5473: ComplexWarning: Casting complex values to real discards the imaginary part
+<div class="highlight"><pre><span></span><code>/Users/ben/University/thesis/linax/.venv/lib/python3.12/site-packages/jax/_src/lax/lax.py:5482: ComplexWarning: Casting complex values to real discards the imaginary part
   x_bar = _convert_element_type(x_bar, x.aval.dtype, x.aval.weak_type)
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loss after gradient computation: </span><span class="si">{</span><span class="n">loss_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>Loss after gradient computation: 2.3367
+<div class="highlight"><pre><span></span><code>Loss after gradient computation: 2.5167
 </code></pre></div>
 <h2 id="evaluation-metrics">Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Permanent link">¤</a></h2>
 <p>In addition to loss, we track <strong>classification accuracy</strong> to better understand model performance.</p>
@@ -1872,7 +1888,7 @@ Initial loss value: 2.3367
 
 <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_accuracy</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="s2">&quot;batch 128 4&quot;</span><span class="p">],</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="s2">&quot; batch&quot;</span><span class="p">],</span>
     <span class="n">state</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">,</span>
@@ -1881,8 +1897,12 @@ Initial loss value: 2.3367
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the average accuracy on a batch.&quot;&quot;&quot;</span>
     <span class="n">batch_keys</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
+    <span class="c1"># Note: Sequential expects key as a keyword argument, so we wrap it</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_call</span><span class="p">(</span><span class="n">x_single</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key_single</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">model</span><span class="p">(</span><span class="n">x_single</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key_single</span><span class="p">)</span>
+
     <span class="n">pred_y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span>
-        <span class="n">model</span><span class="p">,</span>
+        <span class="n">model_call</span><span class="p">,</span>
         <span class="n">axis_name</span><span class="o">=</span><span class="s2">&quot;batch&quot;</span><span class="p">,</span>
         <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
         <span class="n">out_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
@@ -1894,7 +1914,7 @@ Initial loss value: 2.3367
 <p>This function evaluates the model on the entire test set by iterating through all test batches.</p>
 <p><strong>Inference Mode</strong>: We use <code>eqx.tree_inference(model, value=True)</code> to switch to inference mode.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">testloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
     <span class="n">state</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">,</span>
     <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">,</span>
@@ -1926,10 +1946,9 @@ Initial loss value: 2.3367
 <li><strong>After 3000 steps</strong> (~2 epochs): ~94% accuracy</li>
 <li><strong>After 7500 steps</strong> (~5 epochs): <strong>~96% accuracy</strong></li>
 </ul>
-<p>Training takes approximately <strong>17 minutes</strong> with these settings.</p>
 <p>Time to train!</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">trainloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
     <span class="n">testloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
     <span class="n">optim</span><span class="p">:</span> <span class="n">optax</span><span class="o">.</span><span class="n">GradientTransformation</span><span class="p">,</span>
@@ -1937,7 +1956,7 @@ Initial loss value: 2.3367
     <span class="n">print_every</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">state</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">State</span><span class="p">,</span>
     <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SSM</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains the model on the training dataset.&quot;&quot;&quot;</span>
     <span class="c1"># Just like earlier: It only makes sense to train the arrays in our model,</span>
     <span class="c1"># so filter out everything else.</span>
@@ -1948,7 +1967,7 @@ Initial loss value: 2.3367
     <span class="c1"># possible.</span>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_step</span><span class="p">(</span>
-        <span class="n">model</span><span class="p">:</span> <span class="n">SSM</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
         <span class="n">opt_state</span><span class="p">:</span> <span class="n">PyTree</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="s2">&quot;batch 128 4&quot;</span><span class="p">],</span>
         <span class="n">y</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="s2">&quot; batch&quot;</span><span class="p">],</span>
@@ -1971,7 +1990,9 @@ Initial loss value: 2.3367
 
     <span class="n">key</span><span class="p">,</span> <span class="n">train_key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">)),</span> <span class="n">infinite_trainloader</span><span class="p">()):</span>
+    <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Training&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">progress_bar</span><span class="p">,</span> <span class="n">infinite_trainloader</span><span class="p">()):</span>
         <span class="c1"># PyTorch dataloaders give PyTorch tensors by default,</span>
         <span class="c1"># so convert them to NumPy arrays.</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
@@ -1979,6 +2000,8 @@ Initial loss value: 2.3367
         <span class="n">model</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">train_loss</span><span class="p">,</span> <span class="n">new_state</span> <span class="o">=</span> <span class="n">make_step</span><span class="p">(</span>
             <span class="n">model</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">train_key</span>
         <span class="p">)</span>
+
+        <span class="n">progress_bar</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span><span class="n">train_loss</span><span class="o">=</span><span class="n">train_loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">%</span> <span class="n">print_every</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">step</span> <span class="o">==</span> <span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">testloader</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
@@ -1990,41 +2013,16 @@ Initial loss value: 2.3367
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">trainloader</span><span class="p">,</span> <span class="n">testloader</span><span class="p">,</span> <span class="n">optim</span><span class="p">,</span> <span class="n">STEPS</span><span class="p">,</span> <span class="n">PRINT_EVERY</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>Evaluating: 100%|██████████| 313/313 [00:24&lt;00:00, 12.73it/s]
-  0%|          | 2/7500 [00:33&lt;28:29:19, 13.68s/it]
+<div class="highlight"><pre><span></span><code>Evaluating: 100%|██████████| 313/313 [00:44&lt;00:00,  7.08it/s]=2.53]
+Training:   0%|          | 1/7500 [00:56&lt;116:45:56, 56.05s/it, train_loss=2.53]
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>step=0, train_loss=2.368354082107544, test_loss=2.3261163234710693, test_accuracy=0.1006389781832695
+<div class="highlight"><pre><span></span><code>step=0, train_loss=2.5329084396362305, test_loss=2.377739667892456, test_accuracy=0.08746006339788437
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>Evaluating: 100%|██████████| 313/313 [00:14&lt;00:00, 21.26it/s]
- 20%|██        | 1502/7500 [04:00&lt;5:22:17,  3.22s/it]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>step=1500, train_loss=0.6817602515220642, test_loss=0.3043871223926544, test_accuracy=0.9091453552246094
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>Evaluating: 100%|██████████| 313/313 [00:16&lt;00:00, 19.48it/s]
- 40%|████      | 3002/7500 [07:31&lt;4:24:02,  3.52s/it]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>step=3000, train_loss=0.12930883467197418, test_loss=0.1924053579568863, test_accuracy=0.9401956796646118
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>Evaluating: 100%|██████████| 313/313 [00:14&lt;00:00, 21.57it/s]
- 60%|██████    | 4502/7500 [10:57&lt;2:38:41,  3.18s/it]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>step=4500, train_loss=0.5353334546089172, test_loss=0.17053061723709106, test_accuracy=0.9477835297584534
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>Evaluating: 100%|██████████| 313/313 [00:14&lt;00:00, 21.48it/s]
- 80%|████████  | 6002/7500 [14:25&lt;1:19:45,  3.19s/it]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>step=6000, train_loss=0.2455877959728241, test_loss=0.13679201900959015, test_accuracy=0.9574680328369141
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>Evaluating: 100%|██████████| 313/313 [00:14&lt;00:00, 21.52it/s]
-100%|██████████| 7500/7500 [17:52&lt;00:00,  6.99it/s]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>step=7499, train_loss=0.2593978941440582, test_loss=0.15777377784252167, test_accuracy=0.9515774846076965
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>
+<div class="highlight"><pre><span></span><code>Training:  16%|█▋        | 1228/7500 [06:27&lt;25:07,  4.16it/s, train_loss=0.267]
 </code></pre></div>
 <p>In this notebook, you learned how to:
 - ✅ Load and visualize sequential data (MNIST Sequence dataset)
-- ✅ Configure and build a LinOSS model using Linax
+- ✅ Configure and build a LinOSS model using Discretax
 - ✅ Set up training with JAX, Equinox, and Optax
 - ✅ Train a state space model and monitor its performance</p>
 <p><strong>What's Next?</strong> 🚀</p>
@@ -2034,7 +2032,7 @@ Initial loss value: 2.3367
 - Configurable SSM architectures</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">¤</a></h2>
 <ol>
-<li><strong>Linax GitHub Repository</strong>: https://github.com/camail-official/linax (⭐ Star the repo!)</li>
+<li><strong>Discretax GitHub Repository</strong>: https://github.com/camail-official/discretax (⭐ Star the repo!)</li>
 <li><strong>LinOSS Paper</strong>: Rusch, T. K., &amp; Rus, D. (2024). "Oscillatory State-Space Models". https://openreview.net/forum?id=GRMfXcAAFh</li>
 <li><strong>Equinox Documentation</strong>: https://docs.kidger.site/equinox/</li>
 <li><strong>JAX Documentation</strong>: https://jax.readthedocs.io/</li>

@@ -6,13 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The documentation for the linax software package.">
+        <meta name="description" content="The documentation for the discretax software package.">
       
       
         <meta name="author" content="Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong">
       
       
-        <link rel="canonical" href="https://camail.org/linax/api/models/s5/">
+        <link rel="canonical" href="https://camail.org/discretax/api/models/s5/">
       
       
         <link rel="prev" href="../lru/">
@@ -26,7 +26,7 @@
     
     
       
-        <title>S5 Model - linax</title>
+        <title>S5 Model - discretax</title>
       
     
     
@@ -100,7 +100,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="linax" class="md-header__button md-logo" aria-label="linax" data-md-component="logo">
+    <a href="../../.." title="discretax" class="md-header__button md-logo" aria-label="discretax" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,7 +114,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            linax
+            discretax
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -200,13 +200,13 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/camail-official/linax" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/camail-official/discretax" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
-    camail-official/linax
+    camail-official/discretax
   </div>
 </a>
       </div>
@@ -238,23 +238,23 @@
 
 <nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="linax" class="md-nav__button md-logo" aria-label="linax" data-md-component="logo">
+    <a href="../../.." title="discretax" class="md-nav__button md-logo" aria-label="discretax" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    linax
+    discretax
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/camail-official/linax" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/camail-official/discretax" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
-    camail-official/linax
+    camail-official/discretax
   </div>
 </a>
     </div>
@@ -338,7 +338,7 @@
   
   
   <span class="md-ellipsis">
-    Sequence Classification with linax
+    Sequence Classification with discretax
     
   </span>
   
@@ -684,29 +684,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../ssm/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    General SSM
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../linoss/" class="md-nav__link">
         
   
@@ -803,28 +780,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#linax.models.s5.S5Config" class="md-nav__link">
+  <a href="#discretax.models.s5.S5" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;S5Config
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;S5
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" S5Config">
+    <nav class="md-nav" aria-label=" S5">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#linax.models.s5.S5Config.__post_init__" class="md-nav__link">
+  <a href="#discretax.models.s5.S5.__init__" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__post_init__
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#linax.models.s5.S5Config.build" class="md-nav__link">
+  <a href="#discretax.models.s5.S5.__call__" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;build
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__call__
     </span>
   </a>
   
@@ -1405,7 +1382,7 @@
   
   
   <span class="md-ellipsis">
-    Contributing to Linax
+    Contributing to Discretax
     
   </span>
   
@@ -1446,18 +1423,19 @@
 
 
 
-<h4 id="linax.models.s5.S5Config" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>linax.models.s5.S5Config</code>
+<h4 id="discretax.models.s5.S5" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>discretax.models.s5.S5</code>
 
 
-<a href="#linax.models.s5.S5Config" class="headerlink" title="Permanent link">¤</a></h4>
+<a href="#discretax.models.s5.S5" class="headerlink" title="Permanent link">¤</a></h4>
 
 
     <div class="doc doc-contents first">
 
 
-        <p>Configuration for S5 models.</p>
-<p>This is a modular configuration that allows building an S5 model with different components.</p>
+        <p>S5 model.</p>
+<p>This model implements stacked blocks with S5 sequence mixers and GLU channel mixers.
+Use with eqx.nn.Sequential to compose with encoder and head.</p>
 
 
 <p><span class="doc-section-title">Attributes:</span></p>
@@ -1471,54 +1449,12 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><span title="linax.models.s5.S5Config.num_blocks">num_blocks</span></code></td>
+            <td><code><span title="discretax.models.s5.S5.blocks">blocks</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Number of S5 blocks to stack.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="linax.models.s5.S5Config.encoder_config">encoder_config</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Configuration for the encoder.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="linax.models.s5.S5Config.head_config">head_config</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Configuration for the output head.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="linax.models.s5.S5Config.sequence_mixer_config">sequence_mixer_config</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Optional S5 sequence mixer config that will be replicated
-for each block. If not provided, defaults to S5SequenceMixerConfig().</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="linax.models.s5.S5Config.block_config">block_config</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Optional S5 block config that will be replicated for each block.
-If not provided, defaults to StandardBlockConfig.</p>
+                <p>List of standard blocks with S5 sequence mixers.</p>
               </div>
             </td>
           </tr>
@@ -1528,28 +1464,21 @@ If not provided, defaults to StandardBlockConfig.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="c1"># With explicit configs</span>
-<span class="n">config</span> <span class="o">=</span> <span class="n">S5Config</span><span class="p">(</span>
-    <span class="n">num_blocks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="n">encoder_config</span><span class="o">=</span><span class="n">LinearEncoderConfig</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
-    <span class="n">sequence_mixer_config</span><span class="o">=</span><span class="n">S5SequenceMixerConfig</span><span class="p">(</span>
-        <span class="n">state_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
-        <span class="n">ssm_blocks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">conj_sym</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">clip_eigs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">discretization</span><span class="o">=</span><span class="s2">&quot;zoh&quot;</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="n">block_config</span><span class="o">=</span><span class="n">StandardBlockConfig</span><span class="p">(</span><span class="n">drop_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">),</span>
-    <span class="n">head_config</span><span class="o">=</span><span class="n">ClassificationHeadConfig</span><span class="p">(</span><span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
-<span class="p">)</span>
+  <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.random</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.encoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.heads</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassificationHead</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">S5</span>
 
-<span class="c1"># With defaults (simpler)</span>
-<span class="n">config</span> <span class="o">=</span> <span class="n">S5Config</span><span class="p">(</span>
-    <span class="n">num_blocks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="n">encoder_config</span><span class="o">=</span><span class="n">LinearEncoderConfig</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
-    <span class="n">head_config</span><span class="o">=</span><span class="n">ClassificationHeadConfig</span><span class="p">(</span><span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
-<span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">jr</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">keys</span> <span class="o">=</span> <span class="n">jr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">LinearEncoder</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">S5</span><span class="p">(</span><span class="n">hidden_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">num_blocks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">head</span> <span class="o">=</span> <span class="n">ClassificationHead</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># Compose with Sequential</span>
+<span class="n">full_model</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span><span class="n">encoder</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">head</span><span class="p">])</span>
 </code></pre></div>
 </details>
 
@@ -1581,33 +1510,15 @@ If not provided, defaults to StandardBlockConfig.</p>
 <div class="doc doc-object doc-function">
 
 
-<h5 id="linax.models.s5.S5Config.__post_init__" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="n">__post_init__</span><span class="p">()</span></code>
+<h5 id="discretax.models.s5.S5.__init__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_blocks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">state_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">ssm_blocks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">C_init</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;trunc_standard_normal&#39;</span><span class="p">,</span> <span class="s1">&#39;lecun_normal&#39;</span><span class="p">,</span> <span class="s1">&#39;complex_normal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;lecun_normal&#39;</span><span class="p">,</span> <span class="n">conj_sym</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clip_eigs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">discretization</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;zoh&#39;</span><span class="p">,</span> <span class="s1">&#39;bilinear&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;zoh&#39;</span><span class="p">,</span> <span class="n">dt_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">dt_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">step_rescale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">prenorm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_bias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
-<a href="#linax.models.s5.S5Config.__post_init__" class="headerlink" title="Permanent link">¤</a></h5>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Replicates configs for each block and validates.</p>
-
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h5 id="linax.models.s5.S5Config.build" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="n">build</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SSM</span></code>
-
-<a href="#linax.models.s5.S5Config.build" class="headerlink" title="Permanent link">¤</a></h5>
+<a href="#discretax.models.s5.S5.__init__" class="headerlink" title="Permanent link">¤</a></h5>
 
 
     <div class="doc doc-contents ">
 
-        <p>Build an SSM model from this configuration.</p>
+        <p>Initialize the S5 model.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1626,15 +1537,350 @@ If not provided, defaults to StandardBlockConfig.</p>
                 <code>key</code>
             </td>
             <td>
-                  <code><span title="builtins.PRNGKeyArray">PRNGKeyArray</span> | None</code>
+                  <code><span title="builtins.PRNGKeyArray">PRNGKeyArray</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>JAX random key for parameter initialization.</p>
+                <p>JAX random key for initialization.</p>
               </div>
             </td>
             <td>
-                  <code>None</code>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>hidden_dim</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>hidden dimension for the model.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>num_blocks</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>number of S5 blocks to stack.</p>
+              </div>
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>state_dim</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>state space dimension for S5 sequence mixers.</p>
+              </div>
+            </td>
+            <td>
+                  <code>64</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ssm_blocks</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>number of SSM blocks (for block-diagonal structure).</p>
+              </div>
+            </td>
+            <td>
+                  <code>1</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>C_init</code>
+            </td>
+            <td>
+                  <code><span title="typing.Literal">Literal</span>[&#39;trunc_standard_normal&#39;, &#39;lecun_normal&#39;, &#39;complex_normal&#39;]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>initialization method for output matrix C.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;lecun_normal&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>conj_sym</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to enforce conjugate symmetry.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>clip_eigs</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to clip eigenvalues to ensure stability.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>discretization</code>
+            </td>
+            <td>
+                  <code><span title="typing.Literal">Literal</span>[&#39;zoh&#39;, &#39;bilinear&#39;]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>discretization method to use.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;zoh&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dt_min</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>minimum discretization step size.</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.001</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dt_max</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>maximum discretization step size.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>step_rescale</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>rescaling factor for the discretization step.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>drop_rate</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>dropout rate for blocks.</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.1</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>prenorm</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to apply prenorm in blocks.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>use_bias</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>whether to use bias in GLU channel mixers.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>*args</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional positional arguments (ignored).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional keyword arguments (ignored).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="discretax.models.s5.S5.__call__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">State</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">equinox</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">_stateful</span><span class="o">.</span><span class="n">State</span><span class="p">]</span></code>
+
+<a href="#discretax.models.s5.S5.__call__" class="headerlink" title="Permanent link">¤</a></h5>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Forward pass through the S5 blocks.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>x</code>
+            </td>
+            <td>
+                  <code><span title="builtins.Array">Array</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input tensor.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>state</code>
+            </td>
+            <td>
+                  <code><span title="State">State</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Current state for stateful layers.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>key</code>
+            </td>
+            <td>
+                  <code><span title="builtins.PRNGKeyArray">PRNGKeyArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>JAX random key for operations.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
             </td>
           </tr>
       </tbody>
@@ -1652,24 +1898,17 @@ If not provided, defaults to StandardBlockConfig.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            linax.models.ssm.SSM" href="../ssm/#linax.models.ssm.SSM">SSM</a></code>
+                  <code><span title="tuple">tuple</span>[<span title="builtins.Array">Array</span>, <span title="equinox.nn._stateful.State">State</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Instantiated SSM model.</p>
+                <p>Tuple containing the output tensor and updated state.</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
 
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">SSMConfig</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">jr</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-</code></pre></div>
-</details>
 
     </div>
 

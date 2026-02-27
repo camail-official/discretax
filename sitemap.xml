@@ -1,111 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://camail.org/linax/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/contributing/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/contributing/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/_static/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/_static/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/base/blocks/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/base/blocks/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/base/channel_mixer/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/base/channel_mixer/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/base/encoder/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/base/encoder/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/base/heads/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/base/heads/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/base/sequence_mixer/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/base/sequence_mixer/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/blocks/standard/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/blocks/standard/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/channel_mixer/glu/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/channel_mixer/glu/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/channel_mixer/identity/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/channel_mixer/identity/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/channel_mixer/mlp/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/channel_mixer/mlp/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/channel_mixer/swi_glu/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/channel_mixer/swi_glu/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/encoder/embedding/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/encoder/embedding/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/encoder/linear/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/encoder/linear/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/heads/classification/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/heads/classification/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/heads/regression/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/heads/regression/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/models/linoss/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/models/linoss/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/models/lru/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/models/lru/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/models/s5/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/models/s5/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/models/ssm/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/sequence_mixer/identity/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/sequence_mixer/identity/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/sequence_mixer/linoss/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/sequence_mixer/linoss/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/sequence_mixer/lru/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/sequence_mixer/lru/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/sequence_mixer/s4d/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/sequence_mixer/s4d/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/api/sequence_mixer/s5/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://camail.org/linax/api/sequence_mixer/s5/</loc>
-         <lastmod>2025-10-28</lastmod>
-    </url>
-    <url>
-         <loc>https://camail.org/linax/examples/01_introduction_%26_classification/</loc>
-         <lastmod>2025-10-28</lastmod>
+         <loc>https://camail.org/discretax/examples/01_introduction_%26_classification/</loc>
+         <lastmod>2026-02-27</lastmod>
     </url>
 </urlset>
