@@ -9,8 +9,11 @@ import pytest
 from discretax.encoder import LinearEncoder
 from discretax.heads.classification import ClassificationHead
 from discretax.models.deltanet import DeltaNet
-from discretax.ops.delta_rule import chunk_delta_rule, chunk_delta_rule_head
-from discretax.sequence_mixers.deltanet import DeltaNetSequenceMixer
+from discretax.sequence_mixers.deltanet import (
+    DeltaNetSequenceMixer,
+    chunk_delta_rule,
+    chunk_delta_rule_head,
+)
 
 # ---------------------------------------------------------------------------
 # Helpers

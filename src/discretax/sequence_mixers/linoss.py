@@ -160,8 +160,6 @@ class LinOSSSequenceMixer(AbstractSequenceMixer):
 def _simple_uniform_init(rng, shape, std=1.0):
     """Simple uniform initialization.
 
-    This function initializes the weights of a linear layer using a simple uniform distribution.
-
     Args:
         rng: JAX random key for initialization.
         shape: Shape of the weights.
@@ -176,8 +174,6 @@ def _simple_uniform_init(rng, shape, std=1.0):
 
 def _map_theta_to_A(thetas, G_diag, steps):  # noqa: N802
     """Map theta parameter to diagonal state matrix A.
-
-    This function computes the diagonal state matrix A for damped LinOSS-IMEX.
 
     Args:
         thetas: Theta parameter values.
@@ -224,8 +220,6 @@ def _map_theta_to_A(thetas, G_diag, steps):  # noqa: N802
 def _binary_operator(q_i, q_j):  # noqa: N802
     """Binary operator for parallel scan of linear recurrence.
 
-    This function implements the binary operator for the parallel scan of the linear recurrence.
-
     Args:
         q_i: Tuple containing A_i and b_i at position i.
         q_j: Tuple containing A_j and b_j at position j.
@@ -262,9 +256,7 @@ def _binary_operator(q_i, q_j):  # noqa: N802
 
 
 def _apply_linoss_im(A_diag, B, x, step):  # noqa: N802
-    """Compute the LinOSS-IM sequence mixer output.
-
-    This function computes the output of the LinOSS-IM sequence mixer.
+    """Compute the LinOSS-IM recurrence.
 
     Args:
         A_diag: Diagonal state matrix.
@@ -273,7 +265,7 @@ def _apply_linoss_im(A_diag, B, x, step):  # noqa: N802
         step: Discretization time-step.
 
     Returns:
-        The output of the LinOSS-IM sequence mixer at a specific time step.
+        Hidden state sequence, shape (timesteps, state_dim).
     """
     Bu_elements = jax.vmap(lambda u: B @ u)(x)
 
@@ -298,9 +290,7 @@ def _apply_linoss_im(A_diag, B, x, step):  # noqa: N802
 
 
 def _apply_linoss_imex(A_diag, B, x, step):  # noqa: N802
-    """Compute the LinOSS-IMEX sequence mixer output.
-
-    This function computes the output of the LinOSS-IMEX sequence mixer.
+    """Compute the LinOSS-IMEX recurrence.
 
     Args:
         A_diag: Diagonal state matrix.
@@ -309,7 +299,7 @@ def _apply_linoss_imex(A_diag, B, x, step):  # noqa: N802
         step: Discretization time-step.
 
     Returns:
-        The output of the LinOSS-IMEX sequence mixer.
+        Hidden state sequence, shape (timesteps, state_dim).
     """
     Bu_elements = jax.vmap(lambda u: B @ u)(x)
 
@@ -333,9 +323,7 @@ def _apply_linoss_imex(A_diag, B, x, step):  # noqa: N802
 
 
 def _apply_damped_linoss_imex(A_diag, G_diag, B, x, step):  # noqa: N802
-    """Compute the Damped LinOSS-IMEX sequence mixer output.
-
-    This function computes the output of the Damped LinOSS-IMEX sequence mixer.
+    """Compute the Damped LinOSS-IMEX recurrence.
 
     Args:
         A_diag: Diagonal state matrix.
@@ -345,7 +333,7 @@ def _apply_damped_linoss_imex(A_diag, G_diag, B, x, step):  # noqa: N802
         step: Discretization time-step.
 
     Returns:
-        The output of the Damped LinOSS-IMEX sequence mixer.
+        Hidden state sequence, shape (timesteps, state_dim).
     """
     Bu_elements = jax.vmap(lambda u: B @ u)(x)
 
