@@ -24,7 +24,7 @@ class EmbeddingEncoder(AbstractEncoder):
     def __init__(
         self,
         key: PRNGKeyArray,
-        *,
+        *args,
         out_features: int,
         num_classes: int,
         **kwargs,
@@ -35,7 +35,8 @@ class EmbeddingEncoder(AbstractEncoder):
             key: JAX random key for initialization.
             out_features: output dimensionality (embedding dimension).
             num_classes: number of classes (vocabulary size).
-            **kwargs: Additional keyword arguments for the encoder.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         self.embedding = eqx.nn.Embedding(
             num_embeddings=num_classes, embedding_size=out_features, key=key

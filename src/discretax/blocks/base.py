@@ -20,7 +20,8 @@ class AbstractBlock(eqx.nn.StatefulLayer, ABC, PartialModule):
         sequence_mixer: The sequence mixer instance for this block.
         channel_mixer: The channel mixer instance for this block.
         key: JAX random key for initialization.
-        **kwargs: Additional keyword arguments for the block.
+        *args: Additional positional arguments (ignored).
+        **kwargs: Additional keyword arguments (ignored).
     """
 
     @abstractmethod
@@ -28,13 +29,12 @@ class AbstractBlock(eqx.nn.StatefulLayer, ABC, PartialModule):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         sequence_mixer: AbstractSequenceMixer,
         channel_mixer: AbstractChannelMixer,
         **kwargs,
     ):
         """Initialize the block."""
-        raise NotImplementedError("Subclasses must implement __init__")
 
     @abstractmethod
     def __call__(

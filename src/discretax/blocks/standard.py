@@ -49,7 +49,7 @@ class StandardBlock(AbstractBlock):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         sequence_mixer: Resolvable[AbstractSequenceMixer],
         channel_mixer: Resolvable[AbstractChannelMixer],
         drop_rate: float = 0.1,
@@ -65,7 +65,8 @@ class StandardBlock(AbstractBlock):
             channel_mixer: the channel mixer instance for this block.
             drop_rate: dropout rate for the channel mixer.
             prenorm: whether to apply the normalization at the beginning or the end of the block.
-            **kwargs: Additional keyword arguments for the block.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         self.norm = eqx.nn.BatchNorm(
             input_size=in_features, axis_name="batch", channelwise_affine=False, mode="ema"

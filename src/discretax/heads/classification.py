@@ -29,7 +29,7 @@ class ClassificationHead(AbstractHead):
         in_features: int,
         out_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         reduce: bool = True,
         **kwargs,
     ):
@@ -40,7 +40,8 @@ class ClassificationHead(AbstractHead):
             out_features: output features (number of classes).
             key: JAX random key for initialization.
             reduce: whether to reduce the time dimension by averaging.
-            **kwargs: Additional keyword arguments for the head.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         self.linear = eqx.nn.Linear(in_features=in_features, out_features=out_features, key=key)
         self.reduce = reduce

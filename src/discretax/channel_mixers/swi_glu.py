@@ -42,11 +42,11 @@ class SwiGLU(AbstractChannelMixer):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         out_features: int | None = None,
-        hidden_ratio: int | float | None = None,
         intermediate_dim: int | None = None,
         use_bias: bool = False,
+        hidden_ratio: int | float = 4,
         **kwargs,
     ) -> None:
         """Initialize the SwiGLU layer.
@@ -55,14 +55,17 @@ class SwiGLU(AbstractChannelMixer):
             in_features: the input dimensionality.
             key: JAX random key for initialization.
             out_features: optional output dimensionality (unused, kept for compatibility).
-            hidden_ratio: ratio to scale hidden dimension for intermediate size calculation.
-            intermediate_dim: optional explicit intermediate size.
+            hidden_ratio: FFN expansion ratio used to compute the intermediate dimension as
+                `in_features * hidden_ratio * 2/3`, rounded up to a multiple of 256. Ignored when
+                `intermediate_dim` is set explicitly.
+            intermediate_dim: optional explicit intermediate size. When set, `hidden_ratio`
+                is ignored.
             use_bias: whether to include a bias term in the linear layers.
-            **kwargs: Additional keyword arguments for the channel mixer.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         k1, k2, k3 = jax.random.split(key, 3)
 
-        hidden_ratio = 4 if hidden_ratio is None else hidden_ratio
         if intermediate_dim is None:
             intermediate_dim = int(in_features * hidden_ratio * 2 / 3)
             intermediate_dim = 256 * ((intermediate_dim + 256 - 1) // 256)

@@ -66,7 +66,7 @@ class MLPChannelMixer(AbstractChannelMixer):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         out_features: int | None = None,
         non_linearity: activation = "gelu",
         use_bias: bool = False,
@@ -80,7 +80,8 @@ class MLPChannelMixer(AbstractChannelMixer):
             out_features: optional output dimensionality. If None, defaults to in_features.
             non_linearity: name of the activation function to apply after the linear layer.
             use_bias: whether to include a bias term in the linear layer.
-            **kwargs: Additional keyword arguments for the channel mixer.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         out_dim = out_features if out_features is not None else in_features
         self.linear = eqx.nn.Linear(in_features, out_dim, use_bias=use_bias, key=key)

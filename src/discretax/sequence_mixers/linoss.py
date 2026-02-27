@@ -50,7 +50,7 @@ class LinOSSSequenceMixer(AbstractSequenceMixer):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         state_dim: int = 64,
         discretization: Literal["IM", "IMEX"] = "IMEX",
         damping: bool = True,
@@ -68,7 +68,8 @@ class LinOSSSequenceMixer(AbstractSequenceMixer):
             damping: whether to use damping.
             r_min: minimum value for the radius.
             theta_max: maximum value for the theta parameter.
-            **kwargs: Additional keyword arguments for the sequence mixer.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         A_key, G_key, B_key, C_key, D_key, step_key, key = jr.split(key, 7)
 

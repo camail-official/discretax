@@ -25,7 +25,7 @@ class LinearEncoder(AbstractEncoder):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         out_features: int,
         use_bias: bool = False,
         **kwargs,
@@ -37,7 +37,8 @@ class LinearEncoder(AbstractEncoder):
             key: JAX random key for initialization.
             out_features: output dimensionality (hidden dimension).
             use_bias: whether to use bias in the linear layer.
-            **kwargs: Additional keyword arguments for the encoder.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         self.linear = eqx.nn.Linear(
             in_features=in_features,

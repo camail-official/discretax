@@ -19,14 +19,15 @@ class AbstractEncoder(eqx.nn.StatefulLayer, ABC, PartialModule):
     Args:
         key: JAX random key for initialization.
         *args: Additional arguments for the encoder.
-        **kwargs: Additional keyword arguments for the encoder.
+        *args: Additional positional arguments (ignored).
+        **kwargs: Additional keyword arguments (ignored).
     """
 
     @abstractmethod
     def __init__(
         self,
         key: PRNGKeyArray,
-        *,
+        *args,
         out_features: int,
         **kwargs,
     ):

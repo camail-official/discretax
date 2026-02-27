@@ -29,7 +29,7 @@ class AbstractChannelMixer(eqx.Module, ABC, PartialModule):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         out_features: int | None = None,
         **kwargs,
     ):

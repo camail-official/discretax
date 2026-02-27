@@ -62,7 +62,7 @@ class LRUSequenceMixer(AbstractSequenceMixer):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         state_dim: int = 64,
         r_min: float = 0.0,
         r_max: float = 1.0,
@@ -78,7 +78,8 @@ class LRUSequenceMixer(AbstractSequenceMixer):
             r_min: minimum radius for the complex-valued eigenvalues.
             r_max: maximum radius for the complex-valued eigenvalues.
             max_phase: maximum phase angle for the complex-valued eigenvalues.
-            **kwargs: Additional keyword arguments for the sequence mixer.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         u1_key, u2_key, B_re_key, B_im_key, C_re_key, C_im_key, D_key = jr.split(key, 7)
 

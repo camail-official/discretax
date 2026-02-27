@@ -31,7 +31,7 @@ class GLU(AbstractChannelMixer):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         out_features: int | None = None,
         use_bias: bool = True,
         **kwargs,
@@ -43,7 +43,8 @@ class GLU(AbstractChannelMixer):
             key: JAX random key for initialization.
             out_features: optional dimensionality of the output features (defaults to in_features).
             use_bias: whether to include a bias term in the linear layers.
-            **kwargs: Additional keyword arguments for the channel mixer.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         w1_key, w2_key = jr.split(key, 2)
 

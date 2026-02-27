@@ -50,7 +50,7 @@ class LinOSS(eqx.nn.StatefulLayer, PartialModule):
     def __init__(
         self,
         key: PRNGKeyArray,
-        *,
+        *args,
         hidden_dim: int,
         num_blocks: int = 4,
         state_dim: int = 64,
@@ -77,7 +77,8 @@ class LinOSS(eqx.nn.StatefulLayer, PartialModule):
             drop_rate: dropout rate for blocks.
             prenorm: whether to apply prenorm in blocks.
             use_bias: whether to use bias in GLU channel mixers.
-            **kwargs: additional keyword arguments.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         keys = jr.split(key, 3 * num_blocks)
 

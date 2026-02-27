@@ -1,10 +1,8 @@
 # Getting Started
 
-<!--
 <div align="center">
-  <img alt="Discretax Banner" src="https://raw.githubusercontent.com/camail-official/discretax/refs/heads/main/assets/logo.png" style="padding-bottom: 2rem;" />
+  <img alt="Discretax logo" src="https://raw.githubusercontent.com/camail-official/discretax/main/assets/logo.png" width="200" style="padding-bottom: 2rem;" />
 </div>
--->
 
 [discretax](https://github.com/camail-official/discretax) is a collection of state space models implemented in JAX. It is
 
@@ -96,7 +94,7 @@ If you find this repository useful, please consider citing it.
 ```bib
 @software{discretax2025,
   title  = {Discretax: A Lightweight Collection of State Space Models in JAX},
-  author = {Armstrong, Benedict and Nazari, Philipp and Ruscio, Francesco Maria},
+  author = {Nazari, Philipp* and Ruscio, Francesco Maria* and Armstrong, Benedict},
   url    = {https://github.com/camail-official/discretax},
   year   = {2025}
 }

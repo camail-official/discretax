@@ -38,7 +38,7 @@ class S4DSequenceMixer(AbstractSequenceMixer):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         state_dim: int = 64,
         transposed: bool = False,
         dt_min: float = 0.001,
@@ -54,7 +54,8 @@ class S4DSequenceMixer(AbstractSequenceMixer):
             transposed: whether input is in transposed format (H, L) vs (L, H).
             dt_min: minimum discretization step size.
             dt_max: maximum discretization step size.
-            **kwargs: Additional keyword arguments for the sequence mixer.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         self.in_features = in_features
         self.state_dim = state_dim

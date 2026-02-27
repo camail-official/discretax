@@ -60,7 +60,7 @@ class S5SequenceMixer(AbstractSequenceMixer):
         self,
         in_features: int,
         key: PRNGKeyArray,
-        *,
+        *args,
         state_dim: int = 64,
         ssm_blocks: int = 1,
         C_init: Literal[
@@ -88,7 +88,8 @@ class S5SequenceMixer(AbstractSequenceMixer):
             dt_min: minimum discretization step size.
             dt_max: maximum discretization step size.
             step_rescale: rescaling factor for the discretization step.
-            **kwargs: Additional keyword arguments for the sequence mixer.
+            *args: Additional positional arguments (ignored).
+            **kwargs: Additional keyword arguments (ignored).
         """
         B_key, C_key, D_key, step_key, key = jr.split(key, 5)
 

@@ -32,7 +32,6 @@ class AbstractSequenceMixer(eqx.Module, ABC, PartialModule):
         **kwargs,
     ):
         """Initialize the sequence mixer."""
-        raise NotImplementedError("Subclasses must implement __init__")
 
     def filter_spec_lambda(self) -> Callable[..., bool]:
         """Filter specification for sequence mixer parameters.

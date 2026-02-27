@@ -2,6 +2,9 @@
 
 # Discretax - State Space Models in JAX
 
+<img src="https://raw.githubusercontent.com/camail-official/discretax/main/assets/logo.png" alt="Discretax logo" width="200"/>
+
+
 [![pre-commit](https://img.shields.io/badge/Pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![tests](https://github.com/camail-official/discretax/actions/workflows/tests.yml/badge.svg)](https://github.com/camail-official/discretax/actions/workflows/test.yaml)
 [![license](https://img.shields.io/badge/License-MIT-green.svg?labelColor=gray)](https://github.com/camail-official/discretax/blob/main/LICENSE)
@@ -33,11 +36,12 @@
 
 ## News
 
-- [2025-10]: We are happy to officially launch the first version of discretax. 🎉
+- [2026-03]: After a big refactor, we are renaming the project from linax to discretax.
+- [2025-10]: We are happy to launch the first beta version of linax. 🎉
 
 ## Just get me Going
 
-If you don't care about the details, we provide [example notebooks](docs/examples/) that are ready to use.
+If you don't care about the details, we provide [example notebooks](examples/) that are ready to use.
 
 ## Join the Community
 
