@@ -4,7 +4,7 @@ dynamic = ["version"]
 description = "State Space Models in Jax"
 readme = "README.md"
 authors = [
-    { name = "Francesco Maria Ruscio", email = "franciruscio@gmail.com" },
+    { name = "Francesco Maria Ruscio", email = "fruscio@aithyra.at" },
     { name = "Philipp Nazari", email = "philipp.nazari@tuebingen.mpg.de" },
     { name = "Benedict Armstrong", email = "benedict.armstrong@inf.ethz.ch" },
 ]
