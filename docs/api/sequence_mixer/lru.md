@@ -1,13 +1,6 @@
 # LRU Sequence Mixer
 
-::: linax.sequence_mixers.lru.LRUSequenceMixerConfig
-    options:
-      members:
-        - build
-
----
-
-::: linax.sequence_mixers.lru.LRUSequenceMixer
+::: discretax.sequence_mixers.lru.LRUSequenceMixer
     options:
       members:
         - __init__

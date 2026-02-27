@@ -1,10 +1,10 @@
 # Getting Started
 
 <div align="center">
-  <img alt="Linax Banner" src="https://raw.githubusercontent.com/camail-official/linax/refs/heads/main/assets/logo.png" style="padding-bottom: 2rem;" />
+  <img alt="Discretax logo" src="https://raw.githubusercontent.com/camail-official/discretax/main/assets/logo.png" width="200" style="padding-bottom: 2rem;" />
 </div>
 
-[linax](https://github.com/camail-official/linax) is a collection of state space models implemented in JAX. It is
+[discretax](https://github.com/camail-official/discretax) is a collection of state space models implemented in JAX. It is
 
 - easy to use
 - lightning-fast
@@ -31,29 +31,29 @@ To join our growing community of JAX and state space model enthusiasts, join our
 🤫 Psssst! Rumor has it we are also developing an end-to-end JAX training pipeline. Stay tuned for JAX Lightning. So join the discord server to be the first to hear about our newest project(s)!
 
 ## Installation
-[linax](https://github.com/camail-official/linax) is available as a PyPI package. To install it via uv, just run
+[discretax](https://github.com/camail-official/discretax) is available as a PyPI package. To install it via uv, just run
 ```bash
-uv add linax
+uv add discretax
 ```
 or
 ```bash
-uv add linax[cu12]
+uv add discretax[cu12]
 ```
 
 If pip is your package manager of choice, run
 ```bash
-pip install linax
+pip install discretax
 ```
 or
 ```bash
-pip install linax[cu12]
+pip install discretax[cu12]
 ```
 
 ## Full Library Installation
-If you want to install the full library, especially if you want to **contribute** to the project, clone the [linax](https://github.com/camail-official/linax) repository and cd into it
+If you want to install the full library, especially if you want to **contribute** to the project, clone the [discretax](https://github.com/camail-official/discretax) repository and cd into it
 ```bash
-git clone https://github.com/camail-official/linax.git
-cd linax
+git clone https://github.com/camail-official/discretax.git
+cd discretax
 ```
 
 If you want to install dependencies for CPU, run
@@ -92,10 +92,10 @@ led by [T. Konstantin Rusch](https://github.com/tk-rusch).
 If you find this repository useful, please consider citing it.
 
 ```bib
-@software{linax2025,
-  title  = {Linax: A Lightweight Collection of State Space Models in JAX},
-  author = {Armstrong, Benedict and Nazari, Philipp and Ruscio, Francesco Maria},
-  url    = {https://github.com/camail-official/linax},
+@software{discretax2025,
+  title  = {Discretax: A Lightweight Collection of State Space Models in JAX},
+  author = {Nazari, Philipp* and Ruscio, Francesco Maria* and Armstrong, Benedict},
+  url    = {https://github.com/camail-official/discretax},
   year   = {2025}
 }
 ```

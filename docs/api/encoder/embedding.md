@@ -1,13 +1,6 @@
 # Embedding Encoder
 
-::: linax.encoder.embedding.EmbeddingEncoderConfig
-    options:
-      members:
-        - build
-
----
-
-::: linax.encoder.embedding.EmbeddingEncoder
+::: discretax.encoder.embedding.EmbeddingEncoder
     options:
       members:
         - __init__

@@ -1,13 +1,6 @@
 # GLU Channel Mixer
 
-::: linax.channel_mixers.glu.GLUConfig
-    options:
-      members:
-        - build
-
----
-
-::: linax.channel_mixers.glu.GLU
+::: discretax.channel_mixers.glu.GLU
     options:
       members:
         - __init__

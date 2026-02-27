@@ -1,13 +1,6 @@
 # Classification Head
 
-::: linax.heads.classification.ClassificationHeadConfig
-    options:
-      members:
-        - build
-
----
-
-::: linax.heads.classification.ClassificationHead
+::: discretax.heads.classification.ClassificationHead
     options:
       members:
         - __init__

@@ -1,13 +1,6 @@
 # Heads
 
-::: linax.heads.base.HeadConfig
-    options:
-        members:
-            - build
-
----
-
-::: linax.heads.base.Head
+::: discretax.heads.base.AbstractHead
     options:
         members:
             - __init__

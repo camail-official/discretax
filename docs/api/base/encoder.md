@@ -1,14 +1,7 @@
 # Encoder
 
 
-::: linax.encoder.base.EncoderConfig
-    options:
-        members:
-            - build
-
----
-
-::: linax.encoder.base.Encoder
+::: discretax.encoder.base.AbstractEncoder
     options:
         members:
             - __init__

@@ -1,7 +1,7 @@
 # LRU Model
 
-::: linax.models.lru.LRUConfig
+::: discretax.models.lru.LRU
     options:
       members:
-        - __post_init__
-        - build
+        - __init__
+        - __call__

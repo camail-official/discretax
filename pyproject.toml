@@ -1,21 +1,31 @@
 [project]
-name = "linax"
+name = "discretax"
 dynamic = ["version"]
 description = "State Space Models in Jax"
 readme = "README.md"
 authors = [
-    { name = "Benedict Armstrong", email = "benedict.armstrong@inf.ethz.ch" },
     { name = "Francesco Maria Ruscio", email = "franciruscio@gmail.com" },
     { name = "Philipp Nazari", email = "philipp.nazari@tuebingen.mpg.de" },
+    { name = "Benedict Armstrong", email = "benedict.armstrong@inf.ethz.ch" },
 ]
 maintainers = [
-    { name = "Benedict Armstrong" },
     { name = "Francesco Maria Ruscio" },
     { name = "Philipp Nazari" },
+    { name = "Benedict Armstrong" },
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
-keywords = ["jax", "equinox", "ssm", "state-space-models", "sequence-modeling", "neural-networks", "deep-learning", "machine-learning", "ml"]
+keywords = [
+    "jax",
+    "equinox",
+    "ssm",
+    "state-space-models",
+    "sequence-modeling",
+    "neural-networks",
+    "deep-learning",
+    "machine-learning",
+    "ml",
+]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
@@ -40,7 +50,7 @@ dev = [
     "ruff>=0.12.11",
     "pandas>=2.3.2",
     "ipykernel>=6.30.1",
-    "pytest>=8.3.3"
+    "pytest>=8.3.3",
 ]
 
 docs = [
@@ -49,7 +59,7 @@ docs = [
     "mkdocstrings-python>=1.18.2",
     "hippogriffe>=0.2.2",
     "mkdocs-ipynb>=0.1.1",
-    "pymdown-extensions==10.14.3"
+    "pymdown-extensions==10.14.3",
 ]
 
 examples = [
@@ -64,9 +74,9 @@ examples = [
 cu12 = ["jax[cuda12]>=0.7.2"]
 
 [project.urls]
-Homepage = "https://camail.org/linax/"
+Homepage = "https://camail.org/discretax/"
 Discord = "https://discord.gg/VazrGCxeT7"
-Repository = "https://github.com/camail-official/linax"
+Repository = "https://github.com/camail-official/discretax"
 
 [build-system]
 requires = ["hatchling>=1.27.0", "hatch-vcs"]
@@ -78,7 +88,7 @@ raw-options = { local_scheme = "no-local-version", version_scheme = "only-versio
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/linax"]
+packages = ["src/discretax"]
 
 [tool.ruff]
 target-version = "py312"

@@ -1,13 +1,6 @@
 # Regression Head
 
-::: linax.heads.regression.RegressionHeadConfig
-    options:
-      members:
-        - build
-
----
-
-::: linax.heads.regression.RegressionHead
+::: discretax.heads.regression.RegressionHead
     options:
       members:
         - __init__

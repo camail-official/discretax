@@ -217,6 +217,69 @@ wheels = [
 ]
 
 [[package]]
+name = "discretax"
+source = { editable = "." }
+dependencies = [
+    { name = "equinox" },
+    { name = "jax" },
+    { name = "jaxtyping" },
+]
+
+[package.optional-dependencies]
+cu12 = [
+    { name = "jax", extra = ["cuda12"] },
+]
+dev = [
+    { name = "ipykernel" },
+    { name = "pandas" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "ruff" },
+]
+docs = [
+    { name = "hippogriffe" },
+    { name = "mkdocs" },
+    { name = "mkdocs-ipynb" },
+    { name = "mkdocs-material" },
+    { name = "mkdocstrings-python" },
+    { name = "pymdown-extensions" },
+]
+examples = [
+    { name = "ipykernel" },
+    { name = "matplotlib" },
+    { name = "optax" },
+    { name = "torch" },
+    { name = "torchvision" },
+    { name = "tqdm" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "equinox", specifier = ">=0.13.2" },
+    { name = "hippogriffe", marker = "extra == 'docs'", specifier = ">=0.2.2" },
+    { name = "ipykernel", marker = "extra == 'dev'", specifier = ">=6.30.1" },
+    { name = "ipykernel", marker = "extra == 'examples'", specifier = ">=7.0.1" },
+    { name = "jax", specifier = ">=0.7.2" },
+    { name = "jax", extras = ["cuda12"], marker = "extra == 'cu12'", specifier = ">=0.7.2" },
+    { name = "jaxtyping", specifier = ">=0.3.3" },
+    { name = "matplotlib", marker = "extra == 'examples'", specifier = ">=3.10.0" },
+    { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.6.1" },
+    { name = "mkdocs-ipynb", marker = "extra == 'docs'", specifier = ">=0.1.1" },
+    { name = "mkdocs-material", marker = "extra == 'docs'", specifier = ">=9.6.22" },
+    { name = "mkdocstrings-python", marker = "extra == 'docs'", specifier = ">=1.18.2" },
+    { name = "optax", marker = "extra == 'examples'", specifier = ">=0.2.6" },
+    { name = "pandas", marker = "extra == 'dev'", specifier = ">=2.3.2" },
+    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.3.0" },
+    { name = "pymdown-extensions", marker = "extra == 'docs'", specifier = "==10.14.3" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.3" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.12.11" },
+    { name = "torch", marker = "extra == 'examples'", specifier = ">=2.6.0" },
+    { name = "torchvision", marker = "extra == 'examples'", specifier = ">=0.24.0" },
+    { name = "tqdm", marker = "extra == 'examples'", specifier = ">=4.67.1" },
+]
+provides-extras = ["cu12", "dev", "docs", "examples"]
+
+[[package]]
 name = "distlib"
 version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -567,69 +630,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/41/85d82b0291db7504da3c2defe35c9a8a5c9803a730f297bd823d11d5fb77/kiwisolver-1.4.9-cp312-cp312-win_amd64.whl", hash = "sha256:f68208a520c3d86ea51acf688a3e3002615a7f0238002cccc17affecc86a8a54", size = 73895, upload-time = "2025-08-10T21:26:24.37Z" },
     { url = "https://files.pythonhosted.org/packages/e2/92/5f3068cf15ee5cb624a0c7596e67e2a0bb2adee33f71c379054a491d07da/kiwisolver-1.4.9-cp312-cp312-win_arm64.whl", hash = "sha256:2c1a4f57df73965f3f14df20b80ee29e6a7930a57d2d9e8491a25f676e197c60", size = 64992, upload-time = "2025-08-10T21:26:25.732Z" },
 ]
-
-[[package]]
-name = "linax"
-source = { editable = "." }
-dependencies = [
-    { name = "equinox" },
-    { name = "jax" },
-    { name = "jaxtyping" },
-]
-
-[package.optional-dependencies]
-cu12 = [
-    { name = "jax", extra = ["cuda12"] },
-]
-dev = [
-    { name = "ipykernel" },
-    { name = "pandas" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "ruff" },
-]
-docs = [
-    { name = "hippogriffe" },
-    { name = "mkdocs" },
-    { name = "mkdocs-ipynb" },
-    { name = "mkdocs-material" },
-    { name = "mkdocstrings-python" },
-    { name = "pymdown-extensions" },
-]
-examples = [
-    { name = "ipykernel" },
-    { name = "matplotlib" },
-    { name = "optax" },
-    { name = "torch" },
-    { name = "torchvision" },
-    { name = "tqdm" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "equinox", specifier = ">=0.13.2" },
-    { name = "hippogriffe", marker = "extra == 'docs'", specifier = ">=0.2.2" },
-    { name = "ipykernel", marker = "extra == 'dev'", specifier = ">=6.30.1" },
-    { name = "ipykernel", marker = "extra == 'examples'", specifier = ">=7.0.1" },
-    { name = "jax", specifier = ">=0.7.2" },
-    { name = "jax", extras = ["cuda12"], marker = "extra == 'cu12'", specifier = ">=0.7.2" },
-    { name = "jaxtyping", specifier = ">=0.3.3" },
-    { name = "matplotlib", marker = "extra == 'examples'", specifier = ">=3.10.0" },
-    { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.6.1" },
-    { name = "mkdocs-ipynb", marker = "extra == 'docs'", specifier = ">=0.1.1" },
-    { name = "mkdocs-material", marker = "extra == 'docs'", specifier = ">=9.6.22" },
-    { name = "mkdocstrings-python", marker = "extra == 'docs'", specifier = ">=1.18.2" },
-    { name = "optax", marker = "extra == 'examples'", specifier = ">=0.2.6" },
-    { name = "pandas", marker = "extra == 'dev'", specifier = ">=2.3.2" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.3.0" },
-    { name = "pymdown-extensions", marker = "extra == 'docs'", specifier = "==10.14.3" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.3" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.12.11" },
-    { name = "torch", marker = "extra == 'examples'", specifier = ">=2.6.0" },
-    { name = "torchvision", marker = "extra == 'examples'", specifier = ">=0.24.0" },
-    { name = "tqdm", marker = "extra == 'examples'", specifier = ">=4.67.1" },
-]
-provides-extras = ["cu12", "dev", "docs", "examples"]
 
 [[package]]
 name = "markdown"

@@ -1,13 +1,6 @@
 # Identity Sequence Mixer
 
-::: linax.sequence_mixers.identity.IdentitySequenceMixerConfig
-    options:
-      members:
-        - build
-
----
-
-::: linax.sequence_mixers.identity.IdentitySequenceMixer
+::: discretax.sequence_mixers.identity.IdentitySequenceMixer
     options:
       members:
         - __init__

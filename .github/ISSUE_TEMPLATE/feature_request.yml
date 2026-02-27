@@ -1,12 +1,12 @@
 name: ✨ Feature Request
-description: Suggest a new feature or enhancement for Linax
+description: Suggest a new feature or enhancement for Discretax
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for suggesting a new feature! 💡
+        Thanks for suggesting a new feature!
 
   - type: textarea
     id: problem
@@ -22,7 +22,7 @@ body:
     attributes:
       label: Proposed Solution
       description: Describe how you'd like this to work
-      placeholder: I would like Linax to...
+      placeholder: I would like Discretax to...
     validations:
       required: true
 
@@ -33,10 +33,10 @@ body:
       description: Show us how you'd like to use this feature
       render: python
       placeholder: |
-        import linax
+        import discretax
 
         # Example of how the feature would be used
-        model = linax.MyNewFeature(...)
+        model = discretax.MyNewFeature(...)
     validations:
       required: false
 

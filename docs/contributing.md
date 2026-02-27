@@ -1,6 +1,6 @@
-# Contributing to Linax
+# Contributing to Discretax
 
-Thank you for your interest in contributing to Linax! 🎉
+Thank you for your interest in contributing to Discretax.
 
 We welcome contributions of all kinds: bug reports, feature requests, documentation improvements, and code contributions.
 
@@ -21,7 +21,7 @@ Before contributing, please:
 
 1. **Check existing issues** to see if someone is already working on it
 2. **Open an issue** to discuss major changes before implementing them
-3. **Read our [Code of Conduct](https://github.com/camail-official/linax/blob/main/.github/CONTRIBUTING.md)** and follow community standards
+3. **Read our [Code of Conduct](https://github.com/camail-official/discretax/blob/main/.github/CONTRIBUTING.md)** and follow community standards
 
 ## Development Setup
 
@@ -35,8 +35,8 @@ Before contributing, please:
 1. **Fork and clone the repository:**
 
 ```bash
-git clone git@github.com:camail-official/linax.git
-cd linax
+git clone git@github.com:camail-official/discretax.git
+cd discretax
 ```
 
 2. **Install dependencies (including dev tools):**
@@ -124,7 +124,7 @@ uv run pytest
 uv run pytest tests/test_smoke.py
 
 # Run with coverage
-uv run pytest --cov=linax
+uv run pytest --cov=discretax
 ```
 
 ### Writing Tests
@@ -199,8 +199,8 @@ changes
 ## Community
 
 - **Discord**: [Join our Discord server](https://discord.gg/VazrGCxeT7)
-- **Issues**: [GitHub Issues](https://github.com/camail-official/linax/issues)
-- **Website**: [camail.org/linax](https://camail.org/linax/)
+- **Issues**: [GitHub Issues](https://github.com/camail-official/discretax/issues)
+- **Website**: [camail.org/discretax](https://camail.org/discretax/)
 
 ---
 
@@ -208,10 +208,10 @@ changes
 
 If you have questions about contributing, feel free to:
 
-- Open a [GitHub Discussion](https://github.com/camail-official/linax/discussions)
+- Open a [GitHub Discussion](https://github.com/camail-official/discretax/discussions)
 - Ask in our [Discord server](https://discord.gg/VazrGCxeT7)
 - Email the maintainers (see `pyproject.toml` for contact info)
 
 ---
 
-Thank you for contributing to Linax! 🚀
+Thank you for contributing to Discretax.
