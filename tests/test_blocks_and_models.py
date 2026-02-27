@@ -6,7 +6,7 @@ import jax.random as jr
 
 from discretax.encoder import LinearEncoder
 from discretax.heads.classification import ClassificationHead
-from discretax.models import LRU, S5, LinOSS
+from discretax.models import LRU, S5, DeltaNet, LinOSS
 
 
 def _dummy_input(batch_size: int, timesteps: int, in_features: int):
@@ -101,6 +101,50 @@ def test_s5_model_forward():
 
     batched_forward = jax.vmap(single_forward, in_axes=(0, 0), axis_name="batch")
     y, _ = batched_forward(x, jr.split(jr.PRNGKey(2), 2))
+
+    assert y.shape == (2, 3)  # (batch_size, out_features)
+
+
+def test_deltanet_model_forward():
+    """Test DeltaNet model forward pass with channel and sequence mixers.
+
+    This test verifies that:
+    1. DeltaNet model builds successfully with DeltaNet blocks
+    2. The model includes both sequence mixers (DeltaNet) and channel mixers (GLU)
+    3. Forward pass produces correct output shape when composed with encoder and head
+    4. DeltaNet-specific parameters (n_heads, head_dim, chunk_size) are handled correctly
+    5. Batching works correctly with vmap
+    """
+    key = jr.PRNGKey(3)
+    keys = jr.split(key, 3)
+
+    # Build components
+    encoder = LinearEncoder(in_features=16, out_features=16, key=keys[0])
+    deltanet_model = DeltaNet(
+        hidden_dim=16,
+        num_blocks=2,
+        n_heads=2,
+        head_dim=8,
+        chunk_size=4,
+        drop_rate=0.0,
+        key=keys[1],
+    )
+    head = ClassificationHead(in_features=16, out_features=3, key=keys[2])
+
+    # Compose with Sequential
+    model = eqx.nn.Sequential([encoder, deltanet_model, head])
+
+    x = _dummy_input(
+        batch_size=2, timesteps=8, in_features=16
+    )  # timesteps divisible by chunk_size
+    state = _dummy_state(model, batch_size=2)
+
+    # Apply vmap to handle batch dimension - Sequential handles state and key automatically
+    def single_forward(x_single, key_single):
+        return model(x_single, state, key=key_single)
+
+    batched_forward = jax.vmap(single_forward, in_axes=(0, 0), axis_name="batch")
+    y, _ = batched_forward(x, jr.split(jr.PRNGKey(4), 2))
 
     assert y.shape == (2, 3)  # (batch_size, out_features)
 

@@ -55,7 +55,6 @@ class DeltaNet(eqx.nn.StatefulLayer, PartialModule):
         chunk_size: int = 64,
         drop_rate: float = 0.1,
         prenorm: bool = True,
-        use_bias: bool = True,
         **kwargs,
     ):
         """Initialize the DeltaNet model.
@@ -71,7 +70,6 @@ class DeltaNet(eqx.nn.StatefulLayer, PartialModule):
                 divide the sequence length at inference time.
             drop_rate: Dropout rate for blocks.
             prenorm: Whether to apply prenorm in blocks.
-            use_bias: Whether to use bias in GLU channel mixers and beta/out projections.
             *args: Additional positional arguments (ignored).
             **kwargs: Additional keyword arguments (ignored).
         """
@@ -85,14 +83,13 @@ class DeltaNet(eqx.nn.StatefulLayer, PartialModule):
                 n_heads=n_heads,
                 head_dim=head_dim,
                 chunk_size=chunk_size,
-                use_bias=use_bias,
             )
 
             chan_mixer = GLU(
                 in_features=hidden_dim,
                 key=keys[num_blocks + i],
                 out_features=None,
-                use_bias=use_bias,
+                use_bias=False,
             )
 
             block = StandardBlock(

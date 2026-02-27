@@ -38,7 +38,7 @@ def chunk_delta_rule_head(
     Returns:
         Output sequence for this head, shape (timesteps, head_dim).
     """
-    _timesteps, hidden_dim = Q.shape
+    _, hidden_dim = Q.shape
 
     Q = einops.rearrange(Q, "(n c) d -> n c d", c=chunk_size)
     K = einops.rearrange(K, "(n c) d -> n c d", c=chunk_size)
@@ -102,10 +102,6 @@ def chunk_delta_rule(
     Returns:
         Output tensor, shape (timesteps, heads, head_dim).
     """
-    Q = einops.rearrange(Q, "t h d -> h t d")
-    K = einops.rearrange(K, "t h d -> h t d")
-    V = einops.rearrange(V, "t h d -> h t d")
-
-    O = jax.vmap(chunk_delta_rule_head, in_axes=(0, 0, 0, None, None))(Q, K, V, beta, chunk_size)
-
-    return einops.rearrange(O, "h t d -> t h d")
+    return jax.vmap(chunk_delta_rule_head, in_axes=(1, 1, 1, None, None), out_axes=1)(
+        Q, K, V, beta, chunk_size
+    )

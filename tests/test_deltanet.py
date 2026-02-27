@@ -134,7 +134,7 @@ def test_deltanet_mixer_chunk_size_assertion():
         in_features=16, key=jr.PRNGKey(0), n_heads=2, head_dim=8, chunk_size=4
     )
     x = jr.normal(jr.PRNGKey(1), (7, 16))  # 7 % 4 != 0
-    with pytest.raises(AssertionError, match="chunk_size"):
+    with pytest.raises(ValueError, match="chunk_size"):
         mixer(x, jr.PRNGKey(2))
 
 

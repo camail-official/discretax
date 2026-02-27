@@ -57,7 +57,6 @@ class DeltaNetSequenceMixer(AbstractSequenceMixer):
         n_heads: int = 4,
         head_dim: int | None = None,
         chunk_size: int = 64,
-        use_bias: bool = False,
         **kwargs,
     ) -> None:
         """Initialize the DeltaNet sequence mixer.
@@ -69,7 +68,6 @@ class DeltaNetSequenceMixer(AbstractSequenceMixer):
             head_dim: Dimensionality per head. Defaults to `in_features // n_heads`.
             chunk_size: Timesteps per chunk for the chunked delta rule. Must evenly
                 divide the sequence length at call time.
-            use_bias: Whether to include bias terms in the projections.
             *args: Additional positional arguments (ignored).
             **kwargs: Additional keyword arguments (ignored).
         """
@@ -86,8 +84,8 @@ class DeltaNetSequenceMixer(AbstractSequenceMixer):
         self.q_proj = eqx.nn.Linear(in_features, inner_dim, use_bias=False, key=k_q)
         self.k_proj = eqx.nn.Linear(in_features, inner_dim, use_bias=False, key=k_k)
         self.v_proj = eqx.nn.Linear(in_features, inner_dim, use_bias=False, key=k_v)
-        self.beta_proj = eqx.nn.Linear(in_features, 1, use_bias=use_bias, key=k_beta)
-        self.out_proj = eqx.nn.Linear(inner_dim, in_features, use_bias=use_bias, key=k_out)
+        self.beta_proj = eqx.nn.Linear(in_features, 1, use_bias=False, key=k_beta)
+        self.out_proj = eqx.nn.Linear(inner_dim, in_features, use_bias=False, key=k_out)
 
     def __call__(self, x: Array, key: PRNGKeyArray) -> Array:
         """Forward pass of the DeltaNet sequence mixer.
@@ -101,9 +99,10 @@ class DeltaNetSequenceMixer(AbstractSequenceMixer):
             Output sequence of shape (timesteps, in_features).
         """
         L, _ = x.shape
-        assert L % self.chunk_size == 0, (
-            f"Sequence length {L} must be divisible by chunk_size {self.chunk_size}."
-        )
+        if L % self.chunk_size != 0:
+            raise ValueError(
+                f"Sequence length {L} must be divisible by chunk_size {self.chunk_size}."
+            )
 
         Q = jax.vmap(self.q_proj)(x)  # (L, n_heads * head_dim)
         K = jax.vmap(self.k_proj)(x)
