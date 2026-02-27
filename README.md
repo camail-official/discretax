@@ -105,7 +105,7 @@ uv sync --extra dev
 After installing the development dependencies (activate your environment if needed), enable the git hooks:
 
 ```bash
-pre-commit install
+uv run pre-commit install
 ```
 
 ## Supported Models
