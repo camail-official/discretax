@@ -58,3 +58,9 @@ remake-lockfile: clean-env ## Recreate lockfile and environment from scratch
 
 build-docs: ## Build docs
 	uv run mkdocs build
+
+deploy-docs: ## Deploy docs
+	uv run mkdocs gh-deploy
+
+serve-docs: ## Serve docs
+	uv run mkdocs serve

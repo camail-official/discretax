@@ -96,10 +96,12 @@ nav:
       - Blocks:
           - "api/blocks/standard.md"
       - Models:
+          - "api/models/deltanet.md"
           - "api/models/linoss.md"
           - "api/models/lru.md"
           - "api/models/s5.md"
       - Sequence Mixers:
+          - "api/sequence_mixer/deltanet.md"
           - "api/sequence_mixer/identity.md"
           - "api/sequence_mixer/lru.md"
           - "api/sequence_mixer/s4d.md"
