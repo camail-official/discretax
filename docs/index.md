@@ -81,8 +81,8 @@ If you want to contribute to the project, please check out [contributing](contri
 
 This repository has been created and is maintained by:
 
-- [Philipp Nazari*](https://phnazari.github.io)
-- [Francesco Maria Ruscio*](https://github.com/francescoshox)
+- [Philipp Nazari](https://phnazari.github.io)
+- [Francesco Maria Ruscio](https://github.com/francescoshox)
 - [Benedict Armstrong](https://github.com/benedict-armstrong)
 
 This work has been carried out within the [Computational Applied Mathematics & AI Lab](https://camail.org),
@@ -94,7 +94,7 @@ If you find this repository useful, please consider citing it.
 ```bib
 @software{discretax2025,
   title  = {Discretax: A Lightweight Collection of State Space Models in JAX},
-  author = {Nazari, Philipp* and Ruscio, Francesco Maria* and Armstrong, Benedict},
+  author = {Nazari, Philipp* and Ruscio, Francesco Maria* and Armstrong, Benedict* and Rusch, T. Konstantin},
   url    = {https://github.com/camail-official/discretax},
   year   = {2025}
 }
