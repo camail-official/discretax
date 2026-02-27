@@ -12,13 +12,13 @@
         <meta name="author" content="Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong">
       
       
-        <link rel="canonical" href="https://camail.org/discretax/api/sequence_mixer/linoss/">
+        <link rel="canonical" href="https://camail.org/discretax/api/sequence_mixer/deltanet/">
       
       
-        <link rel="prev" href="../s5/">
+        <link rel="prev" href="../../models/s5/">
       
       
-        <link rel="next" href="../../channel_mixer/identity/">
+        <link rel="next" href="../identity/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>LinOSS Sequence Mixer - discretax</title>
+        <title>DeltaNet Sequence Mixer - discretax</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#linoss-sequence-mixer" class="md-skip">
+        <a href="#deltanet-sequence-mixer" class="md-skip">
           Skip to content
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LinOSS Sequence Mixer
+              DeltaNet Sequence Mixer
             
           </span>
         </div>
@@ -821,10 +821,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../deltanet/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    DeltaNet Sequence Mixer
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -835,6 +857,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DeltaNetSequenceMixer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" DeltaNetSequenceMixer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.__call__" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__call__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -936,32 +1011,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    LinOSS Sequence Mixer
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../linoss/" class="md-nav__link">
         
   
   
@@ -972,59 +1025,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LinOSSSequenceMixer
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" LinOSSSequenceMixer">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__call__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__call__
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1462,25 +1462,28 @@
 
 
 
-<h1 id="linoss-sequence-mixer">LinOSS Sequence Mixer<a class="headerlink" href="#linoss-sequence-mixer" title="Permanent link">¤</a></h1>
+<h1 id="deltanet-sequence-mixer">DeltaNet Sequence Mixer<a class="headerlink" href="#deltanet-sequence-mixer" title="Permanent link">¤</a></h1>
 
 
 <div class="doc doc-object doc-class">
 
 
 
-<h4 id="discretax.sequence_mixers.linoss.LinOSSSequenceMixer" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>discretax.sequence_mixers.linoss.LinOSSSequenceMixer</code>
+<h4 id="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer</code>
 
 
-<a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer" class="headerlink" title="Permanent link">¤</a></h4>
+<a href="#discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer" class="headerlink" title="Permanent link">¤</a></h4>
 
 
     <div class="doc doc-contents first">
 
 
-        <p>LinOSS sequence mixer layer.</p>
-<p>This layer implements the LinOSS sequence mixer.</p>
+        <p>DeltaNet sequence mixer layer.</p>
+<p>Implements multi-head linear attention with delta rule updates.
+Input is projected to queries, keys, values and a scalar gate (beta),
+the chunked delta rule recurrence is applied per head, and the result
+is projected back to the input dimension.</p>
 
 
 <p><span class="doc-section-title">Attributes:</span></p>
@@ -1494,82 +1497,82 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.A_diag">A_diag</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.q_proj">q_proj</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Diagonal state matrix.</p>
+                <p>Query projection.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.G_diag">G_diag</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.k_proj">k_proj</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Diagonal damping matrix.</p>
+                <p>Key projection.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.B">B</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.v_proj">v_proj</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Input matrix.</p>
+                <p>Value projection.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.C">C</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.beta_proj">beta_proj</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Output matrix.</p>
+                <p>Scalar gate projection (sigmoid-activated at call time).</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.D">D</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.out_proj">out_proj</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Output matrix.</p>
+                <p>Output projection back to in_features.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.steps">steps</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.n_heads">n_heads</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Learnable step sizes for the sequence mixer (parameterized via sigmoid).</p>
+                <p>Number of attention heads.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.discretization">discretization</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.head_dim">head_dim</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Discretization method to use.</p>
+                <p>Dimensionality of each head.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.damping">damping</span></code></td>
+            <td><code><span title="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.chunk_size">chunk_size</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Whether to use damping.</p>
+                <p>Number of timesteps per chunk for the chunked delta rule.</p>
               </div>
             </td>
           </tr>
@@ -1600,15 +1603,15 @@
 <div class="doc doc-object doc-function">
 
 
-<h5 id="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__init__" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">state_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">discretization</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">IM</span><span class="p">,</span> <span class="n">IMEX</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;IMEX&#39;</span><span class="p">,</span> <span class="n">damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">r_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">theta_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.141592653589793</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<h5 id="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.__init__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">n_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">use_bias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
-<a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__init__" class="headerlink" title="Permanent link">¤</a></h5>
+<a href="#discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.__init__" class="headerlink" title="Permanent link">¤</a></h5>
 
 
     <div class="doc doc-contents ">
 
-        <p>Initialize the LinOSS sequence mixer layer.</p>
+        <p>Initialize the DeltaNet sequence mixer.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1631,7 +1634,7 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dimension of the input features.</p>
+                <p>Input dimensionality.</p>
               </div>
             </td>
             <td>
@@ -1656,14 +1659,47 @@
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>state_dim</code>
+                <code>n_heads</code>
             </td>
             <td>
                   <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dimension of the state space.</p>
+                <p>Number of attention heads.</p>
+              </div>
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>head_dim</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dimensionality per head. Defaults to <code>in_features // n_heads</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>chunk_size</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Timesteps per chunk for the chunked delta rule. Must evenly
+divide the sequence length at call time.</p>
               </div>
             </td>
             <td>
@@ -1672,66 +1708,18 @@
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>discretization</code>
-            </td>
-            <td>
-                  <code><span title="typing.Literal">Literal</span>[<span title="IM">IM</span>, <span title="IMEX">IMEX</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>discretization method to use.</p>
-              </div>
-            </td>
-            <td>
-                  <code>&#39;IMEX&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>damping</code>
+                <code>use_bias</code>
             </td>
             <td>
                   <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>whether to use damping.</p>
+                <p>Whether to include bias terms in the projections.</p>
               </div>
             </td>
             <td>
-                  <code>True</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>r_min</code>
-            </td>
-            <td>
-                  <code><span title="float">float</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>minimum value for the radius.</p>
-              </div>
-            </td>
-            <td>
-                  <code>0.9</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>theta_max</code>
-            </td>
-            <td>
-                  <code><span title="float">float</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>maximum value for the theta parameter.</p>
-              </div>
-            </td>
-            <td>
-                  <code>3.141592653589793</code>
+                  <code>False</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -1775,15 +1763,15 @@
 <div class="doc doc-object doc-function">
 
 
-<h5 id="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__call__" class="doc doc-heading">
+<h5 id="discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.__call__" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span></code>
 
-<a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__call__" class="headerlink" title="Permanent link">¤</a></h5>
+<a href="#discretax.sequence_mixers.deltanet.DeltaNetSequenceMixer.__call__" class="headerlink" title="Permanent link">¤</a></h5>
 
 
     <div class="doc doc-contents ">
 
-        <p>Forward pass of the LinOSS sequence mixer layer.</p>
+        <p>Forward pass of the DeltaNet sequence mixer.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1806,7 +1794,8 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Input sequence of features.</p>
+                <p>Input sequence of shape (timesteps, in_features). The sequence length
+must be divisible by <code>chunk_size</code>.</p>
               </div>
             </td>
             <td>
@@ -1822,7 +1811,7 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>JAX random key for initialization.</p>
+                <p>JAX random key (unused, kept for interface compatibility).</p>
               </div>
             </td>
             <td>
@@ -1848,7 +1837,7 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The output of the LinOSS sequence mixer.</p>
+                <p>Output sequence of shape (timesteps, in_features).</p>
               </div>
             </td>
           </tr>

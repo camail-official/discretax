@@ -12,13 +12,13 @@
         <meta name="author" content="Philippp Nazari, Francesco Maria Ruscio, Benedict Armstrong">
       
       
-        <link rel="canonical" href="https://camail.org/discretax/api/sequence_mixer/linoss/">
+        <link rel="canonical" href="https://camail.org/discretax/api/models/deltanet/">
       
       
-        <link rel="prev" href="../s5/">
+        <link rel="prev" href="../../blocks/standard/">
       
       
-        <link rel="next" href="../../channel_mixer/identity/">
+        <link rel="next" href="../linoss/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>LinOSS Sequence Mixer - discretax</title>
+        <title>DeltaNet Model - discretax</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#linoss-sequence-mixer" class="md-skip">
+        <a href="#deltanet-model" class="md-skip">
           Skip to content
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LinOSS Sequence Mixer
+              DeltaNet Model
             
           </span>
         </div>
@@ -639,6 +639,8 @@
                 
   
   
+    
+  
   
   
     
@@ -648,11 +650,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
@@ -668,7 +670,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             Models
@@ -679,10 +681,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../models/deltanet/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    DeltaNet Model
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -693,6 +717,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#discretax.models.deltanet.DeltaNet" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DeltaNet
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" DeltaNet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discretax.models.deltanet.DeltaNet.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discretax.models.deltanet.DeltaNet.__call__" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__call__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -705,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../models/linoss/" class="md-nav__link">
+      <a href="../linoss/" class="md-nav__link">
         
   
   
@@ -728,7 +805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../models/lru/" class="md-nav__link">
+      <a href="../lru/" class="md-nav__link">
         
   
   
@@ -751,7 +828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../models/s5/" class="md-nav__link">
+      <a href="../s5/" class="md-nav__link">
         
   
   
@@ -779,8 +856,6 @@
                 
   
   
-    
-  
   
   
     
@@ -790,11 +865,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
         
           
           <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
@@ -810,7 +885,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_4">
             <span class="md-nav__icon md-icon"></span>
             Sequence Mixers
@@ -824,7 +899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deltanet/" class="md-nav__link">
+      <a href="../../sequence_mixer/deltanet/" class="md-nav__link">
         
   
   
@@ -847,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identity/" class="md-nav__link">
+      <a href="../../sequence_mixer/identity/" class="md-nav__link">
         
   
   
@@ -870,7 +945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lru/" class="md-nav__link">
+      <a href="../../sequence_mixer/lru/" class="md-nav__link">
         
   
   
@@ -893,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../s4d/" class="md-nav__link">
+      <a href="../../sequence_mixer/s4d/" class="md-nav__link">
         
   
   
@@ -916,7 +991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../s5/" class="md-nav__link">
+      <a href="../../sequence_mixer/s5/" class="md-nav__link">
         
   
   
@@ -936,32 +1011,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    LinOSS Sequence Mixer
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../sequence_mixer/linoss/" class="md-nav__link">
         
   
   
@@ -972,59 +1025,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LinOSSSequenceMixer
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" LinOSSSequenceMixer">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__init__
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__call__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__call__
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1462,25 +1462,26 @@
 
 
 
-<h1 id="linoss-sequence-mixer">LinOSS Sequence Mixer<a class="headerlink" href="#linoss-sequence-mixer" title="Permanent link">¤</a></h1>
+<h1 id="deltanet-model">DeltaNet Model<a class="headerlink" href="#deltanet-model" title="Permanent link">¤</a></h1>
 
 
 <div class="doc doc-object doc-class">
 
 
 
-<h4 id="discretax.sequence_mixers.linoss.LinOSSSequenceMixer" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>discretax.sequence_mixers.linoss.LinOSSSequenceMixer</code>
+<h4 id="discretax.models.deltanet.DeltaNet" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <code>discretax.models.deltanet.DeltaNet</code>
 
 
-<a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer" class="headerlink" title="Permanent link">¤</a></h4>
+<a href="#discretax.models.deltanet.DeltaNet" class="headerlink" title="Permanent link">¤</a></h4>
 
 
     <div class="doc doc-contents first">
 
 
-        <p>LinOSS sequence mixer layer.</p>
-<p>This layer implements the LinOSS sequence mixer.</p>
+        <p>DeltaNet model.</p>
+<p>This model implements stacked blocks with DeltaNet sequence mixers and GLU channel mixers.
+Use with eqx.nn.Sequential to compose with encoder and head.</p>
 
 
 <p><span class="doc-section-title">Attributes:</span></p>
@@ -1494,88 +1495,43 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.A_diag">A_diag</span></code></td>
+            <td><code><span title="discretax.models.deltanet.DeltaNet.blocks">blocks</span></code></td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Diagonal state matrix.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.G_diag">G_diag</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Diagonal damping matrix.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.B">B</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Input matrix.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.C">C</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Output matrix.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.D">D</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Output matrix.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.steps">steps</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Learnable step sizes for the sequence mixer (parameterized via sigmoid).</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.discretization">discretization</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Discretization method to use.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.damping">damping</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether to use damping.</p>
+                <p>List of standard blocks with DeltaNet sequence mixers.</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
 
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.random</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.encoder</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.heads</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassificationHead</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discretax.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeltaNet</span>
+
+<span class="n">key</span> <span class="o">=</span> <span class="n">jr</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">keys</span> <span class="o">=</span> <span class="n">jr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">LinearEncoder</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DeltaNet</span><span class="p">(</span><span class="n">hidden_dim</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">num_blocks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">head</span> <span class="o">=</span> <span class="n">ClassificationHead</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># Compose with Sequential</span>
+<span class="n">full_model</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span><span class="n">encoder</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">head</span><span class="p">])</span>
+</code></pre></div>
+</details>
+
+<details class="reference" open>
+  <summary>Reference</summary>
+  <p>DeltaNet: https://arxiv.org/abs/2406.06484</p>
+</details>
 
 
 
@@ -1600,15 +1556,15 @@
 <div class="doc doc-object doc-function">
 
 
-<h5 id="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__init__" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">state_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">discretization</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">IM</span><span class="p">,</span> <span class="n">IMEX</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;IMEX&#39;</span><span class="p">,</span> <span class="n">damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">r_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">theta_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.141592653589793</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<h5 id="discretax.models.deltanet.DeltaNet.__init__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_blocks</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">n_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">prenorm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_bias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
-<a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__init__" class="headerlink" title="Permanent link">¤</a></h5>
+<a href="#discretax.models.deltanet.DeltaNet.__init__" class="headerlink" title="Permanent link">¤</a></h5>
 
 
     <div class="doc doc-contents ">
 
-        <p>Initialize the LinOSS sequence mixer layer.</p>
+        <p>Initialize the DeltaNet model.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1622,22 +1578,6 @@
         </tr>
       </thead>
       <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>in_features</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>dimension of the input features.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
           <tr class="doc-section-item">
             <td>
                 <code>key</code>
@@ -1656,14 +1596,80 @@
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>state_dim</code>
+                <code>hidden_dim</code>
             </td>
             <td>
                   <code><span title="int">int</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>dimension of the state space.</p>
+                <p>Hidden dimension for the model.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>num_blocks</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of DeltaNet blocks to stack.</p>
+              </div>
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>n_heads</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of attention heads in each DeltaNet sequence mixer.</p>
+              </div>
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>head_dim</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dimensionality per attention head. Defaults to
+<code>hidden_dim // n_heads</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>chunk_size</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Timesteps per chunk for the chunked delta rule. Must evenly
+divide the sequence length at inference time.</p>
               </div>
             </td>
             <td>
@@ -1672,30 +1678,30 @@
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>discretization</code>
+                <code>drop_rate</code>
             </td>
             <td>
-                  <code><span title="typing.Literal">Literal</span>[<span title="IM">IM</span>, <span title="IMEX">IMEX</span>]</code>
+                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>discretization method to use.</p>
+                <p>Dropout rate for blocks.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;IMEX&#39;</code>
+                  <code>0.1</code>
             </td>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>damping</code>
+                <code>prenorm</code>
             </td>
             <td>
                   <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>whether to use damping.</p>
+                <p>Whether to apply prenorm in blocks.</p>
               </div>
             </td>
             <td>
@@ -1704,34 +1710,18 @@
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>r_min</code>
+                <code>use_bias</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>minimum value for the radius.</p>
-              </div>
-            </td>
-            <td>
-                  <code>0.9</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>theta_max</code>
-            </td>
-            <td>
-                  <code><span title="float">float</span></code>
+                  <code><span title="bool">bool</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>maximum value for the theta parameter.</p>
+                <p>Whether to use bias in GLU channel mixers and beta/out projections.</p>
               </div>
             </td>
             <td>
-                  <code>3.141592653589793</code>
+                  <code>True</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -1775,15 +1765,15 @@
 <div class="doc doc-object doc-function">
 
 
-<h5 id="discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__call__" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span></code>
+<h5 id="discretax.models.deltanet.DeltaNet.__call__" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <code class="highlight language-python"><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">State</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">PRNGKeyArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">equinox</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">_stateful</span><span class="o">.</span><span class="n">State</span><span class="p">]</span></code>
 
-<a href="#discretax.sequence_mixers.linoss.LinOSSSequenceMixer.__call__" class="headerlink" title="Permanent link">¤</a></h5>
+<a href="#discretax.models.deltanet.DeltaNet.__call__" class="headerlink" title="Permanent link">¤</a></h5>
 
 
     <div class="doc doc-contents ">
 
-        <p>Forward pass of the LinOSS sequence mixer layer.</p>
+        <p>Forward pass through the DeltaNet blocks.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1806,7 +1796,23 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Input sequence of features.</p>
+                <p>Input tensor.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>state</code>
+            </td>
+            <td>
+                  <code><span title="State">State</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Current state for stateful layers.</p>
               </div>
             </td>
             <td>
@@ -1822,7 +1828,7 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>JAX random key for initialization.</p>
+                <p>JAX random key for operations.</p>
               </div>
             </td>
             <td>
@@ -1844,11 +1850,11 @@
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="builtins.Array">Array</span></code>
+                  <code><span title="tuple">tuple</span>[<span title="builtins.Array">Array</span>, <span title="equinox.nn._stateful.State">State</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The output of the LinOSS sequence mixer.</p>
+                <p>Tuple containing the output tensor and updated state.</p>
               </div>
             </td>
           </tr>

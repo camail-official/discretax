@@ -958,6 +958,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../../api/models/deltanet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DeltaNet Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../api/models/linoss/" class="md-nav__link">
         
   
@@ -1067,6 +1090,29 @@
             Sequence Mixers
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sequence_mixer/deltanet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DeltaNet Sequence Mixer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1723,7 +1769,7 @@ Sample labels: [3 3 2 1 0 1 5 8 4 0 6 4 4 1 5 6 7 2 8 9 2 8 5 9 9 3 5 4 2 0 1 6]
 <p>Let's visualize some samples from the training set to see what our model will be learning from. Each visualization shows how the pen strokes form the digit:</p>
 <div class="highlight"><pre><span></span><code><span class="n">train_dataset</span><span class="o">.</span><span class="n">plot_samples</span><span class="p">(</span><span class="n">num_samples</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 </code></pre></div>
-<p><img alt="img" src="../_data/f78f22a31a5c4510851468712454978d.png" /></p>
+<p><img alt="img" src="../_data/6dd4e624104642a38db05b8b67d0baeb.png" /></p>
 <h2 id="model-architecture">Model Architecture<a class="headerlink" href="#model-architecture" title="Permanent link">¤</a></h2>
 <p>We'll build a LinOSS model using Discretax. The model consists of three main components composed with <code>eqx.nn.Sequential</code>:</p>
 <ol>
