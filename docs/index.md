@@ -1,7 +1,7 @@
 # Getting Started
 
 <div align="center">
-  <img alt="Discretax logo" src="https://raw.githubusercontent.com/camail-official/discretax/main/assets/logo.png" width="200" style="padding-bottom: 2rem;" />
+  <img alt="Discretax logo" src="https://raw.githubusercontent.com/camail-official/discretax/main/assets/logo.png" width="100" style="padding-bottom: 2rem;" />
 </div>
 
 [discretax](https://github.com/camail-official/discretax) is a collection of state space models implemented in JAX. It is
@@ -81,9 +81,9 @@ If you want to contribute to the project, please check out [contributing](contri
 
 This repository has been created and is maintained by:
 
+- [Philipp Nazari*](https://phnazari.github.io)
+- [Francesco Maria Ruscio*](https://github.com/francescoshox)
 - [Benedict Armstrong](https://github.com/benedict-armstrong)
-- [Philipp Nazari](https://phnazari.github.io)
-- [Francesco Maria Ruscio](https://github.com/francescoshox)
 
 This work has been carried out within the [Computational Applied Mathematics & AI Lab](https://camail.org),
 led by [T. Konstantin Rusch](https://github.com/tk-rusch).
