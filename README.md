@@ -2,7 +2,7 @@
 
 # Discretax - State Space Models in JAX
 
-<img src="https://github.com/camail-official/linax/blob/main/assets/logo.png" alt="Discretax logo" width="200"/>
+<img src="https://github.com/camail-official/discretax/blob/main/assets/logo.png" alt="Discretax logo" width="200"/>
 
 
 [![pre-commit](https://img.shields.io/badge/Pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)

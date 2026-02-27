@@ -1,7 +1,7 @@
 # Getting Started
 
 <div align="center">
-  <img alt="Discretax logo" src="https://github.com/camail-official/linax/blob/main/assets/logo.png" width="200" style="padding-bottom: 2rem;" />
+  <img alt="Discretax logo" src="https://github.com/camail-official/discretax/blob/main/assets/logo.png" width="50" style="padding-bottom: 2rem;" />
 </div>
 
 [discretax](https://github.com/camail-official/discretax) is a collection of state space models implemented in JAX. It is
