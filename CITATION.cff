@@ -1,0 +1,45 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: discretax
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Philipp
+    family-names: Nazari
+    email: philipp.nazari@tuebingen.mpg.de
+    affiliation: >-
+      Max Planck Institute for Intelligent Systems & ETH
+      Zürich & ELLIS Institute Tübingen
+  - email: fruscio@aithyra.at
+    given-names: Francesco Maria
+    family-names: Ruscio
+    affiliation: Aithyra
+  - given-names: Benedict
+    family-names: Armstrong
+    email: benedict.armstrong@inf.ethz.ch
+    affiliation: >-
+      Max Planck Institute for Intelligent Systems & ETH
+      Zürich & ELLIS Institute Tübingen
+  - given-names: T. Konstantin
+    family-names: Rusch
+    affiliation: >-
+      ELLIS Institute Tübingen & Max Planck Institute for
+      Intelligent Systems & Tübingen AI Center & Liquid AI
+    email: tkrusch@tue.ellis.eu
+repository-code: "https://github.com/camail-official/discretax"
+url: "https://camail.org/discretax/"
+abstract: >-
+  discretax is a collection of state space models
+  implemented in JAX.
+keywords:
+  - ml
+  - ssm
+  - state-space-models
+  - jax
+  - deep-learning
+  - sequence-modeling
+license: MIT
