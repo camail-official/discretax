@@ -2,11 +2,12 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: discretax
+title: "discretax: A Lightweight Collection of State Space Models in JAX"
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
 type: software
+date-released: "2026-02-28"
 authors:
   - given-names: Philipp
     family-names: Nazari
