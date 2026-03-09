@@ -1,7 +1,6 @@
 """Sequence mixer for GatedDeltaNet.
 
-This module implements a gated-delta recurrence in JAX/Equinox. It keeps the
-key ingredients of the original design:
+This module implements a gated-delta recurrence in JAX/Equinox. Ingredients:
 
 - projected multi-head Q/K/V features,
 - learnable per-head decay parameters (`A_log`, `dt_bias`),

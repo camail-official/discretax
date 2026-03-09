@@ -1,12 +1,9 @@
 """GatedDeltaNet block with pre-norm residual wiring.
 
-This block mirrors the residual structure used by GatedDeltaNet blocks:
+This block implements:
 
 1. attention/sequence branch with pre-norm and residual add,
 2. MLP/channel branch with pre-norm and residual add.
-
-It intentionally avoids the `StandardBlock` BatchNorm + GELU pathway to stay
-architecturally closer to the original implementation.
 """
 
 from __future__ import annotations
