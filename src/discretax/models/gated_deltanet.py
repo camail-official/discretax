@@ -2,7 +2,7 @@
 
 This model stacks :class:`discretax.blocks.gated_deltanet.GatedDeltaNetBlock`
 instances, each composed of a GatedDeltaNet sequence mixer and a SwiGLU
-channel mixer, to follow the FLA-style architecture.
+channel mixer.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from discretax.utils.config_mixin import PartialModule
 
 
 class GatedDeltaNet(eqx.nn.StatefulLayer, PartialModule):
-    """Stacked GatedDeltaNet blocks (FLA-style block wiring).
+    """Stacked GatedDeltaNet blocks.
 
     Attributes:
         blocks: Ordered list of GatedDeltaNet blocks.

@@ -1,6 +1,6 @@
-"""GatedDeltaNet block with FLA-style prenorm residual wiring.
+"""GatedDeltaNet block with pre-norm residual wiring.
 
-This block mirrors the residual structure used by FLA's GatedDeltaNet blocks:
+This block mirrors the residual structure used by GatedDeltaNet blocks:
 
 1. attention/sequence branch with pre-norm and residual add,
 2. MLP/channel branch with pre-norm and residual add.
@@ -27,7 +27,7 @@ class _RMSNorm(eqx.Module):
     """Minimal RMSNorm module.
 
     This lightweight implementation is local to the GatedDeltaNet block to
-    reproduce FLA-style RMS pre-normalization.
+    reproduce RMS pre-normalization.
     """
 
     weight: Array
@@ -57,7 +57,7 @@ class _RMSNorm(eqx.Module):
 
 
 class GatedDeltaNetBlock(AbstractBlock):
-    """A block matching FLA's GatedDeltaNet pre-norm residual structure.
+    """A block matching GatedDeltaNet pre-norm residual structure.
 
     Attributes:
         attn_norm: RMS normalization before sequence mixer.

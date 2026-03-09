@@ -1,7 +1,7 @@
 """Sequence mixer for GatedDeltaNet.
 
-This module ports the core gated-delta recurrence used in FLA's GatedDeltaNet
-to JAX/Equinox. It keeps the key ingredients of the original design:
+This module implements a gated-delta recurrence in JAX/Equinox. It keeps the
+key ingredients of the original design:
 
 - projected multi-head Q/K/V features,
 - learnable per-head decay parameters (`A_log`, `dt_bias`),
@@ -96,8 +96,7 @@ def gated_delta_recurrent_rule(
 class GatedDeltaNetSequenceMixer(AbstractSequenceMixer):
     """Gated DeltaNet sequence mixer.
 
-    This follows the FLA GatedDeltaNet core equations with JAX-native recurrent
-    updates.
+    This follows the GatedDeltaNet core equations with JAX-native recurrent updates.
 
     Attributes:
         q_proj: Query projection.
